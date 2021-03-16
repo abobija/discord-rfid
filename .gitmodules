@@ -1,0 +1,6 @@
+[submodule "esp/components/rc522"]
+	path = esp/components/rc522
+	url = https://github.com/abobija/esp-idf-rc522
+[submodule "esp/components/esp-discord"]
+	path = esp/components/esp-discord
+	url = https://github.com/abobija/esp-discord
