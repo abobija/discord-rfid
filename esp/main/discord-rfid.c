@@ -1,6 +1,7 @@
-#include "esp_system.h"
 #include "esp_log.h"
+
 #include "rc522.h"
+#include "discord.h"
 
 static const char* TAG = "discord-rfid";
 
