@@ -34,6 +34,8 @@ Connect MFRC522 module with ESP32 according to next table:
 | GPIO19        | SCK           |
 | GPIO22        | SDA           |
 
+All of above GPIO pinout is configurable (via menuconfig - `idf.py menuconfig`) in `Discord RFID` menu.
+
 ## Author
 
 GitHub: [abobija](https://github.com/abobija)<br>

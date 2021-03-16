@@ -2,8 +2,6 @@
 #include "esp_log.h"
 #include "rc522.h"
 
-#include "discord-rfid.h"
-
 static const char* TAG = "discord-rfid";
 
 void rfid_handler(uint8_t* sn) {
@@ -14,10 +12,10 @@ void rfid_handler(uint8_t* sn) {
 
 void app_main(void) {
     const rc522_start_args_t start_args = {
-        .miso_io  = RC522_MISO,
-        .mosi_io  = RC522_MOSI,
-        .sck_io   = RC522_SCK,
-        .sda_io   = RC522_SDA,
+        .miso_io  = CONFIG_DISCORD_RFID_MISO,
+        .mosi_io  = CONFIG_DISCORD_RFID_MOSI,
+        .sck_io   = CONFIG_DISCORD_RFID_SCK,
+        .sda_io   = CONFIG_DISCORD_RFID_SDA,
         .callback = &rfid_handler
     };
 

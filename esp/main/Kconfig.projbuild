@@ -1,0 +1,27 @@
+menu "Discord RFID"
+
+    config DISCORD_RFID_MISO
+        int "GPIO MISO"
+        default 25
+        help
+            ESP32 gpio on which MISO pin of MFRC522 module is connected.
+
+    config DISCORD_RFID_MOSI
+        int "GPIO MOSI"
+        default 23
+        help
+            ESP32 gpio on which MOSI pin of MFRC522 module is connected.
+
+    config DISCORD_RFID_SCK
+        int "GPIO SCK"
+        default 19
+        help
+            ESP32 gpio on which SCK pin of MFRC522 module is connected.
+
+    config DISCORD_RFID_SDA
+        int "GPIO SDA"
+        default 22
+        help
+            ESP32 gpio on which SDA pin of MFRC522 module is connected.
+
+endmenu
