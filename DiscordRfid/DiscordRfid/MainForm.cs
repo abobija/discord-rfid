@@ -1,38 +1,54 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace DiscordRfid
 {
     public partial class MainForm : Form
     {
-        protected Configuration Config { get; set; }
-
         public MainForm()
         {
             InitializeComponent();
-            Config = Configuration.Load();
-
-            Shown += (o, e) => Startup();
+            Shown += (o, e) => StartupCheckAsync().ContinueWithNoop();
         }
 
-        private void Startup()
+        private async Task StartupCheckAsync()
         {
-            string token = Config.Token;
+            var config = Configuration.Instance;
+            var bot = Bot.Instance;
+            string token = config.Token;
+            bool check = true;
 
-            if(token == null)
+            while(check)
             {
-                using(var dlg = new TokenForm { Message = "Please enter token of Discord bot" })
+                if (token == null)
                 {
-                    if(dlg.ShowDialog() != DialogResult.OK)
+                    using (var dlg = new TokenForm { Message = "Please enter token of Discord bot" })
                     {
-                        Close();
-                        return;
+                        if (dlg.ShowDialog() != DialogResult.OK)
+                        {
+                            Close();
+                            return;
+                        }
+
+                        token = dlg.Token;
                     }
-                    
-                    token = dlg.Token;
+                }
+
+                try
+                {
+                    await bot.LoginAsync(token);
+                    config.Token = token;
+                    check = false;
+                }
+                catch (Exception ex)
+                {
+                    config.Token = token = null;
+
+                    MessageBox.Show(string.Format("Invalid token.{0}{1}{0}{0}Please try again.", Environment.NewLine, ex.Message),
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-
-            // check token...
         }
     }
 }

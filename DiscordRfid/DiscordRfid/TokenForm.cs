@@ -18,15 +18,26 @@ namespace DiscordRfid
 
             BtnCancel.Click += (o, e) => { DialogResult = DialogResult.Cancel; };
 
-            BtnOk.Click += (o, e) => {
-                if(Token == null)
-                {
-                    MessageBox.Show("Token cannot be empty", Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+            BtnOk.Click += (o, e) => Submit();
 
-                DialogResult = DialogResult.OK;
+            TxtBoxToken.KeyDown += (o, e) =>
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    Submit();
+                }
             };
+        }
+
+        private void Submit()
+        {
+            if (Token == null)
+            {
+                MessageBox.Show("Token cannot be empty", Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DialogResult = DialogResult.OK;
         }
     }
 }

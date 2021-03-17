@@ -9,15 +9,15 @@ namespace DiscordRfid
     {
         public static string FileName = "config.json";
 
-        private static Configuration ConfigurationSingleton { get; set; }
+        protected static Configuration Singletone { get; set; }
 
         protected Configuration() { }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public static bool Exists => File.Exists(FileName);
-
-        object fileLock = new object();
+        protected static bool Exists => File.Exists(FileName);
+        protected bool PropertyChangeNotifyEnabled = false;
+        private object fileLock = new object();
 
         private string _token { get; set; }
         public string Token
@@ -28,40 +28,50 @@ namespace DiscordRfid
                 if (value != _token)
                 {
                     _token = value;
-                    Save();
                     OnPropertyChanged();
                 }
             }
         }
 
-        public static Configuration Load()
+        public static Configuration Instance
         {
-            if(ConfigurationSingleton == null)
+            get
             {
-                if (!Exists)
+                if (Singletone == null)
                 {
-                    ConfigurationSingleton = new Configuration();
-                    ConfigurationSingleton.Save();
-                }
-                else
-                {
-                    ConfigurationSingleton = JsonConvert.DeserializeObject<Configuration>(File.ReadAllText(FileName));
-                }
-            }
+                    if (!Exists)
+                    {
+                        Singletone = new Configuration();
+                        Singletone.Save();
+                    }
+                    else
+                    {
+                        Singletone = JsonConvert.DeserializeObject<Configuration>(File.ReadAllText(FileName));
+                    }
 
-            return ConfigurationSingleton;
+                    Singletone.PropertyChangeNotifyEnabled = true;
+                }
+
+                return Singletone;
+            }
         }
 
         private void Save()
         {
             lock(fileLock)
             {
-                File.WriteAllText(FileName, JsonConvert.SerializeObject(ConfigurationSingleton, Formatting.Indented));
+                File.WriteAllText(FileName, JsonConvert.SerializeObject(Singletone, Formatting.Indented));
             }
         }
 
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        private void OnPropertyChanged([CallerMemberName] string name = null)
         {
+            if(! PropertyChangeNotifyEnabled)
+            {
+                return;
+            }
+
+            Save();
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
