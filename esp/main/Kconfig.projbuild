@@ -24,4 +24,9 @@ menu "Discord RFID"
         help
             ESP32 gpio on which SDA pin of MFRC522 module is connected.
 
+    config DISCORD_RFID_DEVELOPMENT
+        bool "Development mode"
+        help
+            Print statistics about heap memory etc...
+
 endmenu
