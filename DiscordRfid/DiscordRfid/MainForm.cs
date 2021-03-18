@@ -1,5 +1,4 @@
-﻿using Serilog;
-using System;
+﻿using System;
 using System.Windows.Forms;
 
 namespace DiscordRfid
@@ -40,7 +39,6 @@ namespace DiscordRfid
             bot.Client.GuildAvailable += g =>
             {
                 ServerName = $"@ {Bot.Instance.Guild.Name}";
-                Log.Information($"Connected to discord server");
                 return Extensions.NoopTask();
             };
 
@@ -56,7 +54,6 @@ namespace DiscordRfid
                 }
                 catch(Exception ex)
                 {
-                    Log.Error(ex, "Fail to connect. Exiting");
                     this.Error(ex);
                     Close();
                 }

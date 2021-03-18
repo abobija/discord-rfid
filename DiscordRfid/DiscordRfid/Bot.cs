@@ -40,6 +40,8 @@ namespace DiscordRfid
 
             Client.GuildAvailable += async g =>
             {
+                Log.Debug($"Guild available");
+
                 MasterRole = Guild.Roles.FirstOrDefault(r => r.Name == Constants.MasterRoleName);
                 SlaveRole = Guild.Roles.FirstOrDefault(r => r.Name == Constants.SlaveRoleName);
                 Channel = Guild.TextChannels.FirstOrDefault(c => c.Name == Constants.ChannelName);
@@ -81,6 +83,7 @@ namespace DiscordRfid
 
                     if(token == null)
                     {
+                        Log.Error("Token not provided");
                         throw new Exception("Token not provided");
                     }
                 }
