@@ -35,12 +35,12 @@ namespace DiscordRfid
         public async Task CreateRolesAsync()
         {
             var perms = new GuildPermissions(
-                    viewChannel: true,
-                    readMessageHistory: true,
-                    sendMessages: true,
-                    addReactions: true,
-                    attachFiles: true
-                    );
+                viewChannel: true,
+                readMessageHistory: true,
+                sendMessages: true,
+                addReactions: true,
+                attachFiles: true
+                );
 
             if (MasterRole == null)
             {
