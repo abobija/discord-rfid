@@ -12,7 +12,7 @@ namespace DiscordRfid
         protected string State { set => LblState.Text = value; }
         protected string BotName { set => LblBotName.Text = value; }
         protected string ServerName { set => LblServerName.Text = value; }
-
+        
         public MainForm()
         {
             InitializeComponent();
@@ -66,26 +66,19 @@ namespace DiscordRfid
             BotName = Bot.Instance.Client.CurrentUser.Username;
             State = "Checking environment...";
 
-            Bot.Instance.Client.GuildAvailable += e => OnGuilAvailable();
+            Bot.Instance.Client.GuildAvailable += g => OnGuildAvailable();
 
             return Extensions.NoopTask();
         }
 
-        private Task OnGuilAvailable()
+        private Task OnGuildAvailable()
         {
             try
             {
-                var bot = Bot.Instance.Client;
+                ServerName = $"@ {Bot.Instance.Guild.Name}";
 
-                if (bot.Guilds.Count != 1) // Bot can be only in one guild
-                {
-                    throw new Exception("Bot can be only in one guild");
-                }
-
-                var guild = bot.Guilds.ElementAt(0);
-                ServerName = $"@ {guild.Name}";
-
-                CheckRolesAsync(guild).GetAwaiter().GetResult();
+                CheckRolesAsync().GetAwaiter().GetResult();
+                CheckChannelAsync().GetAwaiter().GetResult();
 
                 State = "Ready";
             }
@@ -98,60 +91,59 @@ namespace DiscordRfid
             return Extensions.NoopTask();
         }
 
-        private async Task CheckRolesAsync(SocketGuild guild)
+        private async Task CheckRolesAsync()
         {
-            IRole masterRole = guild.Roles.FirstOrDefault(r => r.Name == Constants.MasterRoleName);
-            IRole slaveRole = guild.Roles.FirstOrDefault(r => r.Name == Constants.SlaveRoleName);
+            var bot = Bot.Instance;
 
-            var rolesQuestion = $"Discord server \"{guild.Name}\" does not have required roles which is used for differentiate between RFID master and slaves:" +
+            if (bot.MasterRole == null || bot.SlaveRole == null)
+            {
+                var rolesQuestion = $"Discord server \"{bot.Guild.Name}\" does not have required roles which is used for differentiate RFID master and slaves:" +
                 Environment.NewLine;
 
-            if (masterRole == null)
-            {
-                rolesQuestion += $"{Environment.NewLine}- {Constants.MasterRoleName}";
-            }
+                if (bot.MasterRole == null)
+                {
+                    rolesQuestion += $"{Environment.NewLine}- {Constants.MasterRoleName}";
+                }
 
-            if (slaveRole == null)
-            {
-                rolesQuestion += $"{Environment.NewLine}- {Constants.SlaveRoleName}";
-            }
+                if (bot.SlaveRole == null)
+                {
+                    rolesQuestion += $"{Environment.NewLine}- {Constants.SlaveRoleName}";
+                }
 
-            rolesQuestion += $"{Environment.NewLine}{Environment.NewLine}" +
-                "Do you want to create them now?";
+                rolesQuestion += $"{Environment.NewLine}{Environment.NewLine}" +
+                    "Do you want to create them now?";
 
-            if (masterRole == null || slaveRole == null)
-            {
                 if (this.Question(rolesQuestion) != DialogResult.Yes)
                 {
-                    throw new Exception("Roles are required.");
+                    throw new Exception("Roles are required");
                 }
 
-                var perms = new GuildPermissions(
-                    viewChannel: true,
-                    readMessageHistory: true,
-                    sendMessages: true,
-                    addReactions: true,
-                    attachFiles: true
-                    );
-
-                if (masterRole == null)
-                {
-                    masterRole = await guild.CreateRoleAsync(Constants.MasterRoleName, perms, null, false, false, null);
-                }
-
-                if (slaveRole == null)
-                {
-                    slaveRole = await guild.CreateRoleAsync(Constants.SlaveRoleName, perms, null, false, false, null);
-                }
+                await bot.CreateRolesAsync();
             }
 
-            var self = guild.GetUser(Bot.Instance.Client.CurrentUser.Id);
-            var masterRoleAssigned = self.Roles.FirstOrDefault(r => r.Id == masterRole.Id) != null;
+            await bot.SelfAssignMasterRoleAsync();
+        }
 
-            if(! masterRoleAssigned)
+        private async Task CheckChannelAsync()
+        {
+            var bot = Bot.Instance;
+            
+            if(bot.Channel == null)
             {
-                await self.AddRoleAsync(masterRole);
+                var question = $"Discord server \"{bot.Guild.Name}\" does not contain textual channel with name \"{Constants.ChannelName}\" which " +
+                    "is used for communication with RFID slaves." +
+                    $"{Environment.NewLine}{Environment.NewLine}" +
+                    "Would you like to create this channel now?";
+
+                if(this.Question(question) != DialogResult.Yes)
+                {
+                    throw new Exception($"Textual channel \"{Constants.ChannelName}\" is required");
+                }
+
+                bot.Channel = await bot.Guild.CreateTextChannelAsync(Constants.ChannelName);
             }
+
+            await bot.SetChannelPermissionsAsync();
         }
     }
 }
