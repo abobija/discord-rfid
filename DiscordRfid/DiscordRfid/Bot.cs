@@ -32,11 +32,8 @@ namespace DiscordRfid
 
             Client = new DiscordSocketClient();
 
-            Client.Log += log =>
-            {
-                Log.Debug($"[Discord] {log}");
-                return Extensions.NoopTask();
-            };
+            Client.Log += DiscordLog;
+            Client.Rest.Log += DiscordLog;
 
             Client.GuildAvailable += async g =>
             {
@@ -57,6 +54,12 @@ namespace DiscordRfid
                     EnvironmentCreationError?.Invoke(ex);
                 }
             };
+        }
+
+        private Task DiscordLog(LogMessage lmsg)
+        {
+            Log.Debug($"[Discord] {lmsg}");
+            return Extensions.NoopTask();
         }
 
         public async Task ConnectAsync()
