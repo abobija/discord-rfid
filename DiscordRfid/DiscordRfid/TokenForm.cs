@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using Serilog;
+using System.Windows.Forms;
 
 namespace DiscordRfid
 {
@@ -33,6 +34,7 @@ namespace DiscordRfid
         {
             if (Token == null)
             {
+                Log.Verbose("Empty token in token form");
                 MessageBox.Show("Token cannot be empty", Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Windows.Forms;
 
 namespace DiscordRfid
@@ -39,15 +40,26 @@ namespace DiscordRfid
             bot.Client.GuildAvailable += g =>
             {
                 ServerName = $"@ {Bot.Instance.Guild.Name}";
+                Log.Information($"Connected to discord server");
                 return Extensions.NoopTask();
             };
 
             bot.Ready += () => State = "Ready";
 
-            Shown += (o, e) =>
+            Shown += async (o, e) =>
             {
                 State = "Connecting...";
-                bot.ConnectAsync().ContinueWithNoop();
+
+                try
+                {
+                    await bot.ConnectAsync();
+                }
+                catch(Exception ex)
+                {
+                    Log.Error(ex, "Fail to connect. Exiting");
+                    this.Error(ex);
+                    Close();
+                }
             };
         }
 
@@ -57,12 +69,10 @@ namespace DiscordRfid
 
             using (var dlg = new TokenForm { Message = "Please enter token of Discord bot" })
             {
-                if (dlg.ShowDialog() != DialogResult.OK)
+                if (dlg.ShowDialog() == DialogResult.OK)
                 {
-                    Close();
+                    token = dlg.Token;
                 }
-
-                token = dlg.Token;
             }
 
             return token;

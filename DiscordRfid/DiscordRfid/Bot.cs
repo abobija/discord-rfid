@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.WebSocket;
+using Serilog;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,27 +9,34 @@ namespace DiscordRfid
 {
     public class Bot
     {
-        protected static Bot Singletone { get; set; }
-
-        public DiscordSocketClient Client { get; set; }
+        protected static Bot Singletone;
+        public DiscordSocketClient Client;
 
         public string Name => Client?.CurrentUser?.Username;
         public SocketGuild Guild => Client.Guilds.ElementAt(0);
-        public IRole MasterRole { get; set; }
-        public IRole SlaveRole { get; set; }
-        public ITextChannel Channel { get; set; }
+        public IRole MasterRole;
+        public IRole SlaveRole;
+        public ITextChannel Channel;
 
         public event Action<Exception> ConnectError;
         public event Action<Exception> EnvironmentCreationError;
         public event Action Ready;
 
-        public Func<string> TokenProvider { get; set; }
-        public Func<bool> RolesCreationPrompter { get; set; }
-        public Func<bool> ChannelCreationPrompter { get; set; }
+        public Func<string> TokenProvider;
+        public Func<bool> RolesCreationPrompter;
+        public Func<bool> ChannelCreationPrompter;
 
         protected Bot()
         {
+            Log.Verbose("Bot constructor");
+
             Client = new DiscordSocketClient();
+
+            Client.Log += log =>
+            {
+                Log.Debug($"[Discord] {log}");
+                return Extensions.NoopTask();
+            };
 
             Client.GuildAvailable += async g =>
             {
@@ -43,6 +51,7 @@ namespace DiscordRfid
                     Ready?.Invoke();
                 } catch(Exception ex)
                 {
+                    Log.Error(ex, "Fail to create environment");
                     EnvironmentCreationError?.Invoke(ex);
                 }
             };
@@ -56,25 +65,38 @@ namespace DiscordRfid
 
             while (check)
             {
+                Log.Debug("Checking token");
+
                 if (token == null)
                 {
-                    if(TokenProvider == null)
+                    Log.Debug("Token is null. Calling token provider");
+
+                    if (TokenProvider == null)
                     {
+                        Log.Error("Token provider is not set");
                         break;
                     }
 
                     token = TokenProvider();
+
+                    if(token == null)
+                    {
+                        throw new Exception("Token not provided");
+                    }
                 }
 
                 try
                 {
+                    Log.Debug("Logging in");
                     await Client.LoginAsync(TokenType.Bot, token);
+                    Log.Debug("Logged in. Starting");
                     await Client.StartAsync();
                     config.Token = token;
                     check = false;
                 }
                 catch (Exception ex)
                 {
+                    Log.Error(ex, "Fail to login");
                     config.Token = token = null;
                     ConnectError?.Invoke(ex);
                 }
@@ -83,9 +105,13 @@ namespace DiscordRfid
 
         protected async Task CheckRolesAsync()
         {
+            Log.Verbose("Checking roles");
+
             if (MasterRole == null || SlaveRole == null)
             {
-                if(! RolesCreationPrompter())
+                Log.Warning("Roles are not set. Calling creation prompter");
+
+                if (! RolesCreationPrompter())
                 {
                     throw new Exception("Roles are required");
                 }
@@ -98,11 +124,13 @@ namespace DiscordRfid
 
         protected async Task CheckChannelAsync()
         {
-            var bot = Bot.Instance;
+            var bot = Instance;
 
             if (bot.Channel == null)
             {
-                if(! ChannelCreationPrompter())
+                Log.Warning("Channel has not set. Calling creation prompter");
+
+                if (! ChannelCreationPrompter())
                 {
                     throw new Exception($"Textual channel \"{Constants.ChannelName}\" is required");
                 }
@@ -125,11 +153,13 @@ namespace DiscordRfid
 
             if (MasterRole == null)
             {
+                Log.Debug("Creating master role");
                 MasterRole = await Guild.CreateRoleAsync(Constants.MasterRoleName, perms, null, false, false, null);
             }
 
             if (SlaveRole == null)
             {
+                Log.Debug("Creating slave role");
                 SlaveRole = await Guild.CreateRoleAsync(Constants.SlaveRoleName, perms, null, false, false, null);
             }
         }
@@ -141,6 +171,7 @@ namespace DiscordRfid
 
             if (!masterRoleAssigned)
             {
+                Log.Debug("Self-assing master role");
                 await self.AddRoleAsync(MasterRole);
             }
         }
@@ -153,7 +184,7 @@ namespace DiscordRfid
 
             if (everyoneOw.TargetId == 0)
             {
-                // make channel private
+                Log.Debug("Making channel private");
                 await Channel.AddPermissionOverwriteAsync(Guild.EveryoneRole, new OverwritePermissions(viewChannel: PermValue.Deny));
             }
 
@@ -163,7 +194,7 @@ namespace DiscordRfid
 
             if (masterOw.TargetId == 0)
             {
-                // make channel visible for master
+                Log.Debug("Making channel visible for master");
                 await Channel.AddPermissionOverwriteAsync(MasterRole, new OverwritePermissions(viewChannel: PermValue.Allow));
             }
 
@@ -173,7 +204,7 @@ namespace DiscordRfid
 
             if (slaveOw.TargetId == 0)
             {
-                // make channel visible for slave
+                Log.Debug("Making channel visible for slaves");
                 await Channel.AddPermissionOverwriteAsync(SlaveRole, new OverwritePermissions(viewChannel: PermValue.Allow));
             }
         }

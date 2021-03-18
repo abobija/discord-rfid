@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Serilog;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -11,7 +12,10 @@ namespace DiscordRfid
 
         protected static Configuration Singletone { get; set; }
 
-        protected Configuration() { }
+        protected Configuration()
+        {
+            Log.Debug("Configuration constructor");
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -41,11 +45,13 @@ namespace DiscordRfid
                 {
                     if (!Exists)
                     {
+                        Log.Debug("Configuration not found. Creating new one.");
                         Singletone = new Configuration();
                         Singletone.Save();
                     }
                     else
                     {
+                        Log.Debug("Configuration found");
                         Singletone = JsonConvert.DeserializeObject<Configuration>(File.ReadAllText(FileName));
                     }
 
@@ -60,6 +66,7 @@ namespace DiscordRfid
         {
             lock(fileLock)
             {
+                Log.Verbose("Saving configuration");
                 File.WriteAllText(FileName, JsonConvert.SerializeObject(Singletone, Formatting.Indented));
             }
         }
@@ -71,6 +78,7 @@ namespace DiscordRfid
                 return;
             }
 
+            Log.Verbose($"Configuration property \"{name}\" changed");
             Save();
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
