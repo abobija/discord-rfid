@@ -18,9 +18,10 @@ namespace DiscordRfid
             var bot = Bot.Instance;
 
             bot.TokenProvider = TokenProvider;
-            bot.ConnectError += OnConnectError;
             bot.RolesCreationPrompter = RolesCreationPrompt;
             bot.ChannelCreationPrompter = ChannelCreationPrompt;
+
+            bot.ConnectError += OnConnectError;
 
             bot.EnvironmentCreationError += ex =>
             {
