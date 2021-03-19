@@ -1,8 +1,10 @@
 ﻿using Discord;
 using Discord.Net;
 using Discord.WebSocket;
+using DiscordRfid.Com;
 using Serilog;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -40,9 +42,9 @@ namespace DiscordRfid
             {
                 Log.Debug($"Guild available");
 
-                MasterRole = Guild.Roles.FirstOrDefault(r => r.Name == Constants.MasterRoleName);
-                SlaveRole = Guild.Roles.FirstOrDefault(r => r.Name == Constants.SlaveRoleName);
-                Channel = Guild.TextChannels.FirstOrDefault(c => c.Name == Constants.ChannelName);
+                MasterRole = Guild.Roles.FirstOrDefault(r => r.Name == Configuration.MasterRoleName);
+                SlaveRole = Guild.Roles.FirstOrDefault(r => r.Name == Configuration.SlaveRoleName);
+                Channel = Guild.TextChannels.FirstOrDefault(c => c.Name == Configuration.ChannelName);
 
                 try
                 {
@@ -55,6 +57,22 @@ namespace DiscordRfid
                     EnvironmentCreationError?.Invoke(ex);
                 }
             };
+        }
+
+        public async Task<List<Package>> LoadRecentPackages()
+        {
+            var pckgs = new List<Package>();
+
+            foreach(var m in await Channel.GetMessagesAsync(Configuration.RecentPackagesLoadLimit).FlattenAsync())
+            {
+                try
+                {
+                    pckgs.Add(Package.FromDiscordMessage(m));
+                }
+                catch (Exception ex) { Log.Warning(ex, "Fail to load package"); }
+            }
+
+            return pckgs;
         }
 
         private Task DiscordLog(LogMessage lmsg)
@@ -140,10 +158,10 @@ namespace DiscordRfid
 
                 if (! ChannelCreationPrompter())
                 {
-                    throw new Exception($"Textual channel \"{Constants.ChannelName}\" is required");
+                    throw new Exception($"Textual channel \"{Configuration.ChannelName}\" is required");
                 }
 
-                bot.Channel = await bot.Guild.CreateTextChannelAsync(Constants.ChannelName);
+                bot.Channel = await bot.Guild.CreateTextChannelAsync(Configuration.ChannelName);
             }
 
             await bot.SetChannelPermissionsAsync();
@@ -162,13 +180,13 @@ namespace DiscordRfid
             if (MasterRole == null)
             {
                 Log.Debug("Creating master role");
-                MasterRole = await Guild.CreateRoleAsync(Constants.MasterRoleName, perms, null, false, false, null);
+                MasterRole = await Guild.CreateRoleAsync(Configuration.MasterRoleName, perms, null, false, false, null);
             }
 
             if (SlaveRole == null)
             {
                 Log.Debug("Creating slave role");
-                SlaveRole = await Guild.CreateRoleAsync(Constants.SlaveRoleName, perms, null, false, false, null);
+                SlaveRole = await Guild.CreateRoleAsync(Configuration.SlaveRoleName, perms, null, false, false, null);
             }
         }
 

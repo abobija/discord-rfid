@@ -42,10 +42,13 @@ namespace DiscordRfid
             this.ToolBtnAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolLblClock = new System.Windows.Forms.ToolStripLabel();
             this.PnlMain = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.CommunicationMonitor = new DiscordRfid.Com.Ctrl.CommunicationMonitor();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.PnlMain.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -147,21 +150,42 @@ namespace DiscordRfid
             // 
             // PnlMain
             // 
-            this.PnlMain.Controls.Add(this.CommunicationMonitor);
+            this.PnlMain.Controls.Add(this.panel1);
             this.PnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PnlMain.Location = new System.Drawing.Point(0, 25);
             this.PnlMain.Name = "PnlMain";
             this.PnlMain.Size = new System.Drawing.Size(712, 386);
             this.PnlMain.TabIndex = 3;
             // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.Gainsboro;
+            this.panel1.Controls.Add(this.CommunicationMonitor);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel1.Location = new System.Drawing.Point(443, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(269, 386);
+            this.panel1.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label1.ForeColor = System.Drawing.Color.DimGray;
+            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(269, 32);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Recent packages";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // CommunicationMonitor
             // 
-            this.CommunicationMonitor.BackColor = System.Drawing.Color.Gainsboro;
-            this.CommunicationMonitor.Dock = System.Windows.Forms.DockStyle.Right;
-            this.CommunicationMonitor.Location = new System.Drawing.Point(478, 0);
+            this.CommunicationMonitor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CommunicationMonitor.Location = new System.Drawing.Point(0, 32);
             this.CommunicationMonitor.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.CommunicationMonitor.Name = "CommunicationMonitor";
-            this.CommunicationMonitor.Size = new System.Drawing.Size(234, 386);
+            this.CommunicationMonitor.Size = new System.Drawing.Size(269, 354);
             this.CommunicationMonitor.TabIndex = 0;
             // 
             // MainForm
@@ -183,6 +207,7 @@ namespace DiscordRfid
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.PnlMain.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -202,6 +227,8 @@ namespace DiscordRfid
         private System.Windows.Forms.Panel PnlMain;
         private System.Windows.Forms.ToolStripLabel ToolLblClock;
         private Com.Ctrl.CommunicationMonitor CommunicationMonitor;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label1;
     }
 }
 

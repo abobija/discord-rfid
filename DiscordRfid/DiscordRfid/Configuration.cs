@@ -12,6 +12,14 @@ namespace DiscordRfid
 
         protected static Configuration Singletone;
 
+        public static int RecentPackagesLoadLimit = 20;
+
+        #region Should not be changed
+        public static string MasterRoleName = "RFIDM";
+        public static string SlaveRoleName = "RFIDS";
+        public static string ChannelName = "rfidx";
+        #endregion
+
         protected Configuration()
         {
             Log.Debug("Configuration constructor");

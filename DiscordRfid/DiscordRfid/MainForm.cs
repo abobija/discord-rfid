@@ -77,7 +77,17 @@ namespace DiscordRfid
                 return Extensions.NoopTask();
             };
 
-            bot.Ready += () => State = "Ready";
+            bot.Ready += async () =>
+            {
+                State = "Loading recent packages...";
+
+                foreach (var pckg in await bot.LoadRecentPackages())
+                {
+                    Invoke(new MethodInvoker(() => CommunicationMonitor.Packages.Add(pckg)));
+                }
+
+                State = "Ready";
+            };
         }
 
         private string OnAuthenticationError(string invalidToken, Exception ex)
@@ -108,12 +118,12 @@ namespace DiscordRfid
 
             if (bot.MasterRole == null)
             {
-                rolesQuestion += $"{Environment.NewLine}- {Constants.MasterRoleName}";
+                rolesQuestion += $"{Environment.NewLine}- {Configuration.MasterRoleName}";
             }
 
             if (bot.SlaveRole == null)
             {
-                rolesQuestion += $"{Environment.NewLine}- {Constants.SlaveRoleName}";
+                rolesQuestion += $"{Environment.NewLine}- {Configuration.SlaveRoleName}";
             }
 
             rolesQuestion += $"{Environment.NewLine}{Environment.NewLine}" +
@@ -124,7 +134,7 @@ namespace DiscordRfid
 
         private bool ChannelCreationPrompt()
         {
-            var question = $"Discord server \"{Bot.Instance.Guild.Name}\" does not contain textual channel with name \"{Constants.ChannelName}\" which " +
+            var question = $"Discord server \"{Bot.Instance.Guild.Name}\" does not contain textual channel with name \"{Configuration.ChannelName}\" which " +
                 "is used for communication with RFID slaves." +
                 $"{Environment.NewLine}{Environment.NewLine}" +
                 "Would you like to create this channel now?";

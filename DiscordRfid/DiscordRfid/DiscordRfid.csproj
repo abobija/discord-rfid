@@ -104,7 +104,6 @@
     <Compile Include="Com\Package.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Bot.cs" />
-    <Compile Include="Constants.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

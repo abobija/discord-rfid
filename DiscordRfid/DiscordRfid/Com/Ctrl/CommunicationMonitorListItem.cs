@@ -14,7 +14,8 @@ namespace DiscordRfid.Com.Ctrl
             Package = package;
             InitializeComponent();
             Dock = DockStyle.Bottom;
-            
+
+            LblType.Text = Package.Type.ToString();
             LblSerialNumber.Text = Package.SerialNumber.ToString();
         }
 
