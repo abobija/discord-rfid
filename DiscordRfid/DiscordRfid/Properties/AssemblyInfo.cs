@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("DiscordRfid")]
 [assembly: AssemblyDescription("Discord RFID Bot (Server)")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("abobija.com")]
+[assembly: AssemblyCompany("https://abobija.com")]
 [assembly: AssemblyProduct("DiscordRfid")]
 [assembly: AssemblyCopyright("Copyright © Alija Bobija 2021")]
 [assembly: AssemblyTrademark("Alija Bobija")]

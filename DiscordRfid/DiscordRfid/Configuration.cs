@@ -10,7 +10,7 @@ namespace DiscordRfid
     {
         public static string FileName = "config.json";
 
-        protected static Configuration Singletone { get; set; }
+        protected static Configuration Singletone;
 
         protected Configuration()
         {
@@ -23,7 +23,7 @@ namespace DiscordRfid
         protected bool PropertyChangeNotifyEnabled = false;
         private object fileLock = new object();
 
-        private string _token { get; set; }
+        private string _token;
         public string Token
         {
             get => _token;

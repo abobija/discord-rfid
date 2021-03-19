@@ -32,6 +32,13 @@ namespace DiscordRfid
                 ));
         }
 
+        public static DialogResult Information(this Form parent, string message)
+        {
+            return (DialogResult)parent.Invoke((Func<DialogResult>)(() =>
+                  MessageBox.Show(parent, message, parent.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                ));
+        }
+
         public static Task NoopTask()
         {
             return Task.FromResult<object>(null);

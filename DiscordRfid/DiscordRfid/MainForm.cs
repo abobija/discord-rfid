@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace DiscordRfid
@@ -15,6 +16,40 @@ namespace DiscordRfid
             BotName = "";
             ServerName = "";
 
+            InitClock();
+            InitBot();
+
+            Shown += async (o, e) =>
+            {
+                State = "Connecting...";
+
+                try
+                {
+                    await Bot.Instance.ConnectAsync();
+                }
+                catch(Exception ex)
+                {
+                    this.Error(ex);
+                    Close();
+                }
+            };
+        }
+
+        private void InitClock()
+        {
+            UpdateClock();
+            var tmr = new System.Timers.Timer(1000) { AutoReset = true };
+            tmr.Elapsed += (o, e) => { try { Invoke(new MethodInvoker(UpdateClock)); } catch { } };
+            tmr.Enabled = true;
+        }
+
+        private void UpdateClock()
+        {
+            ToolLblClock.Text = DateTime.Now.ToString("HH:mm:ss, MM.dd.yyyy");
+        }
+
+        private void InitBot()
+        {
             var bot = Bot.Instance;
 
             bot.TokenProvider = TokenProvider;
@@ -43,21 +78,6 @@ namespace DiscordRfid
             };
 
             bot.Ready += () => State = "Ready";
-
-            Shown += async (o, e) =>
-            {
-                State = "Connecting...";
-
-                try
-                {
-                    await bot.ConnectAsync();
-                }
-                catch(Exception ex)
-                {
-                    this.Error(ex);
-                    Close();
-                }
-            };
         }
 
         private string TokenProvider()
@@ -110,6 +130,29 @@ namespace DiscordRfid
                 "Would you like to create this channel now?";
 
             return this.Question(question) == DialogResult.Yes;
+        }
+
+        private void ToolBtnExit_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void ToolBtnAbout_Click(object sender, EventArgs e)
+        {
+            var asm = Assembly.GetExecutingAssembly();
+
+            //Assembly.GetExecutingAssembly().GetCustomAttributes()
+
+            this.Information(
+                    $"{Application.ProductName} {Application.ProductVersion}" +
+                    $"{Environment.NewLine}{asm.GetCustomAttribute<AssemblyDescriptionAttribute>().Description}" +
+                    Environment.NewLine +
+                    $"{Environment.NewLine}{asm.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright}" +
+                    $"{Environment.NewLine}{Application.CompanyName}" +
+                    Environment.NewLine + Environment.NewLine +
+                    "Code:" +
+                    $"{Environment.NewLine}https://github.com/abobija/discord-rfid"
+                );
         }
     }
 }
