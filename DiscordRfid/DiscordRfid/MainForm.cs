@@ -56,7 +56,7 @@ namespace DiscordRfid
             bot.RolesCreationPrompter = RolesCreationPrompt;
             bot.ChannelCreationPrompter = ChannelCreationPrompt;
 
-            bot.ConnectError += OnConnectError;
+            bot.UnauthorizedError += OnUnathorizedError;
 
             bot.EnvironmentCreationError += ex =>
             {
@@ -95,7 +95,7 @@ namespace DiscordRfid
             return token;
         }
 
-        private void OnConnectError(Exception ex)
+        private void OnUnathorizedError(Exception ex)
         {
             this.Error(string.Format("{0}{1}{1}Please try again.", ex.Message, Environment.NewLine));
         }

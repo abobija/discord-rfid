@@ -1,8 +1,10 @@
 ﻿using Discord;
+using Discord.Net;
 using Discord.WebSocket;
 using Serilog;
 using System;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace DiscordRfid
@@ -18,7 +20,7 @@ namespace DiscordRfid
         public IRole SlaveRole;
         public ITextChannel Channel;
 
-        public event Action<Exception> ConnectError;
+        public event Action<Exception> UnauthorizedError;
         public event Action<Exception> EnvironmentCreationError;
         public event Action Ready;
 
@@ -103,8 +105,13 @@ namespace DiscordRfid
                 catch (Exception ex)
                 {
                     Log.Error(ex, "Fail to login");
-                    config.Token = token = null;
-                    ConnectError?.Invoke(ex);
+
+                    if (ex is HttpException && (ex as HttpException).HttpCode == HttpStatusCode.Unauthorized)
+                    {
+                        config.Token = token = null;
+                        UnauthorizedError?.Invoke(ex);
+                    }
+                    else throw (ex);
                 }
             }
         }
