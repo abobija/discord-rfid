@@ -29,17 +29,35 @@ namespace DiscordRfid.Com.Ctrl
         /// </summary>
         private void InitializeComponent()
         {
+            this.PackagesContainer = new System.Windows.Forms.TableLayoutPanel();
             this.SuspendLayout();
+            // 
+            // PackagesContainer
+            // 
+            this.PackagesContainer.AutoSize = true;
+            this.PackagesContainer.ColumnCount = 1;
+            this.PackagesContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.PackagesContainer.Location = new System.Drawing.Point(14, 131);
+            this.PackagesContainer.Name = "PackagesContainer";
+            this.PackagesContainer.RowCount = 1;
+            this.PackagesContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.PackagesContainer.Size = new System.Drawing.Size(265, 66);
+            this.PackagesContainer.TabIndex = 0;
             // 
             // CommunicationMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.PackagesContainer);
             this.Name = "CommunicationMonitor";
+            this.Size = new System.Drawing.Size(294, 211);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+
+        private System.Windows.Forms.TableLayoutPanel PackagesContainer;
     }
 }

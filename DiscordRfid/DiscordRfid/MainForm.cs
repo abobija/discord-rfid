@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DiscordRfid.Com;
+using System;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -140,14 +141,12 @@ namespace DiscordRfid
         {
             var asm = Assembly.GetExecutingAssembly();
 
-            //Assembly.GetExecutingAssembly().GetCustomAttributes()
-
             this.Information(
                     $"{Application.ProductName} {Application.ProductVersion}" +
                     $"{Environment.NewLine}{asm.GetCustomAttribute<AssemblyDescriptionAttribute>().Description}" +
-                    Environment.NewLine +
-                    $"{Environment.NewLine}{asm.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright}" +
-                    $"{Environment.NewLine}{Application.CompanyName}" +
+                    Environment.NewLine + Environment.NewLine +
+                    $"Author:" +
+                    $"{Environment.NewLine}Alija Bobija ({Application.CompanyName})" +
                     Environment.NewLine + Environment.NewLine +
                     "Code:" +
                     $"{Environment.NewLine}https://github.com/abobija/discord-rfid"

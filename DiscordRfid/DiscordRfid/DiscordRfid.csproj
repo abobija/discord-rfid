@@ -94,18 +94,14 @@
     <Compile Include="Com\Ctrl\CommunicationMonitor.Designer.cs">
       <DependentUpon>CommunicationMonitor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Com\Ctrl\CommunicationMonitorList.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Com\Ctrl\CommunicationMonitorList.Designer.cs">
-      <DependentUpon>CommunicationMonitorList.cs</DependentUpon>
-    </Compile>
     <Compile Include="Com\Ctrl\CommunicationMonitorListItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Com\Ctrl\CommunicationMonitorListItem.Designer.cs">
       <DependentUpon>CommunicationMonitorListItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="Com\Device.cs" />
+    <Compile Include="Com\Package.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Bot.cs" />
     <Compile Include="Constants.cs" />
@@ -126,6 +122,9 @@
     </Compile>
     <EmbeddedResource Include="Com\Ctrl\CommunicationMonitor.resx">
       <DependentUpon>CommunicationMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Com\Ctrl\CommunicationMonitorListItem.resx">
+      <DependentUpon>CommunicationMonitorListItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

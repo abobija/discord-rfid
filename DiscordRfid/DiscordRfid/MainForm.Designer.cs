@@ -37,12 +37,12 @@ namespace DiscordRfid
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.ToolBtnExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.PnlMain = new System.Windows.Forms.Panel();
             this.ToolBtnEmployees = new System.Windows.Forms.ToolStripButton();
             this.toolStripDropDownButton2 = new System.Windows.Forms.ToolStripDropDownButton();
             this.ToolBtnAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolLblClock = new System.Windows.Forms.ToolStripLabel();
-            this.communicationMonitor1 = new DiscordRfid.Com.Ctrl.CommunicationMonitor();
+            this.PnlMain = new System.Windows.Forms.Panel();
+            this.CommunicationMonitor = new DiscordRfid.Com.Ctrl.CommunicationMonitor();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.PnlMain.SuspendLayout();
@@ -110,15 +110,6 @@ namespace DiscordRfid
             this.ToolBtnExit.Text = "Exit";
             this.ToolBtnExit.Click += new System.EventHandler(this.ToolBtnExit_Click);
             // 
-            // PnlMain
-            // 
-            this.PnlMain.Controls.Add(this.communicationMonitor1);
-            this.PnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PnlMain.Location = new System.Drawing.Point(0, 25);
-            this.PnlMain.Name = "PnlMain";
-            this.PnlMain.Size = new System.Drawing.Size(712, 386);
-            this.PnlMain.TabIndex = 3;
-            // 
             // ToolBtnEmployees
             // 
             this.ToolBtnEmployees.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -154,14 +145,24 @@ namespace DiscordRfid
             this.ToolLblClock.Size = new System.Drawing.Size(36, 22);
             this.ToolLblClock.Text = "Clock";
             // 
-            // communicationMonitor1
+            // PnlMain
             // 
-            this.communicationMonitor1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.communicationMonitor1.Location = new System.Drawing.Point(496, 0);
-            this.communicationMonitor1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.communicationMonitor1.Name = "communicationMonitor1";
-            this.communicationMonitor1.Size = new System.Drawing.Size(216, 386);
-            this.communicationMonitor1.TabIndex = 0;
+            this.PnlMain.Controls.Add(this.CommunicationMonitor);
+            this.PnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PnlMain.Location = new System.Drawing.Point(0, 25);
+            this.PnlMain.Name = "PnlMain";
+            this.PnlMain.Size = new System.Drawing.Size(712, 386);
+            this.PnlMain.TabIndex = 3;
+            // 
+            // CommunicationMonitor
+            // 
+            this.CommunicationMonitor.BackColor = System.Drawing.Color.Gainsboro;
+            this.CommunicationMonitor.Dock = System.Windows.Forms.DockStyle.Right;
+            this.CommunicationMonitor.Location = new System.Drawing.Point(478, 0);
+            this.CommunicationMonitor.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.CommunicationMonitor.Name = "CommunicationMonitor";
+            this.CommunicationMonitor.Size = new System.Drawing.Size(234, 386);
+            this.CommunicationMonitor.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -200,7 +201,7 @@ namespace DiscordRfid
         private System.Windows.Forms.ToolStripMenuItem ToolBtnAbout;
         private System.Windows.Forms.Panel PnlMain;
         private System.Windows.Forms.ToolStripLabel ToolLblClock;
-        private Com.Ctrl.CommunicationMonitor communicationMonitor1;
+        private Com.Ctrl.CommunicationMonitor CommunicationMonitor;
     }
 }
 
