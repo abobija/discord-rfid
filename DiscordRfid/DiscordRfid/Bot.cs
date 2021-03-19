@@ -20,11 +20,10 @@ namespace DiscordRfid
         public IRole SlaveRole;
         public ITextChannel Channel;
 
-        public event Action<Exception> UnauthorizedError;
+        public event Func<string, Exception, string> AuthenticationError;
         public event Action<Exception> EnvironmentCreationError;
         public event Action Ready;
 
-        public Func<string> TokenProvider;
         public Func<bool> RolesCreationPrompter;
         public Func<bool> ChannelCreationPrompter;
 
@@ -76,42 +75,38 @@ namespace DiscordRfid
 
                 if (token == null)
                 {
-                    Log.Debug("Token is null. Calling token provider");
+                    Log.Debug("Null token");
+                    token = AuthenticationError?.Invoke(null, new Exception("Token not set"));
+                }
 
-                    if (TokenProvider == null)
+                if(token != null)
+                {
+                    try
                     {
-                        Log.Error("Token provider is not set");
-                        break;
+                        Log.Debug("Logging in");
+                        await Client.LoginAsync(TokenType.Bot, token);
+                        Log.Debug("Logged in. Starting");
+                        await Client.StartAsync();
+                        config.Token = token;
+                        check = false;
                     }
-
-                    token = TokenProvider();
-
-                    if(token == null)
+                    catch (Exception ex)
                     {
-                        Log.Error("Token not provided");
-                        throw new Exception("Token not provided");
+                        Log.Error(ex, "Fail to login");
+
+                        if (ex is HttpException && (ex as HttpException).HttpCode == HttpStatusCode.Unauthorized)
+                        {
+                            config.Token = null;
+                            token = AuthenticationError?.Invoke(token, ex);
+                        }
+                        else throw (ex);
                     }
                 }
 
-                try
+                if (token == null)
                 {
-                    Log.Debug("Logging in");
-                    await Client.LoginAsync(TokenType.Bot, token);
-                    Log.Debug("Logged in. Starting");
-                    await Client.StartAsync();
-                    config.Token = token;
-                    check = false;
-                }
-                catch (Exception ex)
-                {
-                    Log.Error(ex, "Fail to login");
-
-                    if (ex is HttpException && (ex as HttpException).HttpCode == HttpStatusCode.Unauthorized)
-                    {
-                        config.Token = token = null;
-                        UnauthorizedError?.Invoke(ex);
-                    }
-                    else throw (ex);
+                    Log.Error("Token not provided");
+                    throw new Exception("Token not provided");
                 }
             }
         }

@@ -30,8 +30,8 @@ namespace DiscordRfid
         private void InitializeComponent()
         {
             this.PnlDialogButtons = new System.Windows.Forms.Panel();
-            this.BtnCancel = new System.Windows.Forms.Button();
             this.BtnOk = new System.Windows.Forms.Button();
+            this.BtnCancel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.TxtBoxToken = new System.Windows.Forms.TextBox();
             this.LblMessage = new System.Windows.Forms.Label();
@@ -52,18 +52,6 @@ namespace DiscordRfid
             this.PnlDialogButtons.Size = new System.Drawing.Size(454, 60);
             this.PnlDialogButtons.TabIndex = 0;
             // 
-            // BtnCancel
-            // 
-            this.BtnCancel.AutoSize = true;
-            this.BtnCancel.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnCancel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.BtnCancel.Location = new System.Drawing.Point(369, 10);
-            this.BtnCancel.Name = "BtnCancel";
-            this.BtnCancel.Size = new System.Drawing.Size(75, 40);
-            this.BtnCancel.TabIndex = 2;
-            this.BtnCancel.Text = "Cancel";
-            this.BtnCancel.UseVisualStyleBackColor = true;
-            // 
             // BtnOk
             // 
             this.BtnOk.AutoSize = true;
@@ -75,6 +63,18 @@ namespace DiscordRfid
             this.BtnOk.TabIndex = 1;
             this.BtnOk.Text = "OK";
             this.BtnOk.UseVisualStyleBackColor = true;
+            // 
+            // BtnCancel
+            // 
+            this.BtnCancel.AutoSize = true;
+            this.BtnCancel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnCancel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.BtnCancel.Location = new System.Drawing.Point(369, 10);
+            this.BtnCancel.Name = "BtnCancel";
+            this.BtnCancel.Size = new System.Drawing.Size(75, 40);
+            this.BtnCancel.TabIndex = 2;
+            this.BtnCancel.Text = "Cancel";
+            this.BtnCancel.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -91,6 +91,7 @@ namespace DiscordRfid
             this.TxtBoxToken.Name = "TxtBoxToken";
             this.TxtBoxToken.Size = new System.Drawing.Size(385, 29);
             this.TxtBoxToken.TabIndex = 0;
+            this.TxtBoxToken.UseSystemPasswordChar = true;
             // 
             // LblMessage
             // 

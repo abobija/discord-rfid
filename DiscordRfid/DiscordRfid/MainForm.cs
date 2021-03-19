@@ -52,11 +52,10 @@ namespace DiscordRfid
         {
             var bot = Bot.Instance;
 
-            bot.TokenProvider = TokenProvider;
             bot.RolesCreationPrompter = RolesCreationPrompt;
             bot.ChannelCreationPrompter = ChannelCreationPrompt;
 
-            bot.UnauthorizedError += OnUnathorizedError;
+            bot.AuthenticationError += OnAuthenticationError;
 
             bot.EnvironmentCreationError += ex =>
             {
@@ -80,24 +79,24 @@ namespace DiscordRfid
             bot.Ready += () => State = "Ready";
         }
 
-        private string TokenProvider()
+        private string OnAuthenticationError(string invalidToken, Exception ex)
         {
-            string token = null;
+            string validToken = null;
+
+            if(invalidToken != null)
+            {
+                this.Error(string.Format("Authentication error:{1}{0}{1}{1}Please try again.", ex.Message, Environment.NewLine));
+            }
 
             using (var dlg = new TokenForm { Message = "Please enter token of Discord bot" })
             {
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
-                    token = dlg.Token;
+                    validToken = dlg.Token;
                 }
             }
 
-            return token;
-        }
-
-        private void OnUnathorizedError(Exception ex)
-        {
-            this.Error(string.Format("{0}{1}{1}Please try again.", ex.Message, Environment.NewLine));
+            return validToken;
         }
 
         private bool RolesCreationPrompt()
