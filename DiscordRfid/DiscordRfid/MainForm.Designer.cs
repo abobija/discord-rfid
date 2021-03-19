@@ -43,8 +43,11 @@ namespace DiscordRfid
             this.ToolLblClock = new System.Windows.Forms.ToolStripLabel();
             this.PnlMain = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
             this.CommunicationMonitor = new DiscordRfid.Com.Ctrl.CommunicationMonitor();
+            this.label1 = new System.Windows.Forms.Label();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.PnlMain.SuspendLayout();
@@ -57,20 +60,22 @@ namespace DiscordRfid
             this.LblBotName,
             this.LblServerName,
             this.LblState});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 411);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 466);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(712, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(904, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // LblBotName
             // 
+            this.LblBotName.BackColor = System.Drawing.Color.Transparent;
             this.LblBotName.Name = "LblBotName";
             this.LblBotName.Size = new System.Drawing.Size(57, 17);
             this.LblBotName.Text = "BotName";
             // 
             // LblServerName
             // 
+            this.LblServerName.BackColor = System.Drawing.Color.Transparent;
             this.LblServerName.Name = "LblServerName";
             this.LblServerName.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.LblServerName.Size = new System.Drawing.Size(71, 17);
@@ -78,6 +83,7 @@ namespace DiscordRfid
             // 
             // LblState
             // 
+            this.LblState.BackColor = System.Drawing.Color.Transparent;
             this.LblState.Name = "LblState";
             this.LblState.Size = new System.Drawing.Size(33, 17);
             this.LblState.Text = "State";
@@ -91,7 +97,7 @@ namespace DiscordRfid
             this.ToolLblClock});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(712, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(904, 25);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -150,50 +156,80 @@ namespace DiscordRfid
             // 
             // PnlMain
             // 
+            this.PnlMain.Controls.Add(this.CommunicationMonitor);
             this.PnlMain.Controls.Add(this.panel1);
             this.PnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PnlMain.Location = new System.Drawing.Point(0, 25);
             this.PnlMain.Name = "PnlMain";
-            this.PnlMain.Size = new System.Drawing.Size(712, 386);
+            this.PnlMain.Size = new System.Drawing.Size(904, 441);
             this.PnlMain.TabIndex = 3;
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Gainsboro;
-            this.panel1.Controls.Add(this.CommunicationMonitor);
+            this.panel1.Controls.Add(this.listView1);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(443, 0);
+            this.panel1.Location = new System.Drawing.Point(569, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(269, 386);
+            this.panel1.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.panel1.Size = new System.Drawing.Size(335, 441);
             this.panel1.TabIndex = 1;
+            // 
+            // CommunicationMonitor
+            // 
+            this.CommunicationMonitor.Location = new System.Drawing.Point(109, 84);
+            this.CommunicationMonitor.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.CommunicationMonitor.Name = "CommunicationMonitor";
+            this.CommunicationMonitor.Size = new System.Drawing.Size(225, 226);
+            this.CommunicationMonitor.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.Dock = System.Windows.Forms.DockStyle.Top;
             this.label1.ForeColor = System.Drawing.Color.DimGray;
-            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(269, 32);
+            this.label1.Size = new System.Drawing.Size(332, 32);
             this.label1.TabIndex = 0;
             this.label1.Text = "Recent packages";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // CommunicationMonitor
+            // listView1
             // 
-            this.CommunicationMonitor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CommunicationMonitor.Location = new System.Drawing.Point(0, 32);
-            this.CommunicationMonitor.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.CommunicationMonitor.Name = "CommunicationMonitor";
-            this.CommunicationMonitor.Size = new System.Drawing.Size(269, 354);
-            this.CommunicationMonitor.TabIndex = 0;
+            this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2});
+            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView1.FullRowSelect = true;
+            this.listView1.GridLines = true;
+            this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.listView1.HideSelection = false;
+            this.listView1.Location = new System.Drawing.Point(3, 32);
+            this.listView1.MultiSelect = false;
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(332, 409);
+            this.listView1.TabIndex = 1;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Type";
+            this.columnHeader1.Width = 80;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "Content";
+            this.columnHeader2.Width = 160;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(712, 433);
+            this.ClientSize = new System.Drawing.Size(904, 488);
             this.Controls.Add(this.PnlMain);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.statusStrip1);
@@ -229,6 +265,9 @@ namespace DiscordRfid
         private Com.Ctrl.CommunicationMonitor CommunicationMonitor;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
     }
 }
 

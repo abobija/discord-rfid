@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Net;
+using Discord.Rest;
 using Discord.WebSocket;
 using DiscordRfid.Com;
 using Serilog;
@@ -27,6 +28,7 @@ namespace DiscordRfid
 
         public event Action Connected;
         public event Action Ready;
+        public event Action<Package> NewPackage;
 
         public Func<bool> RolesCreationPrompter;
         public Func<bool> ChannelCreationPrompter;
@@ -65,21 +67,99 @@ namespace DiscordRfid
                     EnvironmentCreationError?.Invoke(ex);
                 }
             };
+
+            Client.MessageReceived += OnMessageReceivedAsync;
         }
 
-        public async Task<List<Package>> LoadRecentPackages()
+        private async Task OnMessageReceivedAsync(SocketMessage msg)
         {
-            var pckgs = new List<Package>();
-
-            foreach(var m in await Channel.GetMessagesAsync(Configuration.RecentPackagesLoadLimit).FlattenAsync())
+            var pckg = await ParseMessageAsync(msg);
+                
+            if(pckg != null)
             {
-                try
-                {
-                    pckgs.Add(Package.FromDiscordMessage(m));
-                }
-                catch (Exception ex) { Log.Warning(ex, "Fail to load package"); }
+                NewPackage?.Invoke(pckg);
+            }
+        }
+
+        private async Task<Package> ParseMessageAsync(IMessage msg, ICollection<RestGuildUser> cache = null)
+        {
+            Package pckg = null;
+            Exception exception = null;
+
+            if(msg == null)
+            {
+                goto _return;
             }
 
+            if(msg.Channel.Id != Channel.Id || msg.Type != MessageType.Default // listen only for default msgs on rfid channel
+                || msg.Author.Id == Client.CurrentUser.Id) // ignore self messages
+            {
+                goto _return;
+            }
+
+#if !DEBUG
+            if(! msg.Author.IsBot)
+            {
+                goto _return;
+            }
+#endif
+
+            var member = cache?.FirstOrDefault(u => u.Id == msg.Author.Id);
+                
+            if(member == null)
+            {
+                Log.Debug("Fetching member for roles checking");
+                member = await Client.Rest.GetGuildUserAsync(Guild.Id, msg.Author.Id);
+                cache?.Add(member);
+            }
+
+            if (member.RoleIds.FirstOrDefault(id => id == SlaveRole.Id) == default)
+            {
+                Log.Warning("Message is not from slave");
+                goto _return;
+            }
+
+            try
+            {
+                pckg = Package.FromDiscordMessage(msg);
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+            }
+            
+            _return:
+            if(pckg == null)
+            {
+                if (msg != null)
+                {
+                    Log.Debug($"Message has not parsed (Author={msg.Author}, IsBot={msg.Author.IsBot}, Content={msg.Content})");
+                }
+
+                if(exception != null)
+                {
+                    Log.Warning(exception, $"Fail to parse discord message into package");
+                }
+            }
+            return pckg;
+        }
+
+        public async Task<List<Package>> LoadRecentPackagesAsync()
+        {
+            var pckgs = new List<Package>();
+            var cache = new List<RestGuildUser>();
+
+            foreach (var m in await Channel.GetMessagesAsync(Configuration.RecentPackagesLoadLimit).FlattenAsync())
+            {
+                var pckg = await ParseMessageAsync(m, cache);
+
+                if(pckg != null)
+                {
+                    pckgs.Add(pckg);
+                }
+            }
+
+            cache.Clear();
             return pckgs;
         }
 

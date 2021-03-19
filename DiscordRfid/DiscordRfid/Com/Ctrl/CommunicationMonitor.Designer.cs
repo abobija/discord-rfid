@@ -48,9 +48,10 @@ namespace DiscordRfid.Com.Ctrl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.Controls.Add(this.PackagesContainer);
             this.Name = "CommunicationMonitor";
-            this.Size = new System.Drawing.Size(294, 211);
+            this.Size = new System.Drawing.Size(302, 211);
             this.ResumeLayout(false);
             this.PerformLayout();
 
