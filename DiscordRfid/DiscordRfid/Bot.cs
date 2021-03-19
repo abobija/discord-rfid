@@ -14,7 +14,7 @@ namespace DiscordRfid
     public class Bot
     {
         protected static Bot Singletone;
-        public DiscordSocketClient Client;
+        private DiscordSocketClient Client;
 
         public string Name => Client?.CurrentUser?.Username;
         public SocketGuild Guild => Client.Guilds.ElementAt(0);
@@ -24,6 +24,8 @@ namespace DiscordRfid
 
         public event Func<string, Exception, string> AuthenticationError;
         public event Action<Exception> EnvironmentCreationError;
+
+        public event Action Connected;
         public event Action Ready;
 
         public Func<bool> RolesCreationPrompter;
@@ -37,6 +39,12 @@ namespace DiscordRfid
 
             Client.Log += DiscordLog;
             Client.Rest.Log += DiscordLog;
+
+            Client.Connected += () =>
+            {
+                Connected?.Invoke();
+                return Extensions.NoopTask();
+            };
 
             Client.GuildAvailable += async g =>
             {

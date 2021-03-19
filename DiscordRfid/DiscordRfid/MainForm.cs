@@ -64,21 +64,15 @@ namespace DiscordRfid
                 this.SafeClose();
             };
 
-            bot.Client.Connected += () =>
+            bot.Connected += () =>
             {
-                BotName = Bot.Instance.Name;
                 State = "Checking environment...";
-                return Extensions.NoopTask();
-            };
-
-            bot.Client.GuildAvailable += g =>
-            {
-                ServerName = $"@ {Bot.Instance.Guild.Name}";
-                return Extensions.NoopTask();
+                BotName = Bot.Instance.Name;
             };
 
             bot.Ready += async () =>
             {
+                ServerName = $"@ {Bot.Instance.Guild.Name}";
                 State = "Loading recent packages...";
 
                 foreach (var pckg in await bot.LoadRecentPackages())
