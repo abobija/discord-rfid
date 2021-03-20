@@ -19,7 +19,16 @@ namespace DiscordRfid.Models
 
             using (var cmd = connection.CreateCommand())
             {
+                var emp = new Employee();
 
+                cmd.CommandText = $"CREATE TABLE {TableName} (" +
+                    "Id            INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "CreatedAt     DATETIME NOT NULL DEFAULT (DateTime('now')), " +
+                    "SerialNumber  INTEGER NOT NULL, " +
+                    $"EmployeeId    INTEGER NOT NULL REFERENCES {emp.TableName}(Id) ON UPDATE CASCADE ON DELETE CASCADE" +
+                ")";
+
+                cmd.ExecuteNonQuery();
             }
         }
     }

@@ -9,8 +9,8 @@ namespace DiscordRfid.Models
         public override string TableName => "RfidTagActivity";
 
         public int Id;
-        public RfidTag Tag;
         public DateTime DateTime;
+        public RfidTag Tag;
         public bool Present;
 
         public override void CreateTable(SqliteConnection connection)
@@ -19,7 +19,16 @@ namespace DiscordRfid.Models
 
             using (var cmd = connection.CreateCommand())
             {
+                var tag = new RfidTag();
 
+                cmd.CommandText = $"CREATE TABLE {TableName} (" +
+                    "Id            INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "\"DateTime\"  DATETIME NOT NULL DEFAULT (DateTime('now')), " +
+                    $"TagId         INTEGER NOT NULL REFERENCES {tag.TableName}(Id) ON UPDATE CASCADE ON DELETE CASCADE, " +
+                    "Present       BOOLEAN NOT NULL DEFAULT 0" +
+                ")";
+
+                cmd.ExecuteNonQuery();
             }
         }
     }

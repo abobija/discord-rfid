@@ -20,7 +20,15 @@ namespace DiscordRfid.Models
 
             using (var cmd = connection.CreateCommand())
             {
+                cmd.CommandText = $"CREATE TABLE {TableName} (" +
+                    "Id         INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "CreatedAt  DATETIME NOT NULL DEFAULT (DateTime('now')), " +
+                    "FirstName  TEXT, " +
+                    "LastName   TEXT NOT NULL, " +
+                    "Present    BOOLEAN NOT NULL DEFAULT 0" +
+                ")";
 
+                cmd.ExecuteNonQuery();
             }
         }
     }
