@@ -1,7 +1,4 @@
-﻿using DiscordRfid.Com;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -72,40 +69,19 @@ namespace DiscordRfid
                 BotName = Bot.Instance.Name;
             };
 
-            bot.NewPackage += AddPackage;
+            bot.NewPackage += PackagesListView.AddPackageSafe;
 
             bot.Ready += async () =>
             {
                 ServerName = Bot.Instance.Guild.Name;
                 State = "Loading recent packages...";
 
-                AddPackages(await bot.LoadRecentPackagesAsync());
+                var recentPackages = await bot.LoadRecentPackagesAsync();
+                recentPackages.Reverse();
+                PackagesListView.AddPackageRangeSafe(recentPackages.ToArray());
 
                 State = "Ready";
             };
-        }
-
-        private void AddPackage(Package package)
-        {
-            if(InvokeRequired)
-            {
-                Invoke(new MethodInvoker(() => CommunicationMonitor.Packages.Add(package)));
-            }
-            else
-            {
-                CommunicationMonitor.Packages.Add(package);
-            }
-        }
-
-        private void AddPackages(ICollection<Package> pckgs)
-        {
-            Invoke(new MethodInvoker(() =>
-            {
-                foreach (var pckg in pckgs)
-                {
-                    AddPackage(pckg);
-                }
-            }));
         }
 
         private string OnAuthenticationError(string invalidToken, Exception ex)

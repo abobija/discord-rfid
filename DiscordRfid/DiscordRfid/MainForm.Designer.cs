@@ -38,16 +38,12 @@ namespace DiscordRfid
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.ToolBtnExit = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolBtnEmployees = new System.Windows.Forms.ToolStripButton();
-            this.toolStripDropDownButton2 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.ToolBtnAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolLblClock = new System.Windows.Forms.ToolStripLabel();
             this.PnlMain = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.CommunicationMonitor = new DiscordRfid.Com.Ctrl.CommunicationMonitor();
             this.label1 = new System.Windows.Forms.Label();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.PackagesListView = new DiscordRfid.Com.Ctrl.PackagesListView();
+            this.ToolBtnAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.PnlMain.SuspendLayout();
@@ -93,7 +89,6 @@ namespace DiscordRfid
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripDropDownButton1,
             this.ToolBtnEmployees,
-            this.toolStripDropDownButton2,
             this.ToolLblClock});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
@@ -105,6 +100,7 @@ namespace DiscordRfid
             // 
             this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolBtnAbout,
             this.ToolBtnExit});
             this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -115,7 +111,7 @@ namespace DiscordRfid
             // ToolBtnExit
             // 
             this.ToolBtnExit.Name = "ToolBtnExit";
-            this.ToolBtnExit.Size = new System.Drawing.Size(93, 22);
+            this.ToolBtnExit.Size = new System.Drawing.Size(180, 22);
             this.ToolBtnExit.Text = "Exit";
             this.ToolBtnExit.Click += new System.EventHandler(this.ToolBtnExit_Click);
             // 
@@ -128,24 +124,6 @@ namespace DiscordRfid
             this.ToolBtnEmployees.Size = new System.Drawing.Size(68, 22);
             this.ToolBtnEmployees.Text = "Employees";
             // 
-            // toolStripDropDownButton2
-            // 
-            this.toolStripDropDownButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripDropDownButton2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolBtnAbout});
-            this.toolStripDropDownButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton2.Image")));
-            this.toolStripDropDownButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton2.Name = "toolStripDropDownButton2";
-            this.toolStripDropDownButton2.Size = new System.Drawing.Size(45, 22);
-            this.toolStripDropDownButton2.Text = "Help";
-            // 
-            // ToolBtnAbout
-            // 
-            this.ToolBtnAbout.Name = "ToolBtnAbout";
-            this.ToolBtnAbout.Size = new System.Drawing.Size(107, 22);
-            this.ToolBtnAbout.Text = "About";
-            this.ToolBtnAbout.Click += new System.EventHandler(this.ToolBtnAbout_Click);
-            // 
             // ToolLblClock
             // 
             this.ToolLblClock.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -156,9 +134,9 @@ namespace DiscordRfid
             // 
             // PnlMain
             // 
-            this.PnlMain.Controls.Add(this.CommunicationMonitor);
             this.PnlMain.Controls.Add(this.panel1);
             this.PnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PnlMain.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.PnlMain.Location = new System.Drawing.Point(0, 25);
             this.PnlMain.Name = "PnlMain";
             this.PnlMain.Size = new System.Drawing.Size(904, 441);
@@ -167,22 +145,14 @@ namespace DiscordRfid
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Gainsboro;
-            this.panel1.Controls.Add(this.listView1);
+            this.panel1.Controls.Add(this.PackagesListView);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(569, 0);
+            this.panel1.Location = new System.Drawing.Point(598, 0);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.panel1.Size = new System.Drawing.Size(335, 441);
+            this.panel1.Size = new System.Drawing.Size(306, 441);
             this.panel1.TabIndex = 1;
-            // 
-            // CommunicationMonitor
-            // 
-            this.CommunicationMonitor.Location = new System.Drawing.Point(109, 84);
-            this.CommunicationMonitor.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.CommunicationMonitor.Name = "CommunicationMonitor";
-            this.CommunicationMonitor.Size = new System.Drawing.Size(225, 226);
-            this.CommunicationMonitor.TabIndex = 0;
             // 
             // label1
             // 
@@ -190,39 +160,34 @@ namespace DiscordRfid
             this.label1.ForeColor = System.Drawing.Color.DimGray;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(332, 32);
+            this.label1.Size = new System.Drawing.Size(303, 32);
             this.label1.TabIndex = 0;
             this.label1.Text = "Recent packages";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // listView1
+            // PackagesListView
             // 
-            this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2});
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.FullRowSelect = true;
-            this.listView1.GridLines = true;
-            this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(3, 32);
-            this.listView1.MultiSelect = false;
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(332, 409);
-            this.listView1.TabIndex = 1;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
+            this.PackagesListView.BackColor = System.Drawing.Color.Gainsboro;
+            this.PackagesListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.PackagesListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PackagesListView.FullRowSelect = true;
+            this.PackagesListView.GridLines = true;
+            this.PackagesListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.PackagesListView.HideSelection = false;
+            this.PackagesListView.Location = new System.Drawing.Point(3, 32);
+            this.PackagesListView.MultiSelect = false;
+            this.PackagesListView.Name = "PackagesListView";
+            this.PackagesListView.Size = new System.Drawing.Size(303, 409);
+            this.PackagesListView.TabIndex = 1;
+            this.PackagesListView.UseCompatibleStateImageBehavior = false;
+            this.PackagesListView.View = System.Windows.Forms.View.Details;
             // 
-            // columnHeader1
+            // ToolBtnAbout
             // 
-            this.columnHeader1.Text = "Type";
-            this.columnHeader1.Width = 80;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Content";
-            this.columnHeader2.Width = 160;
+            this.ToolBtnAbout.Name = "ToolBtnAbout";
+            this.ToolBtnAbout.Size = new System.Drawing.Size(180, 22);
+            this.ToolBtnAbout.Text = "About";
+            this.ToolBtnAbout.Click += new System.EventHandler(this.ToolBtnAbout_Click);
             // 
             // MainForm
             // 
@@ -258,16 +223,12 @@ namespace DiscordRfid
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
         private System.Windows.Forms.ToolStripMenuItem ToolBtnExit;
         private System.Windows.Forms.ToolStripButton ToolBtnEmployees;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton2;
-        private System.Windows.Forms.ToolStripMenuItem ToolBtnAbout;
         private System.Windows.Forms.Panel PnlMain;
         private System.Windows.Forms.ToolStripLabel ToolLblClock;
-        private Com.Ctrl.CommunicationMonitor CommunicationMonitor;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private Com.Ctrl.PackagesListView PackagesListView;
+        private System.Windows.Forms.ToolStripMenuItem ToolBtnAbout;
     }
 }
 

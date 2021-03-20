@@ -88,17 +88,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Com\Ctrl\CommunicationMonitor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Com\Ctrl\CommunicationMonitor.Designer.cs">
-      <DependentUpon>CommunicationMonitor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Com\Ctrl\CommunicationMonitorListItem.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Com\Ctrl\CommunicationMonitorListItem.Designer.cs">
-      <DependentUpon>CommunicationMonitorListItem.cs</DependentUpon>
+    <Compile Include="Com\Ctrl\PackageListViewItem.cs" />
+    <Compile Include="Com\Ctrl\PackagesListView.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Com\Device.cs" />
     <Compile Include="Com\Package.cs" />
@@ -119,12 +111,6 @@
     <Compile Include="TokenForm.Designer.cs">
       <DependentUpon>TokenForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Com\Ctrl\CommunicationMonitor.resx">
-      <DependentUpon>CommunicationMonitor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Com\Ctrl\CommunicationMonitorListItem.resx">
-      <DependentUpon>CommunicationMonitorListItem.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
