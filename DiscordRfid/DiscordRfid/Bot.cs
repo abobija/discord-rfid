@@ -15,7 +15,7 @@ namespace DiscordRfid
     public class Bot
     {
         protected static Bot Singletone;
-        private DiscordSocketClient Client;
+        private static DiscordSocketClient Client;
 
         public string Name => Client?.CurrentUser?.Username;
         public SocketGuild Guild => Client.Guilds.ElementAt(0);
@@ -36,6 +36,8 @@ namespace DiscordRfid
         protected Bot()
         {
             Log.Verbose("Bot constructor");
+
+            Database.Instance.Init();
 
             Client = new DiscordSocketClient();
 
