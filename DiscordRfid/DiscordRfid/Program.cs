@@ -25,6 +25,9 @@ namespace DiscordRfid
 
             Log.Information("Starting point. Booting up");
 
+            AppDomain.CurrentDomain.UnhandledException += (o, args) =>
+                Log.Error(args.ExceptionObject as Exception, "Unhandled exception");
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());

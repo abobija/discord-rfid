@@ -116,9 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database.cs" />
-    <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Employee.cs" />
-    <Compile Include="Models\IModel.cs" />
     <Compile Include="Models\RfidTag.cs" />
     <Compile Include="Models\RfidTagActivity.cs" />
     <Compile Include="PackageListViewItem.cs" />

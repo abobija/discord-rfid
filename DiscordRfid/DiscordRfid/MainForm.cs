@@ -9,7 +9,20 @@ namespace DiscordRfid
         protected string State { set => LblState.Text = $"Is: {value}"; }
         protected string BotName { set => LblBotName.Text = $"Bot: {value}"; }
         protected string ServerName { set => LblServerName.Text = $"@ Server: {value}"; }
-        
+
+        private EmployeeCounters _employeeCounters;
+        private EmployeeCounters EmployeeCounters
+        {
+            get => _employeeCounters;
+            set
+            {
+                _employeeCounters = value;
+                LblCounterEmployeesTotal.Text = _employeeCounters.Total.ToString();
+                LblCounterEmployeesPresent.Text = _employeeCounters.Present.ToString();
+                LblCounterEmployeesAbsent.Text = _employeeCounters.Absent.ToString();
+            }
+        }
+
         public MainForm()
         {
             InitializeComponent();
@@ -17,14 +30,21 @@ namespace DiscordRfid
             ServerName = "";
 
             InitClock();
+
+            if(! Database.Instance.Inited)
+            {
+                Database.Instance.Init();
+            }
+
             InitBot();
 
             Shown += async (o, e) =>
             {
-                State = "Connecting...";
+                LoadAndUpdateEmployeeCounters();
 
                 try
                 {
+                    State = "Connecting...";
                     await Bot.Instance.ConnectAsync();
                 }
                 catch(Exception ex)
@@ -82,6 +102,18 @@ namespace DiscordRfid
 
                 State = "Ready";
             };
+        }
+
+        private void LoadAndUpdateEmployeeCounters()
+        {
+            try
+            {
+                EmployeeCounters = Database.Instance.GetEmployeeCounters();
+            }
+            catch(Exception ex)
+            {
+                this.Error(ex);
+            }
         }
 
         private string OnAuthenticationError(string invalidToken, Exception ex)

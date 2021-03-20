@@ -4,23 +4,21 @@ using System;
 
 namespace DiscordRfid.Models
 {
-    public class Employee : BaseModel
+    public class Employee
     {
-        public override string TableName => "Employee";
-
         public int Id;
         public DateTime CreatedAt;
         public string FirstName;
         public string LastName;
         public bool Present;
 
-        public override void CreateTable(SqliteConnection connection)
+        public static void CreateTable(SqliteConnection connection)
         {
-            Log.Debug($"Creating {TableName} table");
+            Log.Debug($"Creating {Database.EmployeeTableName} table");
 
             using (var cmd = connection.CreateCommand())
             {
-                cmd.CommandText = $"CREATE TABLE {TableName} (" +
+                cmd.CommandText = $"CREATE TABLE {Database.EmployeeTableName} (" +
                     "Id         INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "CreatedAt  DATETIME NOT NULL DEFAULT (DateTime('now')), " +
                     "FirstName  TEXT, " +

@@ -4,28 +4,24 @@ using System;
 
 namespace DiscordRfid.Models
 {
-    public class RfidTag : BaseModel
+    public class RfidTag
     {
-        public override string TableName => "RfidTag";
-
         public int Id;
         public DateTime CreatedAt;
         public ulong SerialNumber;
         public Employee Employee;
 
-        public override void CreateTable(SqliteConnection connection)
+        public static void CreateTable(SqliteConnection connection)
         {
-            Log.Debug($"Creating {TableName} table");
+            Log.Debug($"Creating {Database.RfidTagTableName} table");
 
             using (var cmd = connection.CreateCommand())
             {
-                var emp = new Employee();
-
-                cmd.CommandText = $"CREATE TABLE {TableName} (" +
+                cmd.CommandText = $"CREATE TABLE {Database.RfidTagTableName} (" +
                     "Id            INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "CreatedAt     DATETIME NOT NULL DEFAULT (DateTime('now')), " +
                     "SerialNumber  INTEGER NOT NULL, " +
-                    $"EmployeeId    INTEGER NOT NULL REFERENCES {emp.TableName}(Id) ON UPDATE CASCADE ON DELETE CASCADE" +
+                    $"EmployeeId   INTEGER NOT NULL REFERENCES {Database.EmployeeTableName}(Id) ON UPDATE CASCADE ON DELETE CASCADE" +
                 ")";
 
                 cmd.ExecuteNonQuery();

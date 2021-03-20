@@ -37,7 +37,10 @@ namespace DiscordRfid
         {
             Log.Verbose("Bot constructor");
 
-            Database.Instance.Init();
+            if(!Database.Instance.Inited)
+            {
+                Database.Instance.Init();
+            }
 
             Client = new DiscordSocketClient();
 

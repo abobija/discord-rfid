@@ -2,16 +2,25 @@
 using Microsoft.Data.Sqlite;
 using Serilog;
 using System;
-using System.Data;
-using System.Diagnostics;
 using System.IO;
 
 namespace DiscordRfid
 {
+    public class EmployeeCounters
+    {
+        public int Total;
+        public int Present;
+        public int Absent;
+    }
+
     public class Database
     {
+        public static string EmployeeTableName = "Employee";
+        public static string RfidTagTableName = "RfidTag";
+        public static string RfidTagActivityTableName = "RfidTagActivity";
+
         private static Database Singletone;
-        private bool Inited = false;
+        public bool Inited { get; private set; } = false;
 
         protected string ConnectionString => $"Data Source={Path.Combine(Environment.CurrentDirectory, "rfid.db")}";
 
@@ -29,14 +38,34 @@ namespace DiscordRfid
                 Log.Debug("Database has already initialized. Ignoring");
                 return;
             }
+            
+            InitSchema();
+        }
 
-            try
+        public EmployeeCounters GetEmployeeCounters()
+        {
+            using (var con = CreateConnection())
+            using (var cmd = con.CreateCommand())
             {
-                InitSchema();
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Fail to boot up database");
+                con.Open();
+
+                cmd.CommandText = "SELECT " +
+                    "COUNT(*) AS Total" +
+                    ", IFNULL(SUM(Present), 0) AS Present" +
+                    ", IFNULL(SUM(NOT Present), 0) AS Absent" +
+                    $" FROM {EmployeeTableName}";
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    reader.Read();
+
+                    return new EmployeeCounters
+                    {
+                        Total = reader.GetInt32ByName("Total"),
+                        Present = reader.GetInt32ByName("Present"),
+                        Absent = reader.GetInt32ByName("Absent")
+                    };
+                }
             }
         }
 
@@ -46,9 +75,20 @@ namespace DiscordRfid
             {
                 con.Open();
 
-                new Employee().CreateTableIfNotExists(con);
-                new RfidTag().CreateTableIfNotExists(con);
-                new RfidTagActivity().CreateTableIfNotExists(con);
+                if (!TableExists(EmployeeTableName, con))
+                {
+                    Employee.CreateTable(con);
+                }
+
+                if (!TableExists(RfidTagTableName, con))
+                {
+                    RfidTag.CreateTable(con);
+                }
+
+                if (!TableExists(RfidTagActivityTableName, con))
+                {
+                    RfidTagActivity.CreateTable(con);
+                }
             }
         }
 
@@ -64,15 +104,7 @@ namespace DiscordRfid
 
         public SqliteConnection CreateConnection()
         {
-            try
-            {
-                return new SqliteConnection(ConnectionString);
-            }
-            catch(Exception ex)
-            {
-                Log.Error(ex, "Fail to create database connection");
-                throw ex;
-            }
+            return new SqliteConnection(ConnectionString);
         }
 
         public static Database Instance

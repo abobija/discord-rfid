@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Data.Sqlite;
+using Serilog;
+using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -6,6 +8,11 @@ namespace DiscordRfid
 {
     public static class Extensions
     {
+        public static int GetInt32ByName(this SqliteDataReader reader, string columnName)
+        {
+            return reader.GetInt32(reader.GetOrdinal(columnName));
+        }
+
         public static Task ContinueWithNoop(this Task task)
         {
             return task.ContinueWith(t => { });
