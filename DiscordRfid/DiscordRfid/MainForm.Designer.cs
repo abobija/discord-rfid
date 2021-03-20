@@ -44,8 +44,8 @@ namespace DiscordRfid
             this.PackagesListView = new DiscordRfid.PackagesListView();
             this.label1 = new System.Windows.Forms.Label();
             this.LinkLblEmployees = new System.Windows.Forms.LinkLabel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.LblPresent = new System.Windows.Forms.Label();
+            this.LblAbsent = new System.Windows.Forms.Label();
             this.LblCounterEmployeesTotal = new System.Windows.Forms.Label();
             this.LblCounterEmployeesPresent = new System.Windows.Forms.Label();
             this.LblCounterEmployeesAbsent = new System.Windows.Forms.Label();
@@ -198,25 +198,25 @@ namespace DiscordRfid
             this.LinkLblEmployees.TabStop = true;
             this.LinkLblEmployees.Text = "Employees";
             // 
-            // label2
+            // LblPresent
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(161, 0);
-            this.label2.Margin = new System.Windows.Forms.Padding(50, 0, 3, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(57, 20);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Present";
+            this.LblPresent.AutoSize = true;
+            this.LblPresent.Location = new System.Drawing.Point(161, 0);
+            this.LblPresent.Margin = new System.Windows.Forms.Padding(50, 0, 3, 0);
+            this.LblPresent.Name = "LblPresent";
+            this.LblPresent.Size = new System.Drawing.Size(57, 20);
+            this.LblPresent.TabIndex = 6;
+            this.LblPresent.Text = "Present";
             // 
-            // label3
+            // LblAbsent
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(294, 0);
-            this.label3.Margin = new System.Windows.Forms.Padding(50, 0, 3, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(55, 20);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Absent";
+            this.LblAbsent.AutoSize = true;
+            this.LblAbsent.Location = new System.Drawing.Point(294, 0);
+            this.LblAbsent.Margin = new System.Windows.Forms.Padding(50, 0, 3, 0);
+            this.LblAbsent.Name = "LblAbsent";
+            this.LblAbsent.Size = new System.Drawing.Size(55, 20);
+            this.LblAbsent.TabIndex = 7;
+            this.LblAbsent.Text = "Absent";
             // 
             // LblCounterEmployeesTotal
             // 
@@ -254,9 +254,9 @@ namespace DiscordRfid
             this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel1.Controls.Add(this.LinkLblEmployees);
             this.flowLayoutPanel1.Controls.Add(this.LblCounterEmployeesTotal);
-            this.flowLayoutPanel1.Controls.Add(this.label2);
+            this.flowLayoutPanel1.Controls.Add(this.LblPresent);
             this.flowLayoutPanel1.Controls.Add(this.LblCounterEmployeesPresent);
-            this.flowLayoutPanel1.Controls.Add(this.label3);
+            this.flowLayoutPanel1.Controls.Add(this.LblAbsent);
             this.flowLayoutPanel1.Controls.Add(this.LblCounterEmployeesAbsent);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(21, 12);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -308,8 +308,8 @@ namespace DiscordRfid
         private System.Windows.Forms.Label LblCounterEmployeesAbsent;
         private System.Windows.Forms.Label LblCounterEmployeesPresent;
         private System.Windows.Forms.Label LblCounterEmployeesTotal;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label LblAbsent;
+        private System.Windows.Forms.Label LblPresent;
         private System.Windows.Forms.LinkLabel LinkLblEmployees;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
     }

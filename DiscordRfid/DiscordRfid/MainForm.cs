@@ -18,9 +18,18 @@ namespace DiscordRfid
             {
                 _employeeCounters = value;
                 LblCounterEmployeesTotal.Text = _employeeCounters.Total.ToString();
+
+                PresentAbsentVisible = _employeeCounters.Total > 0;
                 LblCounterEmployeesPresent.Text = _employeeCounters.Present.ToString();
                 LblCounterEmployeesAbsent.Text = _employeeCounters.Absent.ToString();
             }
+        }
+
+        private bool PresentAbsentVisible
+        {
+            set => LblPresent.Visible = LblCounterEmployeesPresent.Visible =
+                LblAbsent.Visible = LblCounterEmployeesAbsent.Visible =
+                value;
         }
 
         public MainForm()
@@ -28,6 +37,7 @@ namespace DiscordRfid
             InitializeComponent();
             BotName = "";
             ServerName = "";
+            PresentAbsentVisible = false;
 
             InitClock();
 
