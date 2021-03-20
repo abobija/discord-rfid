@@ -2,10 +2,10 @@
 
 namespace DiscordRfid.Models
 {
-    public class RfidTagActivity
+    public class RfidTagActivity : BaseModel
     {
         public int Id;
-        public DateTime DateTime;
+        public DateTime CreatedAt;
         public RfidTag Tag;
         public bool Present;
     }

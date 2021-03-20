@@ -2,7 +2,7 @@
 
 namespace DiscordRfid.Models
 {
-    public class RfidTag
+    public class RfidTag : BaseModel
     {
         public int Id;
         public DateTime CreatedAt;

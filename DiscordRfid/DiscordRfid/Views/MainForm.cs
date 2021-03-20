@@ -205,5 +205,10 @@ namespace DiscordRfid.Views
                     $"{Environment.NewLine}https://github.com/abobija/discord-rfid"
                 );
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            new EmployeeForm().ShowDialog();
+        }
     }
 }

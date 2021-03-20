@@ -39,21 +39,22 @@
             this.ToolBtnExit = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolLblClock = new System.Windows.Forms.ToolStripLabel();
             this.PnlMain = new System.Windows.Forms.Panel();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.LinkLblEmployees = new System.Windows.Forms.LinkLabel();
+            this.LblCounterEmployeesTotal = new System.Windows.Forms.Label();
+            this.LblPresent = new System.Windows.Forms.Label();
+            this.LblCounterEmployeesPresent = new System.Windows.Forms.Label();
+            this.LblAbsent = new System.Windows.Forms.Label();
+            this.LblCounterEmployeesAbsent = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.PackagesListView = new DiscordRfid.Views.Controls.PackagesListView();
             this.label1 = new System.Windows.Forms.Label();
-            this.LinkLblEmployees = new System.Windows.Forms.LinkLabel();
-            this.LblPresent = new System.Windows.Forms.Label();
-            this.LblAbsent = new System.Windows.Forms.Label();
-            this.LblCounterEmployeesTotal = new System.Windows.Forms.Label();
-            this.LblCounterEmployeesPresent = new System.Windows.Forms.Label();
-            this.LblCounterEmployeesAbsent = new System.Windows.Forms.Label();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.button1 = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.PnlMain.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -137,6 +138,7 @@
             // 
             // PnlMain
             // 
+            this.PnlMain.Controls.Add(this.button1);
             this.PnlMain.Controls.Add(this.flowLayoutPanel1);
             this.PnlMain.Controls.Add(this.panel1);
             this.PnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -145,6 +147,82 @@
             this.PnlMain.Name = "PnlMain";
             this.PnlMain.Size = new System.Drawing.Size(904, 441);
             this.PnlMain.TabIndex = 3;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.AutoSize = true;
+            this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowLayoutPanel1.Controls.Add(this.LinkLblEmployees);
+            this.flowLayoutPanel1.Controls.Add(this.LblCounterEmployeesTotal);
+            this.flowLayoutPanel1.Controls.Add(this.LblPresent);
+            this.flowLayoutPanel1.Controls.Add(this.LblCounterEmployeesPresent);
+            this.flowLayoutPanel1.Controls.Add(this.LblAbsent);
+            this.flowLayoutPanel1.Controls.Add(this.LblCounterEmployeesAbsent);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(21, 12);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(375, 20);
+            this.flowLayoutPanel1.TabIndex = 11;
+            // 
+            // LinkLblEmployees
+            // 
+            this.LinkLblEmployees.AutoSize = true;
+            this.LinkLblEmployees.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F);
+            this.LinkLblEmployees.Location = new System.Drawing.Point(3, 0);
+            this.LinkLblEmployees.Name = "LinkLblEmployees";
+            this.LinkLblEmployees.Size = new System.Drawing.Size(82, 20);
+            this.LinkLblEmployees.TabIndex = 5;
+            this.LinkLblEmployees.TabStop = true;
+            this.LinkLblEmployees.Text = "Employees";
+            // 
+            // LblCounterEmployeesTotal
+            // 
+            this.LblCounterEmployeesTotal.AutoSize = true;
+            this.LblCounterEmployeesTotal.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F);
+            this.LblCounterEmployeesTotal.Location = new System.Drawing.Point(91, 0);
+            this.LblCounterEmployeesTotal.Name = "LblCounterEmployeesTotal";
+            this.LblCounterEmployeesTotal.Size = new System.Drawing.Size(17, 20);
+            this.LblCounterEmployeesTotal.TabIndex = 8;
+            this.LblCounterEmployeesTotal.Text = "5";
+            // 
+            // LblPresent
+            // 
+            this.LblPresent.AutoSize = true;
+            this.LblPresent.Location = new System.Drawing.Point(161, 0);
+            this.LblPresent.Margin = new System.Windows.Forms.Padding(50, 0, 3, 0);
+            this.LblPresent.Name = "LblPresent";
+            this.LblPresent.Size = new System.Drawing.Size(57, 20);
+            this.LblPresent.TabIndex = 6;
+            this.LblPresent.Text = "Present";
+            // 
+            // LblCounterEmployeesPresent
+            // 
+            this.LblCounterEmployeesPresent.AutoSize = true;
+            this.LblCounterEmployeesPresent.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F);
+            this.LblCounterEmployeesPresent.Location = new System.Drawing.Point(224, 0);
+            this.LblCounterEmployeesPresent.Name = "LblCounterEmployeesPresent";
+            this.LblCounterEmployeesPresent.Size = new System.Drawing.Size(17, 20);
+            this.LblCounterEmployeesPresent.TabIndex = 9;
+            this.LblCounterEmployeesPresent.Text = "3";
+            // 
+            // LblAbsent
+            // 
+            this.LblAbsent.AutoSize = true;
+            this.LblAbsent.Location = new System.Drawing.Point(294, 0);
+            this.LblAbsent.Margin = new System.Windows.Forms.Padding(50, 0, 3, 0);
+            this.LblAbsent.Name = "LblAbsent";
+            this.LblAbsent.Size = new System.Drawing.Size(55, 20);
+            this.LblAbsent.TabIndex = 7;
+            this.LblAbsent.Text = "Absent";
+            // 
+            // LblCounterEmployeesAbsent
+            // 
+            this.LblCounterEmployeesAbsent.AutoSize = true;
+            this.LblCounterEmployeesAbsent.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F);
+            this.LblCounterEmployeesAbsent.Location = new System.Drawing.Point(355, 0);
+            this.LblCounterEmployeesAbsent.Name = "LblCounterEmployeesAbsent";
+            this.LblCounterEmployeesAbsent.Size = new System.Drawing.Size(17, 20);
+            this.LblCounterEmployeesAbsent.TabIndex = 10;
+            this.LblCounterEmployeesAbsent.Text = "2";
             // 
             // panel1
             // 
@@ -186,81 +264,15 @@
             this.label1.Text = "Recent RFID packages";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // LinkLblEmployees
+            // button1
             // 
-            this.LinkLblEmployees.AutoSize = true;
-            this.LinkLblEmployees.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F);
-            this.LinkLblEmployees.Location = new System.Drawing.Point(3, 0);
-            this.LinkLblEmployees.Name = "LinkLblEmployees";
-            this.LinkLblEmployees.Size = new System.Drawing.Size(82, 20);
-            this.LinkLblEmployees.TabIndex = 5;
-            this.LinkLblEmployees.TabStop = true;
-            this.LinkLblEmployees.Text = "Employees";
-            // 
-            // LblPresent
-            // 
-            this.LblPresent.AutoSize = true;
-            this.LblPresent.Location = new System.Drawing.Point(161, 0);
-            this.LblPresent.Margin = new System.Windows.Forms.Padding(50, 0, 3, 0);
-            this.LblPresent.Name = "LblPresent";
-            this.LblPresent.Size = new System.Drawing.Size(57, 20);
-            this.LblPresent.TabIndex = 6;
-            this.LblPresent.Text = "Present";
-            // 
-            // LblAbsent
-            // 
-            this.LblAbsent.AutoSize = true;
-            this.LblAbsent.Location = new System.Drawing.Point(294, 0);
-            this.LblAbsent.Margin = new System.Windows.Forms.Padding(50, 0, 3, 0);
-            this.LblAbsent.Name = "LblAbsent";
-            this.LblAbsent.Size = new System.Drawing.Size(55, 20);
-            this.LblAbsent.TabIndex = 7;
-            this.LblAbsent.Text = "Absent";
-            // 
-            // LblCounterEmployeesTotal
-            // 
-            this.LblCounterEmployeesTotal.AutoSize = true;
-            this.LblCounterEmployeesTotal.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F);
-            this.LblCounterEmployeesTotal.Location = new System.Drawing.Point(91, 0);
-            this.LblCounterEmployeesTotal.Name = "LblCounterEmployeesTotal";
-            this.LblCounterEmployeesTotal.Size = new System.Drawing.Size(17, 20);
-            this.LblCounterEmployeesTotal.TabIndex = 8;
-            this.LblCounterEmployeesTotal.Text = "5";
-            // 
-            // LblCounterEmployeesPresent
-            // 
-            this.LblCounterEmployeesPresent.AutoSize = true;
-            this.LblCounterEmployeesPresent.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F);
-            this.LblCounterEmployeesPresent.Location = new System.Drawing.Point(224, 0);
-            this.LblCounterEmployeesPresent.Name = "LblCounterEmployeesPresent";
-            this.LblCounterEmployeesPresent.Size = new System.Drawing.Size(17, 20);
-            this.LblCounterEmployeesPresent.TabIndex = 9;
-            this.LblCounterEmployeesPresent.Text = "3";
-            // 
-            // LblCounterEmployeesAbsent
-            // 
-            this.LblCounterEmployeesAbsent.AutoSize = true;
-            this.LblCounterEmployeesAbsent.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F);
-            this.LblCounterEmployeesAbsent.Location = new System.Drawing.Point(355, 0);
-            this.LblCounterEmployeesAbsent.Name = "LblCounterEmployeesAbsent";
-            this.LblCounterEmployeesAbsent.Size = new System.Drawing.Size(17, 20);
-            this.LblCounterEmployeesAbsent.TabIndex = 10;
-            this.LblCounterEmployeesAbsent.Text = "2";
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.AutoSize = true;
-            this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel1.Controls.Add(this.LinkLblEmployees);
-            this.flowLayoutPanel1.Controls.Add(this.LblCounterEmployeesTotal);
-            this.flowLayoutPanel1.Controls.Add(this.LblPresent);
-            this.flowLayoutPanel1.Controls.Add(this.LblCounterEmployeesPresent);
-            this.flowLayoutPanel1.Controls.Add(this.LblAbsent);
-            this.flowLayoutPanel1.Controls.Add(this.LblCounterEmployeesAbsent);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(21, 12);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(375, 20);
-            this.flowLayoutPanel1.TabIndex = 11;
+            this.button1.Location = new System.Drawing.Point(156, 118);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 41);
+            this.button1.TabIndex = 12;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // MainForm
             // 
@@ -282,9 +294,9 @@
             this.toolStrip1.PerformLayout();
             this.PnlMain.ResumeLayout(false);
             this.PnlMain.PerformLayout();
-            this.panel1.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -311,6 +323,7 @@
         private System.Windows.Forms.Label LblPresent;
         private System.Windows.Forms.LinkLabel LinkLblEmployees;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Button button1;
     }
 }
 

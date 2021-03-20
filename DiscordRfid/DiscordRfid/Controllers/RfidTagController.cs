@@ -25,10 +25,11 @@ namespace DiscordRfid.Controllers
                 using (var cmd = Connection.CreateCommand())
                 {
                     cmd.CommandText = $"CREATE TABLE {TableName} (" +
-                        "Id            INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "CreatedAt     DATETIME NOT NULL DEFAULT (DateTime('now')), " +
-                        "SerialNumber  INTEGER NOT NULL, " +
-                        $"EmployeeId   INTEGER NOT NULL REFERENCES {ActivityTableName}(Id) ON UPDATE CASCADE ON DELETE CASCADE" +
+                        "   Id            INTEGER  PRIMARY KEY AUTOINCREMENT" +
+                        ",  CreatedAt     DATETIME NOT NULL DEFAULT (DateTime('now'))" +
+                        ",  SerialNumber  INTEGER  NOT NULL" +
+                        $", EmployeeId    INTEGER  NOT NULL REFERENCES {ActivityTableName}(Id) ON UPDATE CASCADE ON DELETE CASCADE" +
+                        ",  UNIQUE(SerialNumber, EmployeeId)" +
                     ")";
 
                     cmd.ExecuteNonQuery();
@@ -42,10 +43,10 @@ namespace DiscordRfid.Controllers
                 using (var cmd = Connection.CreateCommand())
                 {
                     cmd.CommandText = $"CREATE TABLE {ActivityTableName} (" +
-                        "Id            INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "\"DateTime\"  DATETIME NOT NULL DEFAULT (DateTime('now')), " +
-                        $"TagId        INTEGER NOT NULL REFERENCES {TableName}(Id) ON UPDATE CASCADE ON DELETE CASCADE, " +
-                        "Present       BOOLEAN NOT NULL DEFAULT 0" +
+                        "   Id         INTEGER  PRIMARY KEY AUTOINCREMENT" +
+                        @", CreatedAt  DATETIME NOT NULL DEFAULT (DateTime('now'))" +
+                        $", TagId      INTEGER  NOT NULL REFERENCES {TableName}(Id) ON UPDATE CASCADE ON DELETE CASCADE" +
+                        ",  Present    BOOLEAN  NOT NULL DEFAULT 0" +
                     ")";
 
                     cmd.ExecuteNonQuery();
