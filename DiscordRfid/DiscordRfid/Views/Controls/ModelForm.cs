@@ -1,10 +1,13 @@
-﻿using System;
+﻿using DiscordRfid.Controllers;
+using DiscordRfid.Models;
+using DiscordRfid.Services;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace DiscordRfid.Views.Controls
 {
-    public class ModelForm<T> : Form where T : class
+    public class ModelForm<T> : Form where T : BaseModel
     {
         private T _model;
 
@@ -52,8 +55,8 @@ namespace DiscordRfid.Views.Controls
                 AutoSizeMode = AutoSizeMode.GrowAndShrink,
             };
 
-            BtnModelSave.Click += OnModelSave;
-            BtnModelCancel.Click += OnModelCancel;
+            BtnModelSave.Click += OnModelSaveClick;
+            BtnModelCancel.Click += OnModelCancelClick;
 
             var buttonsPanel = new FlowLayoutPanel
             {
@@ -73,16 +76,18 @@ namespace DiscordRfid.Views.Controls
             buttonsPanel.PerformLayout();
         }
 
-        private void OnModelCancel(object sender, EventArgs e)
+        private void OnModelCancelClick(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
         }
 
-        private void OnModelSave(object sender, EventArgs e)
+        private void OnModelSaveClick(object sender, EventArgs e)
         {
             try
             {
-                NewModel = ConstructModel();
+                var model = ConstructModel();
+                model.Validate();
+                SaveModel(model);
                 DialogResult = DialogResult.OK;
             }
             catch(Exception ex)
@@ -91,9 +96,23 @@ namespace DiscordRfid.Views.Controls
             }
         }
 
-        protected virtual void PopulateForm()
-        {
+        protected virtual void PopulateForm() { }
 
+        protected virtual void SaveModel(T validatedModel)
+        {
+            try
+            {
+                using (var con = Database.Instance.CreateConnection())
+                {
+                    con.Open();
+                    var ctrl = BaseController<T>.FromModelType(con);
+                    NewModel = Model == null ? ctrl.Save(validatedModel) : ctrl.Update(validatedModel);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Error(ex);
+            }
         }
 
         protected virtual T ConstructModel()

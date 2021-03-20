@@ -11,23 +11,19 @@ namespace DiscordRfid.Views
             Model = employee;
         }
 
-        protected override Employee ConstructModel()
-        {
-            var emp = new Employee
-            {
-                FirstName = TxtFirstName.Text.Trim(),
-                LastName = TxtLastName.Text.Trim()
-            };
-
-            emp.Validate();
-
-            return emp;
-        }
-
         protected override void PopulateForm()
         {
             TxtFirstName.Text = Model.FirstName;
             TxtLastName.Text = Model.LastName;
+        }
+
+        protected override Employee ConstructModel()
+        {
+            return new Employee
+            {
+                FirstName = TxtFirstName.Text.Trim(),
+                LastName = TxtLastName.Text.Trim()
+            };
         }
     }
 }

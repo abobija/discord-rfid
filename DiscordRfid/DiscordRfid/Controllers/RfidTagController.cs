@@ -1,9 +1,10 @@
-﻿using Serilog;
+﻿using DiscordRfid.Models;
+using Serilog;
 using System.Data.Common;
 
 namespace DiscordRfid.Controllers
 {
-    public class RfidTagController : BaseController
+    public class RfidTagController : BaseController<RfidTag>
     {
         public override string TableName => "RfidTag";
         public string ActivityTableName => "RfidTagActivity";

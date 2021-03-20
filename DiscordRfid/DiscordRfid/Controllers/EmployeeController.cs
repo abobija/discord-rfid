@@ -1,10 +1,11 @@
 ﻿using DiscordRfid.Dtos;
+using DiscordRfid.Models;
 using Serilog;
 using System.Data.Common;
 
 namespace DiscordRfid.Controllers
 {
-    public class EmployeeController : BaseController
+    public class EmployeeController : BaseController<Employee>
     {
         public override string TableName => "Employee";
 
