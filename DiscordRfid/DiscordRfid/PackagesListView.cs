@@ -1,10 +1,11 @@
-﻿using Serilog;
+﻿using DiscordRfid.Com;
+using Serilog;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace DiscordRfid.Com.Ctrl
+namespace DiscordRfid
 {
     public class PackagesListView : ListView
     {

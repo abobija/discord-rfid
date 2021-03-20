@@ -88,8 +88,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Com\Ctrl\PackageListViewItem.cs" />
-    <Compile Include="Com\Ctrl\PackagesListView.cs">
+    <Compile Include="PackageListViewItem.cs" />
+    <Compile Include="PackagesListView.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Com\Device.cs" />

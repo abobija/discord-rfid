@@ -1,6 +1,7 @@
-﻿using System.Windows.Forms;
+﻿using DiscordRfid.Com;
+using System.Windows.Forms;
 
-namespace DiscordRfid.Com.Ctrl
+namespace DiscordRfid
 {
     public class PackageListViewItem : ListViewItem
     {

@@ -42,7 +42,7 @@ namespace DiscordRfid
             this.PnlMain = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.PackagesListView = new DiscordRfid.Com.Ctrl.PackagesListView();
+            this.PackagesListView = new DiscordRfid.PackagesListView();
             this.ToolBtnAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -227,7 +227,7 @@ namespace DiscordRfid
         private System.Windows.Forms.ToolStripLabel ToolLblClock;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
-        private Com.Ctrl.PackagesListView PackagesListView;
+        private PackagesListView PackagesListView;
         private System.Windows.Forms.ToolStripMenuItem ToolBtnAbout;
     }
 }
