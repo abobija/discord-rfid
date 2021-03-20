@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 
-namespace DiscordRfid
+namespace DiscordRfid.Services
 {
     public class Configuration : INotifyPropertyChanged
     {

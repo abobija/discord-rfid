@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using DiscordRfid.Views;
+using Serilog;
 using System;
 using System.IO;
 using System.Windows.Forms;

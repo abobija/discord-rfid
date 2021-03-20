@@ -1,11 +1,11 @@
-﻿using DiscordRfid.Com;
+﻿using DiscordRfid.Communication;
 using Serilog;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace DiscordRfid
+namespace DiscordRfid.Views.Controls
 {
     public class PackagesListView : ListView
     {
@@ -18,7 +18,7 @@ namespace DiscordRfid
 
         public PackagesListView() : base()
         {
-            View = View.Details;
+            View = System.Windows.Forms.View.Details;
             BorderStyle = BorderStyle.None;
             FullRowSelect = true;
             GridLines = true;

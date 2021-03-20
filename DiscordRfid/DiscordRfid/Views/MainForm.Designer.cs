@@ -1,5 +1,4 @@
-﻿
-namespace DiscordRfid
+﻿namespace DiscordRfid.Views
 {
     partial class MainForm
     {
@@ -41,7 +40,7 @@ namespace DiscordRfid
             this.ToolLblClock = new System.Windows.Forms.ToolStripLabel();
             this.PnlMain = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.PackagesListView = new DiscordRfid.PackagesListView();
+            this.PackagesListView = new DiscordRfid.Views.Controls.PackagesListView();
             this.label1 = new System.Windows.Forms.Label();
             this.LinkLblEmployees = new System.Windows.Forms.LinkLabel();
             this.LblPresent = new System.Windows.Forms.Label();
@@ -303,7 +302,7 @@ namespace DiscordRfid
         private System.Windows.Forms.ToolStripLabel ToolLblClock;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
-        private PackagesListView PackagesListView;
+        private DiscordRfid.Views.Controls.PackagesListView PackagesListView;
         private System.Windows.Forms.ToolStripMenuItem ToolBtnAbout;
         private System.Windows.Forms.Label LblCounterEmployeesAbsent;
         private System.Windows.Forms.Label LblCounterEmployeesPresent;

@@ -2,7 +2,7 @@
 using Discord.Net;
 using Discord.Rest;
 using Discord.WebSocket;
-using DiscordRfid.Com;
+using DiscordRfid.Communication;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace DiscordRfid
+namespace DiscordRfid.Services
 {
     public class Bot
     {

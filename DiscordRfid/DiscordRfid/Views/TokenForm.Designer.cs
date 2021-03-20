@@ -1,5 +1,5 @@
 ﻿
-namespace DiscordRfid
+namespace DiscordRfid.Views
 {
     partial class TokenForm
     {

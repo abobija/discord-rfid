@@ -1,4 +1,4 @@
-﻿namespace DiscordRfid.Com
+﻿namespace DiscordRfid.Communication
 {
     public class Device
     {

@@ -1,18 +1,12 @@
-﻿using DiscordRfid.Models;
+﻿using DiscordRfid.Controllers;
+using DiscordRfid.Models;
 using Microsoft.Data.Sqlite;
 using Serilog;
 using System;
 using System.IO;
 
-namespace DiscordRfid
+namespace DiscordRfid.Services
 {
-    public class EmployeeCounters
-    {
-        public int Total;
-        public int Present;
-        public int Absent;
-    }
-
     public class Database
     {
         public static string EmployeeTableName = "Employee";
@@ -42,33 +36,6 @@ namespace DiscordRfid
             InitSchema();
         }
 
-        public EmployeeCounters GetEmployeeCounters()
-        {
-            using (var con = CreateConnection())
-            using (var cmd = con.CreateCommand())
-            {
-                con.Open();
-
-                cmd.CommandText = "SELECT " +
-                    "COUNT(*) AS Total" +
-                    ", IFNULL(SUM(Present), 0) AS Present" +
-                    ", IFNULL(SUM(NOT Present), 0) AS Absent" +
-                    $" FROM {EmployeeTableName}";
-
-                using (var reader = cmd.ExecuteReader())
-                {
-                    reader.Read();
-
-                    return new EmployeeCounters
-                    {
-                        Total = reader.GetInt32ByName("Total"),
-                        Present = reader.GetInt32ByName("Present"),
-                        Absent = reader.GetInt32ByName("Absent")
-                    };
-                }
-            }
-        }
-
         protected void InitSchema()
         {
             using (var con = CreateConnection())
@@ -77,17 +44,19 @@ namespace DiscordRfid
 
                 if (!TableExists(EmployeeTableName, con))
                 {
-                    Employee.CreateTable(con);
+                    new EmployeeController(con).CreateTable();
                 }
+
+                var rfidCtrl = new RfidTagController(con);
 
                 if (!TableExists(RfidTagTableName, con))
                 {
-                    RfidTag.CreateTable(con);
+                    rfidCtrl.CreateTable();
                 }
 
                 if (!TableExists(RfidTagActivityTableName, con))
                 {
-                    RfidTagActivity.CreateTable(con);
+                    rfidCtrl.CreateActivityTable();
                 }
             }
         }

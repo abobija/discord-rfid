@@ -115,34 +115,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Database.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\RfidTagController.cs" />
+    <Compile Include="Dtos\EmployeeCounters.cs" />
+    <Compile Include="Services\Database.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\RfidTag.cs" />
     <Compile Include="Models\RfidTagActivity.cs" />
-    <Compile Include="PackageListViewItem.cs" />
-    <Compile Include="PackagesListView.cs">
+    <Compile Include="Views\Controls\PackageListViewItem.cs" />
+    <Compile Include="Views\Controls\PackagesListView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Com\Device.cs" />
-    <Compile Include="Com\Package.cs" />
-    <Compile Include="Configuration.cs" />
-    <Compile Include="Bot.cs" />
+    <Compile Include="Communication\Device.cs" />
+    <Compile Include="Communication\Package.cs" />
+    <Compile Include="Services\Configuration.cs" />
+    <Compile Include="Services\Bot.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="MainForm.cs">
+    <Compile Include="Views\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="Views\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TokenForm.cs">
+    <Compile Include="Views\TokenForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TokenForm.Designer.cs">
+    <Compile Include="Views\TokenForm.Designer.cs">
       <DependentUpon>TokenForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="Views\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -154,7 +158,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="TokenForm.resx">
+    <EmbeddedResource Include="Views\TokenForm.resx">
       <DependentUpon>TokenForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />

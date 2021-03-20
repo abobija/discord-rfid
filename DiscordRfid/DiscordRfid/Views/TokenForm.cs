@@ -1,7 +1,7 @@
 ﻿using Serilog;
 using System.Windows.Forms;
 
-namespace DiscordRfid
+namespace DiscordRfid.Views
 {
     public partial class TokenForm : Form
     {

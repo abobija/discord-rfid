@@ -4,7 +4,7 @@ using Serilog;
 using System;
 using System.Text;
 
-namespace DiscordRfid.Com
+namespace DiscordRfid.Communication
 {
     public enum PackageType
     {

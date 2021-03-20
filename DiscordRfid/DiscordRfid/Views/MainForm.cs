@@ -1,8 +1,11 @@
-﻿using System;
+﻿using DiscordRfid.Controllers;
+using DiscordRfid.Dtos;
+using DiscordRfid.Services;
+using System;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace DiscordRfid
+namespace DiscordRfid.Views
 {
     public partial class MainForm : Form
     {
@@ -118,7 +121,11 @@ namespace DiscordRfid
         {
             try
             {
-                EmployeeCounters = Database.Instance.GetEmployeeCounters();
+                using (var con = Database.Instance.CreateConnection())
+                {
+                    con.Open();
+                    EmployeeCounters = new EmployeeController(con).GetCounters();
+                }
             }
             catch(Exception ex)
             {
