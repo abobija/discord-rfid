@@ -1,45 +1,55 @@
-﻿using DiscordRfid.Services;
-using Microsoft.Data.Sqlite;
-using Serilog;
+﻿using Serilog;
+using System.Data.Common;
 
 namespace DiscordRfid.Controllers
 {
     public class RfidTagController : BaseController
     {
-        public RfidTagController(SqliteConnection connection)
+        public override string TableName => "RfidTag";
+        public string ActivityTableName => "RfidTagActivity";
+
+        public RfidTagController(DbConnection connection)
             : base(connection) { }
 
-        public void CreateTable()
+        public override bool SchemaExists()
         {
-            Log.Debug($"Creating {Database.RfidTagTableName} table");
-
-            using (var cmd = Connection.CreateCommand())
-            {
-                cmd.CommandText = $"CREATE TABLE {Database.RfidTagTableName} (" +
-                    "Id            INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "CreatedAt     DATETIME NOT NULL DEFAULT (DateTime('now')), " +
-                    "SerialNumber  INTEGER NOT NULL, " +
-                    $"EmployeeId   INTEGER NOT NULL REFERENCES {Database.EmployeeTableName}(Id) ON UPDATE CASCADE ON DELETE CASCADE" +
-                ")";
-
-                cmd.ExecuteNonQuery();
-            }
+            return TableExists(TableName) && TableExists(ActivityTableName);
         }
 
-        public void CreateActivityTable()
+        public override void CreateSchema()
         {
-            Log.Debug($"Creating {Database.RfidTagActivityTableName} table");
-
-            using (var cmd = Connection.CreateCommand())
+            if(!TableExists(TableName)) // maybe tag exists but activity don't
             {
-                cmd.CommandText = $"CREATE TABLE {Database.RfidTagActivityTableName} (" +
-                    "Id            INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "\"DateTime\"  DATETIME NOT NULL DEFAULT (DateTime('now')), " +
-                    $"TagId        INTEGER NOT NULL REFERENCES {Database.RfidTagTableName}(Id) ON UPDATE CASCADE ON DELETE CASCADE, " +
-                    "Present       BOOLEAN NOT NULL DEFAULT 0" +
-                ")";
+                Log.Debug($"Creating {TableName} table");
 
-                cmd.ExecuteNonQuery();
+                using (var cmd = Connection.CreateCommand())
+                {
+                    cmd.CommandText = $"CREATE TABLE {TableName} (" +
+                        "Id            INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        "CreatedAt     DATETIME NOT NULL DEFAULT (DateTime('now')), " +
+                        "SerialNumber  INTEGER NOT NULL, " +
+                        $"EmployeeId   INTEGER NOT NULL REFERENCES {ActivityTableName}(Id) ON UPDATE CASCADE ON DELETE CASCADE" +
+                    ")";
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            
+            if(!TableExists(ActivityTableName)) // maybe activity exists but rfid don't
+            {
+                Log.Debug($"Creating {ActivityTableName} table");
+
+                using (var cmd = Connection.CreateCommand())
+                {
+                    cmd.CommandText = $"CREATE TABLE {ActivityTableName} (" +
+                        "Id            INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        "\"DateTime\"  DATETIME NOT NULL DEFAULT (DateTime('now')), " +
+                        $"TagId        INTEGER NOT NULL REFERENCES {TableName}(Id) ON UPDATE CASCADE ON DELETE CASCADE, " +
+                        "Present       BOOLEAN NOT NULL DEFAULT 0" +
+                    ")";
+
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
     }

@@ -10,8 +10,6 @@ namespace DiscordRfid.Services
     {
         public static string FileName = "config.json";
 
-        protected static Configuration Singletone;
-
         public static int RecentPackagesLoadLimit = 20;
 
         #region Should not be changed
@@ -45,37 +43,12 @@ namespace DiscordRfid.Services
             }
         }
 
-        public static Configuration Instance
-        {
-            get
-            {
-                if (Singletone == null)
-                {
-                    if (!Exists)
-                    {
-                        Log.Debug("Configuration not found. Creating new one.");
-                        Singletone = new Configuration();
-                        Singletone.Save();
-                    }
-                    else
-                    {
-                        Log.Debug("Configuration found");
-                        Singletone = JsonConvert.DeserializeObject<Configuration>(File.ReadAllText(FileName));
-                    }
-
-                    Singletone.PropertyChangeNotifyEnabled = true;
-                }
-
-                return Singletone;
-            }
-        }
-
         private void Save()
         {
             lock(fileLock)
             {
                 Log.Verbose("Saving configuration");
-                File.WriteAllText(FileName, JsonConvert.SerializeObject(Singletone, Formatting.Indented));
+                File.WriteAllText(FileName, JsonConvert.SerializeObject(_instance, Formatting.Indented));
             }
         }
 
@@ -90,5 +63,34 @@ namespace DiscordRfid.Services
             Save();
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
+
+        #region Singletone
+        protected static Configuration _instance;
+
+        public static Configuration Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    if (!Exists)
+                    {
+                        Log.Debug("Configuration not found. Creating new one.");
+                        _instance = new Configuration();
+                        _instance.Save();
+                    }
+                    else
+                    {
+                        Log.Debug("Configuration found");
+                        _instance = JsonConvert.DeserializeObject<Configuration>(File.ReadAllText(FileName));
+                    }
+
+                    _instance.PropertyChangeNotifyEnabled = true;
+                }
+
+                return _instance;
+            }
+        }
+        #endregion
     }
 }

@@ -14,7 +14,6 @@ namespace DiscordRfid.Services
 {
     public class Bot
     {
-        protected static Bot Singletone;
         private static DiscordSocketClient Client;
 
         public string Name => Client?.CurrentUser?.Username;
@@ -328,17 +327,21 @@ namespace DiscordRfid.Services
             }
         }
 
+        #region Singletone
+        protected static Bot _instance;
+
         public static Bot Instance
         {
             get
             {
-                if (Singletone == null)
+                if (_instance == null)
                 {
-                    Singletone = new Bot();
+                    _instance = new Bot();
                 }
 
-                return Singletone;
+                return _instance;
             }
         }
+        #endregion
     }
 }

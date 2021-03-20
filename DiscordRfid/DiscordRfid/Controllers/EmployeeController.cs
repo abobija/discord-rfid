@@ -1,14 +1,33 @@
 ﻿using DiscordRfid.Dtos;
-using DiscordRfid.Services;
-using Microsoft.Data.Sqlite;
 using Serilog;
+using System.Data.Common;
 
 namespace DiscordRfid.Controllers
 {
     public class EmployeeController : BaseController
     {
-        public EmployeeController(SqliteConnection connection)
+        public override string TableName => "Employee";
+
+        public EmployeeController(DbConnection connection)
             : base(connection) { }
+
+        public override void CreateSchema()
+        {
+            Log.Debug($"Creating {TableName} table");
+
+            using (var cmd = Connection.CreateCommand())
+            {
+                cmd.CommandText = $"CREATE TABLE {TableName} (" +
+                    "Id         INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "CreatedAt  DATETIME NOT NULL DEFAULT (DateTime('now')), " +
+                    "FirstName  TEXT, " +
+                    "LastName   TEXT NOT NULL, " +
+                    "Present    BOOLEAN NOT NULL DEFAULT 0" +
+                ")";
+
+                cmd.ExecuteNonQuery();
+            }
+        }
 
         public EmployeeCounters GetCounters()
         {
@@ -18,7 +37,7 @@ namespace DiscordRfid.Controllers
                     "COUNT(*) AS Total" +
                     ", IFNULL(SUM(Present), 0) AS Present" +
                     ", IFNULL(SUM(NOT Present), 0) AS Absent" +
-                    $" FROM {Database.EmployeeTableName}";
+                    $" FROM {TableName}";
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -31,24 +50,6 @@ namespace DiscordRfid.Controllers
                         Absent = reader.GetInt32ByName("Absent")
                     };
                 }
-            }
-        }
-
-        public void CreateTable()
-        {
-            Log.Debug($"Creating {Database.EmployeeTableName} table");
-
-            using (var cmd = Connection.CreateCommand())
-            {
-                cmd.CommandText = $"CREATE TABLE {Database.EmployeeTableName} (" +
-                    "Id         INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "CreatedAt  DATETIME NOT NULL DEFAULT (DateTime('now')), " +
-                    "FirstName  TEXT, " +
-                    "LastName   TEXT NOT NULL, " +
-                    "Present    BOOLEAN NOT NULL DEFAULT 0" +
-                ")";
-
-                cmd.ExecuteNonQuery();
             }
         }
     }
