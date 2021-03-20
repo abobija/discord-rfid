@@ -39,6 +39,7 @@
             this.ToolBtnExit = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolLblClock = new System.Windows.Forms.ToolStripLabel();
             this.PnlMain = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.LinkLblEmployees = new System.Windows.Forms.LinkLabel();
             this.LblCounterEmployeesTotal = new System.Windows.Forms.Label();
@@ -47,9 +48,8 @@
             this.LblAbsent = new System.Windows.Forms.Label();
             this.LblCounterEmployeesAbsent = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.PackagesListView = new DiscordRfid.Views.Controls.PackagesListView();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.PackagesListView = new DiscordRfid.Views.Controls.PackagesListView();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.PnlMain.SuspendLayout();
@@ -148,16 +148,26 @@
             this.PnlMain.Size = new System.Drawing.Size(904, 441);
             this.PnlMain.TabIndex = 3;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(98, 109);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(127, 41);
+            this.button1.TabIndex = 12;
+            this.button1.Text = "new employee";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.AutoSize = true;
             this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel1.Controls.Add(this.LinkLblEmployees);
             this.flowLayoutPanel1.Controls.Add(this.LblCounterEmployeesTotal);
-            this.flowLayoutPanel1.Controls.Add(this.LblPresent);
-            this.flowLayoutPanel1.Controls.Add(this.LblCounterEmployeesPresent);
             this.flowLayoutPanel1.Controls.Add(this.LblAbsent);
             this.flowLayoutPanel1.Controls.Add(this.LblCounterEmployeesAbsent);
+            this.flowLayoutPanel1.Controls.Add(this.LblPresent);
+            this.flowLayoutPanel1.Controls.Add(this.LblCounterEmployeesPresent);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(21, 12);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(375, 20);
@@ -187,7 +197,7 @@
             // LblPresent
             // 
             this.LblPresent.AutoSize = true;
-            this.LblPresent.Location = new System.Drawing.Point(161, 0);
+            this.LblPresent.Location = new System.Drawing.Point(292, 0);
             this.LblPresent.Margin = new System.Windows.Forms.Padding(50, 0, 3, 0);
             this.LblPresent.Name = "LblPresent";
             this.LblPresent.Size = new System.Drawing.Size(57, 20);
@@ -198,7 +208,7 @@
             // 
             this.LblCounterEmployeesPresent.AutoSize = true;
             this.LblCounterEmployeesPresent.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F);
-            this.LblCounterEmployeesPresent.Location = new System.Drawing.Point(224, 0);
+            this.LblCounterEmployeesPresent.Location = new System.Drawing.Point(355, 0);
             this.LblCounterEmployeesPresent.Name = "LblCounterEmployeesPresent";
             this.LblCounterEmployeesPresent.Size = new System.Drawing.Size(17, 20);
             this.LblCounterEmployeesPresent.TabIndex = 9;
@@ -207,7 +217,7 @@
             // LblAbsent
             // 
             this.LblAbsent.AutoSize = true;
-            this.LblAbsent.Location = new System.Drawing.Point(294, 0);
+            this.LblAbsent.Location = new System.Drawing.Point(161, 0);
             this.LblAbsent.Margin = new System.Windows.Forms.Padding(50, 0, 3, 0);
             this.LblAbsent.Name = "LblAbsent";
             this.LblAbsent.Size = new System.Drawing.Size(55, 20);
@@ -218,7 +228,7 @@
             // 
             this.LblCounterEmployeesAbsent.AutoSize = true;
             this.LblCounterEmployeesAbsent.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F);
-            this.LblCounterEmployeesAbsent.Location = new System.Drawing.Point(355, 0);
+            this.LblCounterEmployeesAbsent.Location = new System.Drawing.Point(222, 0);
             this.LblCounterEmployeesAbsent.Name = "LblCounterEmployeesAbsent";
             this.LblCounterEmployeesAbsent.Size = new System.Drawing.Size(17, 20);
             this.LblCounterEmployeesAbsent.TabIndex = 10;
@@ -236,6 +246,17 @@
             this.panel1.Size = new System.Drawing.Size(306, 441);
             this.panel1.TabIndex = 1;
             // 
+            // label1
+            // 
+            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label1.ForeColor = System.Drawing.Color.DimGray;
+            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(303, 32);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Recent RFID packages";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // PackagesListView
             // 
             this.PackagesListView.BackColor = System.Drawing.Color.Gainsboro;
@@ -252,27 +273,6 @@
             this.PackagesListView.TabIndex = 1;
             this.PackagesListView.UseCompatibleStateImageBehavior = false;
             this.PackagesListView.View = System.Windows.Forms.View.Details;
-            // 
-            // label1
-            // 
-            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label1.ForeColor = System.Drawing.Color.DimGray;
-            this.label1.Location = new System.Drawing.Point(3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(303, 32);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Recent RFID packages";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(156, 118);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 41);
-            this.button1.TabIndex = 12;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // MainForm
             // 

@@ -1,5 +1,4 @@
-﻿
-namespace DiscordRfid.Views
+﻿namespace DiscordRfid.Views
 {
     partial class EmployeeForm
     {

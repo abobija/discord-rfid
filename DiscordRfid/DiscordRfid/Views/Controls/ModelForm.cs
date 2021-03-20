@@ -106,7 +106,7 @@ namespace DiscordRfid.Views.Controls
                 {
                     con.Open();
                     var ctrl = BaseController<T>.FromModelType(con);
-                    NewModel = Model == null ? ctrl.Save(validatedModel) : ctrl.Update(validatedModel);
+                    NewModel = Model == null ? ctrl.Create(validatedModel) : ctrl.Update(validatedModel);
                 }
             }
             catch (Exception ex)

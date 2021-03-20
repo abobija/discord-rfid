@@ -32,14 +32,33 @@ namespace DiscordRfid.Controllers
             return Activator.CreateInstance(ctrlType, connection) as BaseController<T>;
         }
 
-        public virtual T Save(T model)
+        public virtual T GetById(int id)
         {
-            throw new NotImplementedException($"Save not implemented for controller of model {typeof(T).Name}");
+            throw new NotImplementedException($"Method GetById not implemented for controller of model {typeof(T).Name}");
+        }
+
+        protected T Create(string sql, Action<DbCommand> addParameters)
+        {
+            int lastId;
+
+            using (var cmd = Connection.CreateCommand())
+            {
+                cmd.CommandText = $"{sql}; SELECT last_insert_rowid()";
+                addParameters(cmd);
+                lastId = Convert.ToInt32(cmd.ExecuteScalar());
+            }
+
+            return GetById(lastId);
+        }
+
+        public virtual T Create(T model)
+        {
+            throw new NotImplementedException($"Method Save not implemented for controller of model {typeof(T).Name}");
         }
 
         public virtual T Update(T model)
         {
-            throw new NotImplementedException($"Update not implemented for controller of model {typeof(T).Name}");
+            throw new NotImplementedException($"Method Update not implemented for controller of model {typeof(T).Name}");
         }
 
         protected bool TableExists(string tableName)

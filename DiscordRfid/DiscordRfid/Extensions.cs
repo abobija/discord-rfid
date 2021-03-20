@@ -7,6 +7,15 @@ namespace DiscordRfid
 {
     public static class Extensions
     {
+        public static DbCommand AddParameter(this DbCommand cmd, string name, object value)
+        {
+            var param = cmd.CreateParameter();
+            param.ParameterName = name;
+            param.Value = value ?? DBNull.Value;
+            cmd.Parameters.Add(param);
+
+            return cmd;
+        }
         public static int GetInt32ByName(this DbDataReader reader, string columnName)
         {
             return reader.GetInt32(reader.GetOrdinal(columnName));

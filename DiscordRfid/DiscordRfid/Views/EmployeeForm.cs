@@ -21,7 +21,7 @@ namespace DiscordRfid.Views
         {
             return new Employee
             {
-                FirstName = TxtFirstName.Text.Trim(),
+                FirstName = string.IsNullOrWhiteSpace(TxtFirstName.Text) ? null : TxtFirstName.Text.Trim(),
                 LastName = TxtLastName.Text.Trim()
             };
         }

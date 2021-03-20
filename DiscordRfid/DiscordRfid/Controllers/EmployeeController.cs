@@ -12,22 +12,18 @@ namespace DiscordRfid.Controllers
         public EmployeeController(DbConnection connection)
             : base(connection) { }
 
-        public override void CreateSchema()
+        public override Employee Create(Employee employee)
         {
-            Log.Debug($"Creating {TableName} table");
+            return Create($"INSERT INTO {TableName}(FirstName, LastName) VALUES(@FirstName, @LastName)",
+                    cmd => cmd
+                    .AddParameter("@FirstName", employee.FirstName)
+                    .AddParameter("@LastName", employee.LastName)
+                );
+        }
 
-            using (var cmd = Connection.CreateCommand())
-            {
-                cmd.CommandText = $"CREATE TABLE {TableName} (" +
-                    "Id         INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "CreatedAt  DATETIME NOT NULL DEFAULT (DateTime('now')), " +
-                    "FirstName  TEXT, " +
-                    "LastName   TEXT NOT NULL, " +
-                    "Present    BOOLEAN NOT NULL DEFAULT 0" +
-                ")";
-
-                cmd.ExecuteNonQuery();
-            }
+        public override Employee GetById(int id)
+        {
+            return base.GetById(id);
         }
 
         public EmployeeCounters GetCounters()
@@ -51,6 +47,24 @@ namespace DiscordRfid.Controllers
                         Absent = reader.GetInt32ByName("Absent")
                     };
                 }
+            }
+        }
+
+        public override void CreateSchema()
+        {
+            Log.Debug($"Creating {TableName} table");
+
+            using (var cmd = Connection.CreateCommand())
+            {
+                cmd.CommandText = $"CREATE TABLE {TableName} (" +
+                    "Id         INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "CreatedAt  DATETIME NOT NULL DEFAULT (DateTime('now')), " +
+                    "FirstName  TEXT, " +
+                    "LastName   TEXT NOT NULL, " +
+                    "Present    BOOLEAN NOT NULL DEFAULT 0" +
+                ")";
+
+                cmd.ExecuteNonQuery();
             }
         }
     }
