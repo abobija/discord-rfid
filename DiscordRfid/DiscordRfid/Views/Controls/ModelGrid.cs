@@ -1,7 +1,10 @@
-﻿using DiscordRfid.Models;
+﻿using DiscordRfid.Controllers;
+using DiscordRfid.Models;
+using DiscordRfid.Services;
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace DiscordRfid.Views.Controls
@@ -43,6 +46,41 @@ namespace DiscordRfid.Views.Controls
             if(Columns[e.ColumnIndex].ValueType == typeof(DateTime) && e.Value != null)
             {
                 e.Value = ((DateTime) e.Value).ToLocalTime();
+            }
+        }
+
+        public void Reload()
+        {
+            try
+            {
+                using (var con = Database.Instance.CreateConnection())
+                {
+                    con.Open();
+                    DataSource = BaseController<T>.FromModelType(con).Get(orderBy: "Id DESC").ToList();
+
+                    var lastColumn = Columns[ColumnCount - 1];
+                    lastColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    lastColumn.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                }
+            }
+            catch(Exception ex)
+            {
+                ParentForm.Error(ex);
+            }
+        }
+
+        protected Form ParentForm
+        {
+            get
+            {
+                var ptr = this as Control;
+
+                while (ptr != null && !(ptr is Form))
+                {
+                    ptr = ptr.Parent;
+                }
+
+                return ptr as Form;
             }
         }
     }

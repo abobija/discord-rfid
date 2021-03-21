@@ -30,9 +30,9 @@ namespace DiscordRfid.Controllers
             return this;
         }
 
-        public virtual T GetModelFromDataReader(DbDataReader reader)
+        public virtual T GetFromDataReader(DbDataReader reader)
         {
-            throw new NotImplementedException($"Method FromDataReader not implemented for controller of model {typeof(T).Name}");
+            throw new NotImplementedException($"Method GetFromDataReader not implemented for controller of model {typeof(T).Name}");
         }
 
         public T[] Get(string orderBy = null)
@@ -54,7 +54,7 @@ namespace DiscordRfid.Controllers
                 {
                     while(reader.Read())
                     {
-                        list.Add(GetModelFromDataReader(reader));
+                        list.Add(GetFromDataReader(reader));
                     }
                 }
             }
@@ -71,7 +71,7 @@ namespace DiscordRfid.Controllers
 
                 using (var reader = cmd.ExecuteReader())
                 {
-                    return reader.Read() ? GetModelFromDataReader(reader) : null;
+                    return reader.Read() ? GetFromDataReader(reader) : null;
                 }
             }
         }
@@ -116,15 +116,9 @@ namespace DiscordRfid.Controllers
             return null;
         }
 
-        public virtual T Create(T model)
-        {
-            throw new NotImplementedException($"Method Save not implemented for controller of model {typeof(T).Name}");
-        }
+        public abstract T Create(T model);
 
-        public virtual T Update(T model)
-        {
-            throw new NotImplementedException($"Method Update not implemented for controller of model {typeof(T).Name}");
-        }
+        public abstract T Update(T model);
 
         public virtual int Delete(T model)
         {

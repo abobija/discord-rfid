@@ -29,5 +29,15 @@ namespace DiscordRfid.Controllers
                 cmd.ExecuteNonQuery();
             }
         }
+
+        public override RfidTagActivity Create(RfidTagActivity model)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override RfidTagActivity Update(RfidTagActivity model)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

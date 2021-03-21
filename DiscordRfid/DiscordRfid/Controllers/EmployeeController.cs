@@ -57,7 +57,7 @@ namespace DiscordRfid.Controllers
             );
         }
 
-        public override Employee GetModelFromDataReader(DbDataReader reader)
+        public override Employee GetFromDataReader(DbDataReader reader)
         {
             return new Employee
             {

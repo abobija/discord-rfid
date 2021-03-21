@@ -48,7 +48,7 @@ namespace DiscordRfid.Views.Controls
             }
         }
 
-        private readonly Panel ControlsPanel;
+        public Panel ControlsPanel { get; set; }
         private readonly FlowLayoutPanel ButtonsPanel;
 
         private readonly Button ButtonDialogSave;

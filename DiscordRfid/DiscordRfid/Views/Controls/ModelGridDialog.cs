@@ -76,16 +76,16 @@ namespace DiscordRfid.Views.Controls
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
-            ReloadGrid();
+            Grid.Reload();
 
             BaseController<T>.ModelCreated += OnModelCreated;
             BaseController<T>.ModelUpdated += OnModelUpdated;
             BaseController<T>.ModelDeleted += OnModelDeleted;
         }
 
-        private void OnModelCreated(T model) => ReloadGrid();
-        private void OnModelUpdated(T oldState, T newState) => ReloadGrid();
-        private void OnModelDeleted(T model) => ReloadGrid();
+        private void OnModelCreated(T model) => Grid.Reload();
+        private void OnModelUpdated(T oldState, T newState) => Grid.Reload();
+        private void OnModelDeleted(T model) => Grid.Reload();
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
@@ -152,27 +152,6 @@ namespace DiscordRfid.Views.Controls
                 {
                     con.Open();
                     BaseController<T>.FromModelType(con).Delete(model);
-                }
-            }
-            catch(Exception ex)
-            {
-                this.Error(ex);
-            }
-            
-        }
-
-        private void ReloadGrid()
-        {
-            try
-            {
-                using (var con = Database.Instance.CreateConnection())
-                {
-                    con.Open();
-                    Grid.DataSource = BaseController<T>.FromModelType(con).Get(orderBy: "Id DESC").ToList();
-
-                    var lastColumn = Grid.Columns[Grid.ColumnCount - 1];
-                    lastColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    lastColumn.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 }
             }
             catch(Exception ex)

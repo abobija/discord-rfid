@@ -29,6 +29,12 @@ namespace DiscordRfid
             return reader.IsDBNull(ordinal) ? null : (int?) reader.GetInt32(ordinal);
         }
 
+        public static int? GetInt64ByName(this DbDataReader reader, string columnName)
+        {
+            var ordinal = reader.GetOrdinal(columnName);
+            return reader.IsDBNull(ordinal) ? null : (int?)reader.GetInt64(ordinal);
+        }
+
         public static DateTime? GetDateTimeByName(this DbDataReader reader, string columnName)
         {
             var ordinal = reader.GetOrdinal(columnName);

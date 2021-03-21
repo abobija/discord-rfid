@@ -1,5 +1,6 @@
 ﻿using DiscordRfid.Models;
 using Serilog;
+using System;
 using System.Data.Common;
 
 namespace DiscordRfid.Controllers
@@ -15,7 +16,7 @@ namespace DiscordRfid.Controllers
         {
             Log.Debug($"Creating {TableName} table");
 
-            var actCtrl = new RfidTagActivityController(Connection);
+            var empCtrl = new EmployeeController(Connection);
 
             using (var cmd = Connection.CreateCommand())
             {
@@ -23,12 +24,40 @@ namespace DiscordRfid.Controllers
                     "   Id            INTEGER  PRIMARY KEY AUTOINCREMENT" +
                     ",  CreatedAt     DATETIME NOT NULL DEFAULT (DateTime('now'))" +
                     ",  SerialNumber  INTEGER  NOT NULL" +
-                    $", EmployeeId    INTEGER  NOT NULL REFERENCES {actCtrl.TableName}(Id) ON UPDATE CASCADE ON DELETE CASCADE" +
-                    ",  UNIQUE(EmployeeId, SerialNumber)" +
+                    $", EmployeeId    INTEGER  NOT NULL REFERENCES {empCtrl.TableName}(Id) ON UPDATE CASCADE ON DELETE CASCADE" +
+                    ",  UNIQUE(SerialNumber)" +
                 ")";
 
                 cmd.ExecuteNonQuery();
             }
+        }
+
+        public override RfidTag GetFromDataReader(DbDataReader reader)
+        {
+            return new RfidTag
+            {
+                Id = (int)reader.GetInt32ByName("Id"),
+                CreatedAt = (DateTime)reader.GetDateTimeByName("CreatedAt"),
+                SerialNumber = (ulong) reader.GetInt64ByName("SerialNumber")
+            };
+        }
+
+        public override RfidTag Create(RfidTag tag)
+        {
+            return Create($"(SerialNumber, EmployeeId) VALUES(@SerialNumber, @EmployeeId)",
+                    cmd => cmd
+                    .AddParameter("@SerialNumber", tag.SerialNumber)
+                    .AddParameter("@EmployeeId", tag.Employee.Id)
+                );
+        }
+
+        public override RfidTag Update(RfidTag tag)
+        {
+            return Update(tag, "SerialNumber = @SerialNumber, EmployeeId = @EmployeeId",
+                cmd => cmd
+                .AddParameter("@SerialNumber", tag.SerialNumber)
+                .AddParameter("@EmployeeId", tag.Employee.Id)
+            );
         }
     }
 }
