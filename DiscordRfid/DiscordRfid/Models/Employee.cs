@@ -10,6 +10,7 @@ namespace DiscordRfid.Models
         public string FirstName;
         public string LastName;
         public bool Present;
+        public RfidTag[] RfidTags;
 
         public override void Validate()
         {

@@ -36,16 +36,6 @@
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // BtnModelSave
-            // 
-            this.BtnModelSave.Location = new System.Drawing.Point(156, 8);
-            this.BtnModelSave.Size = new System.Drawing.Size(53, 31);
-            // 
-            // BtnModelCancel
-            // 
-            this.BtnModelCancel.Location = new System.Drawing.Point(215, 8);
-            this.BtnModelCancel.Size = new System.Drawing.Size(66, 31);
-            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
