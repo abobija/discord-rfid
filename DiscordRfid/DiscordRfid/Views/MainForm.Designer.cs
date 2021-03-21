@@ -39,17 +39,16 @@
             this.ToolBtnExit = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolLblClock = new System.Windows.Forms.ToolStripLabel();
             this.PnlMain = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.LinkLblEmployees = new System.Windows.Forms.LinkLabel();
             this.LblCounterEmployeesTotal = new System.Windows.Forms.Label();
-            this.LblPresent = new System.Windows.Forms.Label();
-            this.LblCounterEmployeesPresent = new System.Windows.Forms.Label();
             this.LblAbsent = new System.Windows.Forms.Label();
             this.LblCounterEmployeesAbsent = new System.Windows.Forms.Label();
+            this.LblPresent = new System.Windows.Forms.Label();
+            this.LblCounterEmployeesPresent = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
             this.PackagesListView = new DiscordRfid.Views.Controls.PackagesListView();
+            this.label1 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.PnlMain.SuspendLayout();
@@ -138,7 +137,6 @@
             // 
             // PnlMain
             // 
-            this.PnlMain.Controls.Add(this.button1);
             this.PnlMain.Controls.Add(this.flowLayoutPanel1);
             this.PnlMain.Controls.Add(this.panel1);
             this.PnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -147,16 +145,6 @@
             this.PnlMain.Name = "PnlMain";
             this.PnlMain.Size = new System.Drawing.Size(904, 441);
             this.PnlMain.TabIndex = 3;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(98, 109);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(127, 41);
-            this.button1.TabIndex = 12;
-            this.button1.Text = "new employee";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // flowLayoutPanel1
             // 
@@ -194,26 +182,6 @@
             this.LblCounterEmployeesTotal.TabIndex = 8;
             this.LblCounterEmployeesTotal.Text = "5";
             // 
-            // LblPresent
-            // 
-            this.LblPresent.AutoSize = true;
-            this.LblPresent.Location = new System.Drawing.Point(292, 0);
-            this.LblPresent.Margin = new System.Windows.Forms.Padding(50, 0, 3, 0);
-            this.LblPresent.Name = "LblPresent";
-            this.LblPresent.Size = new System.Drawing.Size(57, 20);
-            this.LblPresent.TabIndex = 6;
-            this.LblPresent.Text = "Present";
-            // 
-            // LblCounterEmployeesPresent
-            // 
-            this.LblCounterEmployeesPresent.AutoSize = true;
-            this.LblCounterEmployeesPresent.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F);
-            this.LblCounterEmployeesPresent.Location = new System.Drawing.Point(355, 0);
-            this.LblCounterEmployeesPresent.Name = "LblCounterEmployeesPresent";
-            this.LblCounterEmployeesPresent.Size = new System.Drawing.Size(17, 20);
-            this.LblCounterEmployeesPresent.TabIndex = 9;
-            this.LblCounterEmployeesPresent.Text = "3";
-            // 
             // LblAbsent
             // 
             this.LblAbsent.AutoSize = true;
@@ -234,6 +202,26 @@
             this.LblCounterEmployeesAbsent.TabIndex = 10;
             this.LblCounterEmployeesAbsent.Text = "2";
             // 
+            // LblPresent
+            // 
+            this.LblPresent.AutoSize = true;
+            this.LblPresent.Location = new System.Drawing.Point(292, 0);
+            this.LblPresent.Margin = new System.Windows.Forms.Padding(50, 0, 3, 0);
+            this.LblPresent.Name = "LblPresent";
+            this.LblPresent.Size = new System.Drawing.Size(57, 20);
+            this.LblPresent.TabIndex = 6;
+            this.LblPresent.Text = "Present";
+            // 
+            // LblCounterEmployeesPresent
+            // 
+            this.LblCounterEmployeesPresent.AutoSize = true;
+            this.LblCounterEmployeesPresent.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F);
+            this.LblCounterEmployeesPresent.Location = new System.Drawing.Point(355, 0);
+            this.LblCounterEmployeesPresent.Name = "LblCounterEmployeesPresent";
+            this.LblCounterEmployeesPresent.Size = new System.Drawing.Size(17, 20);
+            this.LblCounterEmployeesPresent.TabIndex = 9;
+            this.LblCounterEmployeesPresent.Text = "3";
+            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Gainsboro;
@@ -245,17 +233,6 @@
             this.panel1.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.panel1.Size = new System.Drawing.Size(306, 441);
             this.panel1.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label1.ForeColor = System.Drawing.Color.DimGray;
-            this.label1.Location = new System.Drawing.Point(3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(303, 32);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Recent RFID packages";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // PackagesListView
             // 
@@ -273,6 +250,17 @@
             this.PackagesListView.TabIndex = 1;
             this.PackagesListView.UseCompatibleStateImageBehavior = false;
             this.PackagesListView.View = System.Windows.Forms.View.Details;
+            // 
+            // label1
+            // 
+            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label1.ForeColor = System.Drawing.Color.DimGray;
+            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(303, 32);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Recent RFID packages";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // MainForm
             // 
@@ -323,7 +311,6 @@
         private System.Windows.Forms.Label LblPresent;
         private System.Windows.Forms.LinkLabel LinkLblEmployees;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Button button1;
     }
 }
 

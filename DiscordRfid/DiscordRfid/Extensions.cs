@@ -16,9 +16,28 @@ namespace DiscordRfid
 
             return cmd;
         }
-        public static int GetInt32ByName(this DbDataReader reader, string columnName)
+
+        public static string GetStringByName(this DbDataReader reader, string columnName)
         {
-            return reader.GetInt32(reader.GetOrdinal(columnName));
+            var ordinal = reader.GetOrdinal(columnName);
+            return reader.IsDBNull(ordinal) ? null : reader.GetString(ordinal);
+        }
+
+        public static int? GetInt32ByName(this DbDataReader reader, string columnName)
+        {
+            var ordinal = reader.GetOrdinal(columnName);
+            return reader.IsDBNull(ordinal) ? null : (int?) reader.GetInt32(ordinal);
+        }
+
+        public static DateTime? GetDateTimeByName(this DbDataReader reader, string columnName)
+        {
+            var ordinal = reader.GetOrdinal(columnName);
+            return reader.IsDBNull(ordinal) ? null : (DateTime?)reader.GetDateTime(ordinal);
+        }
+
+        public static bool GetBooleanByName(this DbDataReader reader, string columnName)
+        {
+            return reader.GetBoolean(reader.GetOrdinal(columnName));
         }
 
         public static Task ContinueWithNoop(this Task task)

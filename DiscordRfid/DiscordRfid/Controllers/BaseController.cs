@@ -32,9 +32,23 @@ namespace DiscordRfid.Controllers
             return Activator.CreateInstance(ctrlType, connection) as BaseController<T>;
         }
 
+        public virtual T FromDataReader(DbDataReader reader)
+        {
+            throw new NotImplementedException($"Method FromDataReader not implemented for controller of model {typeof(T).Name}");
+        }
+
         public virtual T GetById(int id)
         {
-            throw new NotImplementedException($"Method GetById not implemented for controller of model {typeof(T).Name}");
+            using (var cmd = Connection.CreateCommand())
+            {
+                cmd.CommandText = $"SELECT * FROM {TableName} Where Id = @Id";
+                cmd.AddParameter("@Id", id);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    return reader.Read() ? FromDataReader(reader) : null;
+                }
+            }
         }
 
         protected T Create(string sql, Action<DbCommand> addParameters)
