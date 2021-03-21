@@ -20,7 +20,7 @@ namespace DiscordRfid.Models
 
         public override string ToString()
         {
-            return $"{FirstName} {LastName}".Trim();
+            return $"{FirstName} {LastName} (Id: {Id})";
         }
     }
 }

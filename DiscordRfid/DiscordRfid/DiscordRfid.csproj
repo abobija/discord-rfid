@@ -127,8 +127,14 @@
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\RfidTag.cs" />
     <Compile Include="Models\RfidTagActivity.cs" />
-    <Compile Include="Views\Controls\ModelForm.cs">
+    <Compile Include="Views\Controls\ModelDialog.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Controls\ModelGridDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Controls\ModelGrid.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Views\Controls\PackageListViewItem.cs" />
     <Compile Include="Views\Controls\PackagesListView.cs">
@@ -139,7 +145,7 @@
     <Compile Include="Services\Configuration.cs" />
     <Compile Include="Services\Bot.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="Views\Controls\DialogForm.cs">
+    <Compile Include="Views\Controls\Dialog.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Views\EmployeeForm.cs">
@@ -147,12 +153,6 @@
     </Compile>
     <Compile Include="Views\EmployeeForm.Designer.cs">
       <DependentUpon>EmployeeForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EmployeesForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EmployeesForm.Designer.cs">
-      <DependentUpon>EmployeesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\MainForm.cs">
       <SubType>Form</SubType>
@@ -170,9 +170,6 @@
     </Compile>
     <EmbeddedResource Include="Views\EmployeeForm.resx">
       <DependentUpon>EmployeeForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EmployeesForm.resx">
-      <DependentUpon>EmployeesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

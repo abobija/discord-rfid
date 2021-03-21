@@ -5,12 +5,6 @@ using System.Windows.Forms;
 
 namespace DiscordRfid.Views.Controls
 {
-    public enum DialogFormButtons
-    {
-        SaveCancel,
-        Close
-    }
-
     [ToolboxItem(false)]
     public class DialogButton : Button
     {
@@ -19,10 +13,29 @@ namespace DiscordRfid.Views.Controls
             Text = text;
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            Cursor = Cursors.Hand;
+            Padding = new Padding(5, 3, 5, 3);
         }
     }
 
-    public class DialogForm : Form
+    [ToolboxItem(false)]
+    public class DialogFlowPanel : FlowLayoutPanel
+    {
+        public DialogFlowPanel()
+        {
+            AutoSize = true;
+            BackColor = Color.Gainsboro;
+            Padding = new Padding(5);
+        }
+    }
+
+    public enum DialogFormButtons
+    {
+        SaveCancel,
+        Close
+    }
+
+    public class Dialog : Form
     {
         private DialogFormButtons _dialogButtons;
         public DialogFormButtons DialogButtons
@@ -35,13 +48,14 @@ namespace DiscordRfid.Views.Controls
             }
         }
 
-        protected FlowLayoutPanel ButtonsPanel;
+        private readonly Panel ControlsPanel;
+        private readonly FlowLayoutPanel ButtonsPanel;
 
-        protected Button BtnDialogSave;
-        protected Button BtnDialogCancel;
-        protected Button BtnDialogClose;
+        private readonly Button ButtonDialogSave;
+        private readonly Button ButtonDialogCancel;
+        private readonly Button ButtonDialogClose;
 
-        public DialogForm()
+        public Dialog()
         {
             FormBorderStyle = FormBorderStyle.FixedSingle;
             BackColor = Color.White;
@@ -53,28 +67,36 @@ namespace DiscordRfid.Views.Controls
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
 
-            ButtonsPanel = new FlowLayoutPanel
+            ControlsPanel = new Panel
             {
-                AutoSize = true,
-                BackColor = Color.Gainsboro,
-                Dock = DockStyle.Bottom,
-                FlowDirection = FlowDirection.RightToLeft,
-                Padding = new Padding(5)
+                Dock = DockStyle.Fill
             };
 
-            BtnDialogSave = new DialogButton("Save");
-            BtnDialogCancel = new DialogButton("Cancel");
-            BtnDialogSave.Click += OnDialogSave;
-            BtnDialogCancel.Click += OnDialogCancel;
+            ButtonsPanel = new DialogFlowPanel
+            {
+                Dock = DockStyle.Bottom,
+                FlowDirection = FlowDirection.RightToLeft
+            };
 
-            BtnDialogClose = new DialogButton("Close");
-            BtnDialogClose.Click += OnDialogClose;
+            ButtonDialogSave = new DialogButton("Save");
+            ButtonDialogCancel = new DialogButton("Cancel");
+            ButtonDialogClose = new DialogButton("Close");
+
+            ButtonDialogSave.Click += OnButtonSaveClick;
+            ButtonDialogCancel.Click += OnButtonCancelClick;
+            ButtonDialogClose.Click += OnButtonCloseClick;
 
             SuspendLayout();
+            Controls.Add(ControlsPanel);
             Controls.Add(ButtonsPanel);
             UpdateButtons();
             ResumeLayout();
             PerformLayout();
+        }
+
+        protected void AddControl(Control control)
+        {
+            ControlsPanel.Controls.Add(control);
         }
 
         private void UpdateButtons()
@@ -85,12 +107,12 @@ namespace DiscordRfid.Views.Controls
             switch (DialogButtons)
             {
                 case DialogFormButtons.SaveCancel:
-                    ButtonsPanel.Controls.Add(BtnDialogCancel);
-                    ButtonsPanel.Controls.Add(BtnDialogSave);
+                    ButtonsPanel.Controls.Add(ButtonDialogCancel);
+                    ButtonsPanel.Controls.Add(ButtonDialogSave);
                     break;
 
                 case DialogFormButtons.Close:
-                    ButtonsPanel.Controls.Add(BtnDialogClose);
+                    ButtonsPanel.Controls.Add(ButtonDialogClose);
                     break;
             }
 
@@ -98,17 +120,17 @@ namespace DiscordRfid.Views.Controls
             ButtonsPanel.PerformLayout();
         }
 
-        private void OnDialogClose(object sender, EventArgs e)
+        protected virtual void OnButtonCloseClick(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
         }
 
-        protected virtual void OnDialogCancel(object sender, EventArgs e)
+        protected virtual void OnButtonCancelClick(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
         }
 
-        protected virtual void OnDialogSave(object sender, EventArgs e)
+        protected virtual void OnButtonSaveClick(object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
         }

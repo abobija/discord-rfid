@@ -2,6 +2,7 @@
 using DiscordRfid.Dtos;
 using DiscordRfid.Models;
 using DiscordRfid.Services;
+using DiscordRfid.Views.Controls;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -62,7 +63,7 @@ namespace DiscordRfid.Views
             try
             {
                 State = "Connecting...";
-                await Bot.Instance.ConnectAsync();
+                //await Bot.Instance.ConnectAsync();
             }
             catch (Exception ex)
             {
@@ -219,7 +220,7 @@ namespace DiscordRfid.Views
 
         private void LinkLblEmployees_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            using (var frm = new EmployeesForm())
+            using (var frm = new ModelGridDialog<Employee>())
             {
                 frm.ShowDialog();
             }

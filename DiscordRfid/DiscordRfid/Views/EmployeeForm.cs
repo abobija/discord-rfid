@@ -3,7 +3,7 @@ using DiscordRfid.Views.Controls;
 
 namespace DiscordRfid.Views
 {
-    public partial class EmployeeForm : ModelForm<Employee>
+    public partial class EmployeeForm : ModelDialog<Employee>
     {
         public EmployeeForm(Employee employee = null)
         {

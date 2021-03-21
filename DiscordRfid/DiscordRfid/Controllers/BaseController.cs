@@ -30,22 +30,6 @@ namespace DiscordRfid.Controllers
             return this;
         }
 
-        public static BaseController<T> FromModelType(DbConnection connection)
-        {
-            var ctrlType = Assembly.GetExecutingAssembly()
-                    .DefinedTypes
-                    .FirstOrDefault(t => t.BaseType == typeof(BaseController<T>)
-                            && t.BaseType.GenericTypeArguments[0] == typeof(T)
-                        );
-
-            if (ctrlType == null)
-            {
-                throw new TypeLoadException($"Unable to find controller for {typeof(T).Name} model");
-            }
-
-            return Activator.CreateInstance(ctrlType, connection) as BaseController<T>;
-        }
-
         public virtual T GetModelFromDataReader(DbDataReader reader)
         {
             throw new NotImplementedException($"Method FromDataReader not implemented for controller of model {typeof(T).Name}");
@@ -182,6 +166,22 @@ namespace DiscordRfid.Controllers
             {
                 CreateSchema();
             }
+        }
+
+        public static BaseController<T> FromModelType(DbConnection connection)
+        {
+            var ctrlType = Assembly.GetExecutingAssembly()
+                    .DefinedTypes
+                    .FirstOrDefault(t => t.BaseType == typeof(BaseController<T>)
+                            && t.BaseType.GenericTypeArguments[0] == typeof(T)
+                        );
+
+            if (ctrlType == null)
+            {
+                throw new TypeLoadException($"Unable to find controller for {typeof(T).Name} model");
+            }
+
+            return Activator.CreateInstance(ctrlType, connection) as BaseController<T>;
         }
     }
 }

@@ -2,10 +2,12 @@
 using DiscordRfid.Models;
 using DiscordRfid.Services;
 using System;
+using System.Linq;
+using System.Reflection;
 
 namespace DiscordRfid.Views.Controls
 {
-    public class ModelForm<T> : DialogForm where T : BaseModel
+    public class ModelDialog<T> : Dialog where T : BaseModel
     {
         private T _model;
 
@@ -24,7 +26,7 @@ namespace DiscordRfid.Views.Controls
 
         public T NewModel { get; private set; }
 
-        protected override void OnDialogSave(object sender, EventArgs e)
+        protected override void OnButtonSaveClick(object sender, EventArgs e)
         {
             try
             {
@@ -35,7 +37,7 @@ namespace DiscordRfid.Views.Controls
                 }
                 model.Validate();
                 SaveModel(model);
-                base.OnDialogSave(sender, e);
+                base.OnButtonSaveClick(sender, e);
             }
             catch (Exception ex)
             {
@@ -65,6 +67,22 @@ namespace DiscordRfid.Views.Controls
         protected virtual T ConstructModel()
         {
             throw new NotImplementedException();
+        }
+
+        public static ModelDialog<T> FromModelType(T model = null)
+        {
+            var dialogType = Assembly.GetExecutingAssembly()
+                    .DefinedTypes
+                    .FirstOrDefault(t => t.BaseType == typeof(ModelDialog<T>)
+                            && t.BaseType.GenericTypeArguments[0] == typeof(T)
+                        );
+
+            if (dialogType == null)
+            {
+                throw new TypeLoadException($"Unable to find ModelDialog for {typeof(T).Name} model");
+            }
+
+            return Activator.CreateInstance(dialogType, model) as ModelDialog<T>;
         }
     }
 }
