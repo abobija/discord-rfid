@@ -219,5 +219,13 @@ namespace DiscordRfid.Views
                 frm.ShowDialog();
             }
         }
+
+        private void LinkLblEmployees_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            using (var frm = new EmployeesForm())
+            {
+                frm.ShowDialog();
+            }
+        }
     }
 }

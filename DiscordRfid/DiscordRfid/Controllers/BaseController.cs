@@ -1,9 +1,11 @@
 ﻿using DiscordRfid.Models;
 using DiscordRfid.Services;
 using System;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace DiscordRfid.Controllers
 {
@@ -36,6 +38,33 @@ namespace DiscordRfid.Controllers
         public virtual T FromDataReader(DbDataReader reader)
         {
             throw new NotImplementedException($"Method FromDataReader not implemented for controller of model {typeof(T).Name}");
+        }
+
+        public T[] Get(string orderBy = null)
+        {
+            var list = new List<T>();
+
+            var queryBuilder = new StringBuilder().AppendLine($"SELECT * FROM {TableName}");
+
+            if(orderBy != null)
+            {
+                queryBuilder.AppendLine($"ORDER BY {orderBy}");
+            }
+
+            using (var cmd = Connection.CreateCommand())
+            {
+                cmd.CommandText = queryBuilder.ToString();
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while(reader.Read())
+                    {
+                        list.Add(FromDataReader(reader));
+                    }
+                }
+            }
+
+            return list.ToArray();
         }
 
         public virtual T GetById(int id)

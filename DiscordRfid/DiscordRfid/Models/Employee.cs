@@ -5,12 +5,12 @@ namespace DiscordRfid.Models
 {
     public class Employee : BaseModel
     {
-        public int Id;
-        public DateTime CreatedAt;
-        public string FirstName;
-        public string LastName;
-        public bool Present;
-        public RfidTag[] RfidTags;
+        public int Id { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public bool Present { get; set; }
+        public RfidTag[] RfidTags { get; set; }
 
         public override void Validate()
         {

@@ -38,6 +38,7 @@
             this.ToolBtnAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolBtnExit = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolLblClock = new System.Windows.Forms.ToolStripLabel();
+            this.ToolBtnNewEmployee = new System.Windows.Forms.ToolStripButton();
             this.PnlMain = new System.Windows.Forms.Panel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.LinkLblEmployees = new System.Windows.Forms.LinkLabel();
@@ -49,7 +50,6 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.PackagesListView = new DiscordRfid.Views.Controls.PackagesListView();
             this.label1 = new System.Windows.Forms.Label();
-            this.ToolBtnNewEmployee = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.PnlMain.SuspendLayout();
@@ -137,6 +137,16 @@
             this.ToolLblClock.Size = new System.Drawing.Size(36, 22);
             this.ToolLblClock.Text = "Clock";
             // 
+            // ToolBtnNewEmployee
+            // 
+            this.ToolBtnNewEmployee.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.ToolBtnNewEmployee.Image = ((System.Drawing.Image)(resources.GetObject("ToolBtnNewEmployee.Image")));
+            this.ToolBtnNewEmployee.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolBtnNewEmployee.Name = "ToolBtnNewEmployee";
+            this.ToolBtnNewEmployee.Size = new System.Drawing.Size(90, 22);
+            this.ToolBtnNewEmployee.Text = "New employee";
+            this.ToolBtnNewEmployee.Click += new System.EventHandler(this.ToolBtnNewEmployee_Click);
+            // 
             // PnlMain
             // 
             this.PnlMain.Controls.Add(this.flowLayoutPanel1);
@@ -173,6 +183,7 @@
             this.LinkLblEmployees.TabIndex = 5;
             this.LinkLblEmployees.TabStop = true;
             this.LinkLblEmployees.Text = "Employees";
+            this.LinkLblEmployees.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLblEmployees_LinkClicked);
             // 
             // LblCounterEmployeesTotal
             // 
@@ -263,16 +274,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Recent RFID packages";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // ToolBtnNewEmployee
-            // 
-            this.ToolBtnNewEmployee.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.ToolBtnNewEmployee.Image = ((System.Drawing.Image)(resources.GetObject("ToolBtnNewEmployee.Image")));
-            this.ToolBtnNewEmployee.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ToolBtnNewEmployee.Name = "ToolBtnNewEmployee";
-            this.ToolBtnNewEmployee.Size = new System.Drawing.Size(90, 22);
-            this.ToolBtnNewEmployee.Text = "New employee";
-            this.ToolBtnNewEmployee.Click += new System.EventHandler(this.ToolBtnNewEmployee_Click);
             // 
             // MainForm
             // 
