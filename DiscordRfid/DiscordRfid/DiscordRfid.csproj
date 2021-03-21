@@ -121,6 +121,7 @@
     <Compile Include="Controllers\RfidTagController.cs" />
     <Compile Include="Dtos\EmployeeCounters.cs" />
     <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\IModel.cs" />
     <Compile Include="Services\Database.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\RfidTag.cs" />

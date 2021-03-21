@@ -2,7 +2,7 @@
 
 namespace DiscordRfid.Models
 {
-    public abstract class BaseModel
+    public abstract class BaseModel : IModel
     {
         public virtual void Validate()
         {

@@ -1,4 +1,5 @@
 ﻿using DiscordRfid.Models;
+using DiscordRfid.Services;
 using System;
 using System.Data.Common;
 using System.Linq;
@@ -62,7 +63,10 @@ namespace DiscordRfid.Controllers
                 lastId = Convert.ToInt32(cmd.ExecuteScalar());
             }
 
-            return GetById(lastId);
+            T newModel = GetById(lastId);
+            Database.Instance.FireModelCreated(newModel);
+
+            return newModel;
         }
 
         public virtual T Create(T model)

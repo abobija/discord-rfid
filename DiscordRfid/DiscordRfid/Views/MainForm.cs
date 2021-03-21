@@ -1,8 +1,10 @@
 ﻿using DiscordRfid.Controllers;
 using DiscordRfid.Dtos;
+using DiscordRfid.Models;
 using DiscordRfid.Services;
 using System;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DiscordRfid.Views
@@ -43,29 +45,33 @@ namespace DiscordRfid.Views
             PresentAbsentVisible = false;
 
             InitClock();
-
-            if(! Database.Instance.Inited)
-            {
-                Database.Instance.Init();
-            }
-
             InitBot();
 
-            Shown += async (o, e) =>
-            {
-                LoadAndUpdateEmployeeCounters();
+            Shown += async (o, e) => await OnShownAsync(o, e);
+        }
 
-                try
+        private async Task OnShownAsync(object sender, EventArgs e)
+        {
+            LoadAndUpdateEmployeeCounters();
+
+            Database.Instance.ModelCreated += model =>
+            {
+                if(model is Employee)
                 {
-                    State = "Connecting...";
-                    await Bot.Instance.ConnectAsync();
-                }
-                catch(Exception ex)
-                {
-                    this.Error(ex);
-                    Close();
+                    LoadAndUpdateEmployeeCounters();
                 }
             };
+
+            try
+            {
+                State = "Connecting...";
+                await Bot.Instance.ConnectAsync();
+            }
+            catch (Exception ex)
+            {
+                this.Error(ex);
+                Close();
+            }
         }
 
         private void InitClock()
@@ -204,6 +210,14 @@ namespace DiscordRfid.Views
                     "Code:" +
                     $"{Environment.NewLine}https://github.com/abobija/discord-rfid"
                 );
+        }
+
+        private void ToolBtnNewEmployee_Click(object sender, EventArgs e)
+        {
+            using(var frm = new EmployeeForm())
+            {
+                frm.ShowDialog();
+            }
         }
     }
 }

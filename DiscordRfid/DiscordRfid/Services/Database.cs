@@ -1,4 +1,5 @@
 ﻿using DiscordRfid.Controllers;
+using DiscordRfid.Models;
 using Microsoft.Data.Sqlite;
 using Serilog;
 using System;
@@ -8,25 +9,21 @@ namespace DiscordRfid.Services
 {
     public class Database
     {
-        public bool Inited { get; private set; } = false;
-
         protected string ConnectionString => $"Data Source={Path.Combine(Environment.CurrentDirectory, "rfid.db")}";
+
+        public event Action<IModel> ModelCreated;
 
         protected Database()
         {
             Log.Debug("Database contructor");
+            Init();
         }
 
-        public void Init()
+        public void FireModelCreated(IModel model) => ModelCreated?.Invoke(model);
+
+        private void Init()
         {
             Log.Debug("Initializing database");
-
-            if (Inited)
-            {
-                Log.Debug("Database has already initialized. Ignoring");
-                return;
-            }
-            
             InitSchema();
         }
 

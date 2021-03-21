@@ -49,6 +49,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.PackagesListView = new DiscordRfid.Views.Controls.PackagesListView();
             this.label1 = new System.Windows.Forms.Label();
+            this.ToolBtnNewEmployee = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.PnlMain.SuspendLayout();
@@ -94,7 +95,8 @@
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripDropDownButton1,
-            this.ToolLblClock});
+            this.ToolLblClock,
+            this.ToolBtnNewEmployee});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(904, 25);
@@ -262,6 +264,16 @@
             this.label1.Text = "Recent RFID packages";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // ToolBtnNewEmployee
+            // 
+            this.ToolBtnNewEmployee.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.ToolBtnNewEmployee.Image = ((System.Drawing.Image)(resources.GetObject("ToolBtnNewEmployee.Image")));
+            this.ToolBtnNewEmployee.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolBtnNewEmployee.Name = "ToolBtnNewEmployee";
+            this.ToolBtnNewEmployee.Size = new System.Drawing.Size(90, 22);
+            this.ToolBtnNewEmployee.Text = "New employee";
+            this.ToolBtnNewEmployee.Click += new System.EventHandler(this.ToolBtnNewEmployee_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -311,6 +323,7 @@
         private System.Windows.Forms.Label LblPresent;
         private System.Windows.Forms.LinkLabel LinkLblEmployees;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.ToolStripButton ToolBtnNewEmployee;
     }
 }
 
