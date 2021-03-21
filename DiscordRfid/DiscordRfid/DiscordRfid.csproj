@@ -118,6 +118,7 @@
   <ItemGroup>
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\RfidTagActivityController.cs" />
     <Compile Include="Controllers\RfidTagController.cs" />
     <Compile Include="Dtos\EmployeeCounters.cs" />
     <Compile Include="Models\BaseModel.cs" />

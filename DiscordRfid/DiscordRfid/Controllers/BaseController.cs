@@ -13,13 +13,21 @@ namespace DiscordRfid.Controllers
         protected DbConnection Connection;
         public abstract string TableName { get; }
 
+        public T State { get; private set; }
+
         public static event Action<T> ModelCreated;
-        public static event Action<T> ModelUpdated;
+        public static event Action<T, T> ModelUpdated; // OldState, NewState
         public static event Action<T> ModelDeleted;
 
         public BaseController(DbConnection connection)
         {
             Connection = connection;
+        }
+
+        public BaseController<T> SetState(T state)
+        {
+            State = state;
+            return this;
         }
 
         public static BaseController<T> FromModelType(DbConnection connection)
@@ -70,7 +78,7 @@ namespace DiscordRfid.Controllers
             return list.ToArray();
         }
 
-        public virtual T GetById(int id)
+        public T GetById(int id)
         {
             using (var cmd = Connection.CreateCommand())
             {
@@ -103,6 +111,8 @@ namespace DiscordRfid.Controllers
 
         protected T Update(T model, string sql, Action<DbCommand> addParameters)
         {
+            T oldModel = model;
+
             int rows = 0;
             using (var cmd = Connection.CreateCommand())
             {
@@ -115,7 +125,7 @@ namespace DiscordRfid.Controllers
             if (rows > 0)
             {
                 T newModel = GetById(model.Id);
-                ModelUpdated?.Invoke(newModel);
+                ModelUpdated?.Invoke(State, newModel);
                 return newModel;
             }
 

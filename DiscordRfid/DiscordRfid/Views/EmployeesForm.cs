@@ -29,7 +29,7 @@ namespace DiscordRfid.Views
         }
 
         private void OnEmployeeCreated(Employee employee) => ReloadGrid();
-        private void OnEmployeeUpdated(Employee employee) => ReloadGrid();
+        private void OnEmployeeUpdated(Employee o, Employee n) => ReloadGrid();
         private void OnEmployeesDeleted(Employee employee) => ReloadGrid();
 
 

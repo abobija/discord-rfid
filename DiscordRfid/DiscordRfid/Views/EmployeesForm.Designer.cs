@@ -73,15 +73,15 @@ namespace DiscordRfid.Views
             // 
             this.BtnUpdate.Location = new System.Drawing.Point(82, 13);
             this.BtnUpdate.Name = "BtnUpdate";
-            this.BtnUpdate.Size = new System.Drawing.Size(79, 33);
+            this.BtnUpdate.Size = new System.Drawing.Size(58, 33);
             this.BtnUpdate.TabIndex = 3;
-            this.BtnUpdate.Text = "Update";
+            this.BtnUpdate.Text = "Edit";
             this.BtnUpdate.UseVisualStyleBackColor = true;
             this.BtnUpdate.Click += new System.EventHandler(this.BtnUpdate_Click);
             // 
             // BtnDelete
             // 
-            this.BtnDelete.Location = new System.Drawing.Point(167, 13);
+            this.BtnDelete.Location = new System.Drawing.Point(146, 13);
             this.BtnDelete.Name = "BtnDelete";
             this.BtnDelete.Size = new System.Drawing.Size(79, 33);
             this.BtnDelete.TabIndex = 4;

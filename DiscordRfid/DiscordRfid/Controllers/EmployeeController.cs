@@ -39,10 +39,11 @@ namespace DiscordRfid.Controllers
 
         public override Employee Create(Employee employee)
         {
-            return Create($"(FirstName, LastName) VALUES(@FirstName, @LastName)",
+            return Create($"(FirstName, LastName, Present) VALUES(@FirstName, @LastName, @Present)",
                     cmd => cmd
                     .AddParameter("@FirstName", employee.FirstName)
                     .AddParameter("@LastName", employee.LastName)
+                    .AddParameter("@Present", employee.Present)
                 );
         }
 

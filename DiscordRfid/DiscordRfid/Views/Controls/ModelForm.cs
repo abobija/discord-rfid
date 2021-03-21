@@ -52,7 +52,7 @@ namespace DiscordRfid.Views.Controls
                 using (var con = Database.Instance.CreateConnection())
                 {
                     con.Open();
-                    var ctrl = BaseController<T>.FromModelType(con);
+                    var ctrl = BaseController<T>.FromModelType(con).SetState(Model);
                     NewModel = Model == null ? ctrl.Create(validatedModel) : ctrl.Update(validatedModel);
                 }
             }

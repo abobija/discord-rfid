@@ -32,9 +32,7 @@ namespace DiscordRfid.Views
 
         private bool PresentAbsentVisible
         {
-            set => LblPresent.Visible = LblCounterEmployeesPresent.Visible =
-                LblAbsent.Visible = LblCounterEmployeesAbsent.Visible =
-                value;
+            set => FlowPanelPresent.Visible = FlowPanelAbsent.Visible = value;
         }
 
         public MainForm()
@@ -54,6 +52,11 @@ namespace DiscordRfid.Views
         {
             LoadAndUpdateEmployeeCounters();
             BaseController<Employee>.ModelCreated += emp => LoadAndUpdateEmployeeCounters();
+            BaseController<Employee>.ModelUpdated += (oldEmp, newEmp) =>
+            {
+                if(oldEmp.Present != newEmp.Present)
+                    LoadAndUpdateEmployeeCounters();
+            };
             BaseController<Employee>.ModelDeleted += emp => LoadAndUpdateEmployeeCounters();
 
             try
@@ -78,7 +81,7 @@ namespace DiscordRfid.Views
 
         private void UpdateClock()
         {
-            ToolLblClock.Text = DateTime.Now.ToString("HH:mm:ss, MM.dd.yyyy");
+            ToolLblClock.Text = DateTime.Now.ToString("HH:mm:ss, dd.MM.yyyy");
         }
 
         private void InitBot()

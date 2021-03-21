@@ -30,6 +30,7 @@ namespace DiscordRfid.Services
 
                 new EmployeeController(con).CreateSchemaIfNotExists();
                 new RfidTagController(con).CreateSchemaIfNotExists();
+                new RfidTagActivityController(con).CreateSchemaIfNotExists();
             }
         }
 

@@ -15,6 +15,7 @@ namespace DiscordRfid.Views
         {
             TxtFirstName.Text = Model.FirstName;
             TxtLastName.Text = Model.LastName;
+            ChckPresent.Checked = Model.Present;
         }
 
         protected override Employee ConstructModel()
@@ -22,7 +23,8 @@ namespace DiscordRfid.Views
             return new Employee
             {
                 FirstName = string.IsNullOrWhiteSpace(TxtFirstName.Text) ? null : TxtFirstName.Text.Trim(),
-                LastName = TxtLastName.Text.Trim()
+                LastName = TxtLastName.Text.Trim(),
+                Present = ChckPresent.Checked
             };
         }
     }
