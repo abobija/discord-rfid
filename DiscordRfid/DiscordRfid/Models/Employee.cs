@@ -5,8 +5,6 @@ namespace DiscordRfid.Models
 {
     public class Employee : BaseModel
     {
-        public int Id { get; set; }
-        public DateTime CreatedAt { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public bool Present { get; set; }
@@ -18,6 +16,11 @@ namespace DiscordRfid.Models
             {
                 throw new ValidationException("Last name cannot be empty");
             }
+        }
+
+        public override string ToString()
+        {
+            return $"{FirstName} {LastName}".Trim();
         }
     }
 }

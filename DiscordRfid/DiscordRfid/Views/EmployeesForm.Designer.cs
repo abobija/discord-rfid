@@ -31,6 +31,8 @@ namespace DiscordRfid.Views
         {
             this.DataGridView = new System.Windows.Forms.DataGridView();
             this.BtnAdd = new System.Windows.Forms.Button();
+            this.BtnUpdate = new System.Windows.Forms.Button();
+            this.BtnDelete = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,6 +52,7 @@ namespace DiscordRfid.Views
             this.DataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.DataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DataGridView.Location = new System.Drawing.Point(11, 60);
+            this.DataGridView.MultiSelect = false;
             this.DataGridView.Name = "DataGridView";
             this.DataGridView.ReadOnly = true;
             this.DataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -66,11 +69,33 @@ namespace DiscordRfid.Views
             this.BtnAdd.UseVisualStyleBackColor = true;
             this.BtnAdd.Click += new System.EventHandler(this.BtnAdd_Click);
             // 
+            // BtnUpdate
+            // 
+            this.BtnUpdate.Location = new System.Drawing.Point(82, 13);
+            this.BtnUpdate.Name = "BtnUpdate";
+            this.BtnUpdate.Size = new System.Drawing.Size(79, 33);
+            this.BtnUpdate.TabIndex = 3;
+            this.BtnUpdate.Text = "Update";
+            this.BtnUpdate.UseVisualStyleBackColor = true;
+            this.BtnUpdate.Click += new System.EventHandler(this.BtnUpdate_Click);
+            // 
+            // BtnDelete
+            // 
+            this.BtnDelete.Location = new System.Drawing.Point(167, 13);
+            this.BtnDelete.Name = "BtnDelete";
+            this.BtnDelete.Size = new System.Drawing.Size(79, 33);
+            this.BtnDelete.TabIndex = 4;
+            this.BtnDelete.Text = "Delete";
+            this.BtnDelete.UseVisualStyleBackColor = true;
+            this.BtnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
+            // 
             // EmployeesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(716, 397);
+            this.Controls.Add(this.BtnDelete);
+            this.Controls.Add(this.BtnUpdate);
             this.Controls.Add(this.BtnAdd);
             this.Controls.Add(this.DataGridView);
             this.DialogButtons = DiscordRfid.Views.Controls.DialogFormButtons.Close;
@@ -78,6 +103,8 @@ namespace DiscordRfid.Views
             this.Text = "Employees";
             this.Controls.SetChildIndex(this.DataGridView, 0);
             this.Controls.SetChildIndex(this.BtnAdd, 0);
+            this.Controls.SetChildIndex(this.BtnUpdate, 0);
+            this.Controls.SetChildIndex(this.BtnDelete, 0);
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -88,5 +115,7 @@ namespace DiscordRfid.Views
 
         private System.Windows.Forms.DataGridView DataGridView;
         private System.Windows.Forms.Button BtnAdd;
+        private System.Windows.Forms.Button BtnUpdate;
+        private System.Windows.Forms.Button BtnDelete;
     }
 }

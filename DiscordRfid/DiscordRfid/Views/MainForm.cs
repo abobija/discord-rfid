@@ -53,14 +53,7 @@ namespace DiscordRfid.Views
         private async Task OnShownAsync(object sender, EventArgs e)
         {
             LoadAndUpdateEmployeeCounters();
-
-            Database.Instance.ModelCreated += model =>
-            {
-                if(model is Employee)
-                {
-                    LoadAndUpdateEmployeeCounters();
-                }
-            };
+            BaseController<Employee>.ModelCreated += emp => LoadAndUpdateEmployeeCounters();
 
             try
             {

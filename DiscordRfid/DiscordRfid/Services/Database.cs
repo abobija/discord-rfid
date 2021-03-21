@@ -1,5 +1,4 @@
 ﻿using DiscordRfid.Controllers;
-using DiscordRfid.Models;
 using Microsoft.Data.Sqlite;
 using Serilog;
 using System;
@@ -11,15 +10,11 @@ namespace DiscordRfid.Services
     {
         protected string ConnectionString => $"Data Source={Path.Combine(Environment.CurrentDirectory, "rfid.db")}";
 
-        public event Action<IModel> ModelCreated;
-
         protected Database()
         {
             Log.Debug("Database contructor");
             Init();
         }
-
-        public void FireModelCreated(IModel model) => ModelCreated?.Invoke(model);
 
         private void Init()
         {

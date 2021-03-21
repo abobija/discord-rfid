@@ -1,5 +1,4 @@
 ﻿using DiscordRfid.Models;
-using DiscordRfid.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -13,6 +12,10 @@ namespace DiscordRfid.Controllers
     {
         protected DbConnection Connection;
         public abstract string TableName { get; }
+
+        public static event Action<T> ModelCreated;
+        public static event Action<T> ModelUpdated;
+        public static event Action<T> ModelDeleted;
 
         public BaseController(DbConnection connection)
         {
@@ -93,7 +96,7 @@ namespace DiscordRfid.Controllers
             }
 
             T newModel = GetById(lastId);
-            Database.Instance.FireModelCreated(newModel);
+            ModelCreated?.Invoke(newModel);
 
             return newModel;
         }
@@ -106,6 +109,23 @@ namespace DiscordRfid.Controllers
         public virtual T Update(T model)
         {
             throw new NotImplementedException($"Method Update not implemented for controller of model {typeof(T).Name}");
+        }
+
+        public virtual int Delete(T model)
+        {
+            using (var cmd = Connection.CreateCommand())
+            {
+                cmd.CommandText = $"DELETE FROM {TableName} WHERE Id = @Id";
+                cmd.AddParameter("@Id", model.Id);
+                int rows = cmd.ExecuteNonQuery();
+
+                if(rows > 0)
+                {
+                    ModelDeleted?.Invoke(model);
+                }
+
+                return rows;
+            }
         }
 
         protected bool TableExists(string tableName)
