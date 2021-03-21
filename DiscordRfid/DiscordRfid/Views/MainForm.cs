@@ -54,6 +54,7 @@ namespace DiscordRfid.Views
         {
             LoadAndUpdateEmployeeCounters();
             BaseController<Employee>.ModelCreated += emp => LoadAndUpdateEmployeeCounters();
+            BaseController<Employee>.ModelDeleted += emp => LoadAndUpdateEmployeeCounters();
 
             try
             {

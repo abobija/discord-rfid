@@ -38,7 +38,7 @@ namespace DiscordRfid.Controllers
             return Activator.CreateInstance(ctrlType, connection) as BaseController<T>;
         }
 
-        public virtual T FromDataReader(DbDataReader reader)
+        public virtual T GetModelFromDataReader(DbDataReader reader)
         {
             throw new NotImplementedException($"Method FromDataReader not implemented for controller of model {typeof(T).Name}");
         }
@@ -62,7 +62,7 @@ namespace DiscordRfid.Controllers
                 {
                     while(reader.Read())
                     {
-                        list.Add(FromDataReader(reader));
+                        list.Add(GetModelFromDataReader(reader));
                     }
                 }
             }
@@ -79,7 +79,7 @@ namespace DiscordRfid.Controllers
 
                 using (var reader = cmd.ExecuteReader())
                 {
-                    return reader.Read() ? FromDataReader(reader) : null;
+                    return reader.Read() ? GetModelFromDataReader(reader) : null;
                 }
             }
         }
@@ -90,7 +90,7 @@ namespace DiscordRfid.Controllers
 
             using (var cmd = Connection.CreateCommand())
             {
-                cmd.CommandText = $"{sql}; SELECT last_insert_rowid()";
+                cmd.CommandText = $"INSERT INTO {TableName}{sql}; SELECT last_insert_rowid()";
                 addParameters(cmd);
                 lastId = Convert.ToInt32(cmd.ExecuteScalar());
             }
@@ -99,6 +99,27 @@ namespace DiscordRfid.Controllers
             ModelCreated?.Invoke(newModel);
 
             return newModel;
+        }
+
+        protected T Update(T model, string sql, Action<DbCommand> addParameters)
+        {
+            int rows = 0;
+            using (var cmd = Connection.CreateCommand())
+            {
+                cmd.CommandText = $"UPDATE {TableName} SET {sql} WHERE Id = @Id";
+                cmd.AddParameter("@Id", model.Id);
+                addParameters(cmd);
+                rows = cmd.ExecuteNonQuery();
+            }
+
+            if (rows > 0)
+            {
+                T newModel = GetById(model.Id);
+                ModelUpdated?.Invoke(newModel);
+                return newModel;
+            }
+
+            return null;
         }
 
         public virtual T Create(T model)

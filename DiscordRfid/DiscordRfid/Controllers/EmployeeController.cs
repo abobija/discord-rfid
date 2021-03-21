@@ -39,14 +39,24 @@ namespace DiscordRfid.Controllers
 
         public override Employee Create(Employee employee)
         {
-            return Create($"INSERT INTO {TableName}(FirstName, LastName) VALUES(@FirstName, @LastName)",
+            return Create($"(FirstName, LastName) VALUES(@FirstName, @LastName)",
                     cmd => cmd
                     .AddParameter("@FirstName", employee.FirstName)
                     .AddParameter("@LastName", employee.LastName)
                 );
         }
 
-        public override Employee FromDataReader(DbDataReader reader)
+        public override Employee Update(Employee model)
+        {
+            return Update(model, "FirstName = @FirstName, LastName = @LastName, Present = @Present",
+                cmd => cmd
+                .AddParameter("@FirstName", model.FirstName)
+                .AddParameter("@LastName", model.LastName)
+                .AddParameter("@Present", model.Present)
+            );
+        }
+
+        public override Employee GetModelFromDataReader(DbDataReader reader)
         {
             return new Employee
             {

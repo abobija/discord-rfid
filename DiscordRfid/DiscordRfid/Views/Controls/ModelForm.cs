@@ -29,6 +29,10 @@ namespace DiscordRfid.Views.Controls
             try
             {
                 var model = ConstructModel();
+                if(Model != null)
+                {
+                    model.Id = Model.Id;
+                }
                 model.Validate();
                 SaveModel(model);
                 base.OnDialogSave(sender, e);
