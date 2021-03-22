@@ -2,6 +2,7 @@
 using DiscordRfid.Models;
 using Serilog;
 using System;
+using System.Collections.Generic;
 using System.Data.Common;
 
 namespace DiscordRfid.Controllers
@@ -15,7 +16,37 @@ namespace DiscordRfid.Controllers
 
         public override RfidTag[] Get(BaseFilter<RfidTag> filter)
         {
-            throw new NotImplementedException();
+            var empCtrl = new EmployeeController(Connection);
+
+            return GetModels(
+                new string[] {
+                    $"{TableAlias}.Id AS tag_Id",
+                    $"{TableAlias}.CreatedAt AS tag_CreatedAt",
+                    $"{TableAlias}.SerialNumber AS tag_SerialNumber",
+                    $"{empCtrl.TableAlias}.Id AS emp_Id",
+                    $"{empCtrl.TableAlias}.CreatedAt AS emp_CreatedAt",
+                    $"{empCtrl.TableAlias}.FirstName AS emp_FirstName",
+                    $"{empCtrl.TableAlias}.LastName AS emp_LastName",
+                    $"{empCtrl.TableAlias}.Present AS emp_Present",
+                    $"(SELECT COUNT(*) FROM {TableName} _{TableAlias} WHERE _{TableAlias}.EmployeeId = {empCtrl.TableAlias}.Id) AS emp_TagsCount"
+                },
+                filter,
+                new string[]
+                {
+                    $"LEFT JOIN {empCtrl.TableName} {empCtrl.TableAlias} ON {empCtrl.TableAlias}.Id = {TableAlias}.EmployeeId"
+                }
+            );
+        }
+
+        public override RfidTag GetFromDataReader(DbDataReader reader)
+        {
+            return new RfidTag
+            {
+                Id = (int)reader.GetInt32ByName("tag_Id"),
+                CreatedAt = (DateTime)reader.GetDateTimeByName("tag_CreatedAt"),
+                SerialNumber = (ulong)reader.GetInt64ByName("tag_SerialNumber"),
+                Employee = new EmployeeController(Connection).GetFromDataReader(reader)
+            };
         }
 
         public override void CreateSchema()
@@ -38,16 +69,6 @@ namespace DiscordRfid.Controllers
             }
         }
 
-        public override RfidTag GetFromDataReader(DbDataReader reader)
-        {
-            return new RfidTag
-            {
-                Id = (int)reader.GetInt32ByName("Id"),
-                CreatedAt = (DateTime)reader.GetDateTimeByName("CreatedAt"),
-                SerialNumber = (ulong) reader.GetInt64ByName("SerialNumber")
-            };
-        }
-
         public override RfidTag Create(RfidTag tag)
         {
             return Create($"(SerialNumber, EmployeeId) VALUES(@SerialNumber, @EmployeeId)",
@@ -59,10 +80,9 @@ namespace DiscordRfid.Controllers
 
         public override RfidTag Update(RfidTag tag)
         {
-            return Update(tag, "SerialNumber = @SerialNumber, EmployeeId = @EmployeeId",
+            return Update(tag, "SerialNumber = @SerialNumber",
                 cmd => cmd
                 .AddParameter("@SerialNumber", tag.SerialNumber)
-                .AddParameter("@EmployeeId", tag.Employee.Id)
             );
         }
     }

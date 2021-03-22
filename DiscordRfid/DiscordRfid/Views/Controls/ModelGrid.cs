@@ -1,7 +1,7 @@
-﻿using DiscordRfid.Controllers;
-using DiscordRfid.Models;
+﻿using DiscordRfid.Models;
 using DiscordRfid.Services;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
@@ -26,6 +26,8 @@ namespace DiscordRfid.Views.Controls
                 return srows[0].DataBoundItem as T;
             }
         }
+
+        public event Action<ICollection<T>> ModelsAdded;
 
         public ModelGrid()
         {
@@ -61,7 +63,10 @@ namespace DiscordRfid.Views.Controls
                 using (var con = Database.Instance.CreateConnection())
                 {
                     con.Open();
-                    DataSource = Reflector<T>.GetController(con).Get(ParentGridDialog.ModelFilter).ToList();
+                    var models = Reflector<T>.GetController(con).Get(ParentGridDialog.ModelFilter).ToList();
+                    DataSource = models;
+
+                    ModelsAdded?.Invoke(models);
                     
                     var lastColumn = Columns[ColumnCount - 1];
                     lastColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;

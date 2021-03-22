@@ -15,11 +15,11 @@ namespace DiscordRfid.Views.Controls
     [ToolboxItem(false)]
     public abstract class ModelGridDialog<T> : Dialog where T : BaseModel
     {
-        public BaseFilter<T> ModelFilter { get; private set; }
+        public BaseFilter<T> ModelFilter { get; protected set; }
 
         public ModelToolbox Toolbox { get; private set; }
         private readonly Panel GridPanel;
-        private readonly ModelGrid<T> Grid;
+        public ModelGrid<T> Grid { get; private set; }
 
         public bool ModelSelected => Grid.IsModelSelected;
 
@@ -56,6 +56,8 @@ namespace DiscordRfid.Views.Controls
                 Margin = new Padding(5)
             };
 
+            Grid.ModelsAdded += OnModelsAddedToGrid;
+
             GridPanel.Controls.Add(Grid);
 
             main.Controls.Add(GridPanel);
@@ -66,6 +68,8 @@ namespace DiscordRfid.Views.Controls
             ResumeLayout();
             PerformLayout();
         }
+
+        protected virtual void OnModelsAddedToGrid(ICollection<T> models) { }
 
         protected override void OnShown(EventArgs e)
         {

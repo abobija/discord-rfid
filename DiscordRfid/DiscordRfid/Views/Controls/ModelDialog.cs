@@ -47,18 +47,11 @@ namespace DiscordRfid.Views.Controls
 
         protected virtual void SaveModel(T validatedModel)
         {
-            try
+            using (var con = Database.Instance.CreateConnection())
             {
-                using (var con = Database.Instance.CreateConnection())
-                {
-                    con.Open();
-                    var ctrl = Reflector<T>.GetController(con).SetState(Model);
-                    NewModel = Model == null ? ctrl.Create(validatedModel) : ctrl.Update(validatedModel);
-                }
-            }
-            catch (Exception ex)
-            {
-                this.Error(ex);
+                con.Open();
+                var ctrl = Reflector<T>.GetController(con).SetState(Model);
+                NewModel = Model == null ? ctrl.Create(validatedModel) : ctrl.Update(validatedModel);
             }
         }
 

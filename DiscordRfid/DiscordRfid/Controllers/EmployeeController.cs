@@ -20,14 +20,13 @@ namespace DiscordRfid.Controllers
             var tagCtrl = new RfidTagController(Connection);
 
             return GetModels(
-                "emp",
-                new List<string>{
-                    "emp.Id AS emp_Id",
-                    "emp.CreatedAt AS emp_CreatedAt",
-                    "emp.FirstName AS emp_FirstName",
-                    "emp.LastName AS emp_LastName",
-                    "emp.Present AS emp_Present",
-                    $"(SELECT COUNT(*) FROM {tagCtrl.TableName} tag WHERE tag.EmployeeId = emp.Id) AS emp_TagsCount"
+                new string[] {
+                    $"{TableAlias}.Id AS emp_Id",
+                    $"{TableAlias}.CreatedAt AS emp_CreatedAt",
+                    $"{TableAlias}.FirstName AS emp_FirstName",
+                    $"{TableAlias}.LastName AS emp_LastName",
+                    $"{TableAlias}.Present AS emp_Present",
+                    $"(SELECT COUNT(*) FROM {tagCtrl.TableName} {tagCtrl.TableAlias} WHERE {tagCtrl.TableAlias}.EmployeeId = {TableAlias}.Id) AS emp_TagsCount"
                 },
                 filter
             );

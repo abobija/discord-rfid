@@ -222,7 +222,7 @@ namespace DiscordRfid.Views
         {
             using (var frm = new EmployeesForm())
             {
-                frm.ShowDialog();
+                frm.ShowDialog(this);
             }
         }
     }

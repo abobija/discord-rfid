@@ -3,11 +3,11 @@ using DiscordRfid.Models;
 
 namespace DiscordRfid.Filters
 {
-    public class EmployeeFilter : BaseFilter<Employee>
+    public class RfidTagFilter : BaseFilter<RfidTag>
     {
-        public EmployeeFilter()
+        public RfidTagFilter()
         {
-            var ctrl = new EmployeeController(null);
+            var ctrl = new RfidTagController(null);
             OrderBy = $"{ctrl.TableAlias}.Id DESC";
         }
     }

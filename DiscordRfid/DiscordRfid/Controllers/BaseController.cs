@@ -12,7 +12,8 @@ namespace DiscordRfid.Controllers
     {
         protected DbConnection Connection;
         public abstract string TableName { get; }
-
+        public string TableAlias => $"_{typeof(T).Name}";
+        
         public T State { get; private set; }
 
         public static event Action<T> ModelCreated;
@@ -35,7 +36,7 @@ namespace DiscordRfid.Controllers
             throw new NotImplementedException($"Method GetFromDataReader not implemented for controller of model {typeof(T).Name}");
         }
 
-        protected T[] GetModels(string tableAlias, ICollection<string> sqlSelects, BaseFilter<T> filter = null)
+        protected T[] GetModels(ICollection<string> sqlSelects, BaseFilter<T> filter = null, ICollection<string> sqlJoins = null)
         {
             var list = new List<T>();
 
@@ -43,7 +44,12 @@ namespace DiscordRfid.Controllers
                 .AppendLine($"SELECT");
 
             query.AppendLine(string.Join(",", sqlSelects));
-            query.AppendLine($"FROM {TableName} {tableAlias}");
+            query.AppendLine($"FROM {TableName} {TableAlias}");
+
+            if(sqlJoins != null)
+            {
+                query.AppendLine(string.Join(Environment.NewLine, sqlJoins));
+            }
 
             if(filter != null)
             {
@@ -77,7 +83,7 @@ namespace DiscordRfid.Controllers
         public T GetById(int id)
         {
             var filter = Reflector<T>.GetFilter();
-            filter.Where = $"Id = {id}";
+            filter.Where = $"{TableAlias}.Id = {id}";
             return Get(filter)?[0];
         }
 

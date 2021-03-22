@@ -32,7 +32,7 @@ namespace DiscordRfid.Views
             this.label1 = new System.Windows.Forms.Label();
             this.TxtSerialNumber = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.PanelEmployeeButtonWrapper = new System.Windows.Forms.Panel();
+            this.LblEmployee = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -56,25 +56,27 @@ namespace DiscordRfid.Views
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.Color.DimGray;
-            this.label2.Location = new System.Drawing.Point(51, 78);
+            this.label2.Location = new System.Drawing.Point(51, 74);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(78, 21);
             this.label2.TabIndex = 4;
             this.label2.Text = "Employee";
             // 
-            // PanelEmployeeButtonWrapper
+            // LblEmployee
             // 
-            this.PanelEmployeeButtonWrapper.Location = new System.Drawing.Point(135, 65);
-            this.PanelEmployeeButtonWrapper.Name = "PanelEmployeeButtonWrapper";
-            this.PanelEmployeeButtonWrapper.Size = new System.Drawing.Size(170, 51);
-            this.PanelEmployeeButtonWrapper.TabIndex = 5;
+            this.LblEmployee.AutoSize = true;
+            this.LblEmployee.Location = new System.Drawing.Point(135, 74);
+            this.LblEmployee.Name = "LblEmployee";
+            this.LblEmployee.Size = new System.Drawing.Size(78, 21);
+            this.LblEmployee.TabIndex = 5;
+            this.LblEmployee.Text = "Employee";
             // 
             // RfidTagForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(332, 185);
-            this.Controls.Add(this.PanelEmployeeButtonWrapper);
+            this.ClientSize = new System.Drawing.Size(332, 173);
+            this.Controls.Add(this.LblEmployee);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.TxtSerialNumber);
             this.Controls.Add(this.label1);
@@ -83,7 +85,7 @@ namespace DiscordRfid.Views
             this.Controls.SetChildIndex(this.label1, 0);
             this.Controls.SetChildIndex(this.TxtSerialNumber, 0);
             this.Controls.SetChildIndex(this.label2, 0);
-            this.Controls.SetChildIndex(this.PanelEmployeeButtonWrapper, 0);
+            this.Controls.SetChildIndex(this.LblEmployee, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -94,6 +96,6 @@ namespace DiscordRfid.Views
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox TxtSerialNumber;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Panel PanelEmployeeButtonWrapper;
+        private System.Windows.Forms.Label LblEmployee;
     }
 }

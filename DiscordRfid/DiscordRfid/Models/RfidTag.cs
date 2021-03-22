@@ -1,12 +1,11 @@
-﻿using System;
-using System.Activities;
+﻿using System.Activities;
 
 namespace DiscordRfid.Models
 {
     public class RfidTag : BaseModel
     {
-        public ulong SerialNumber;
-        public Employee Employee;
+        public ulong SerialNumber { get; set; }
+        public Employee Employee { get; set; }
 
         public RfidTag() { }
 

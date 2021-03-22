@@ -40,7 +40,9 @@ namespace DiscordRfid.Services
                 throw new TypeLoadException($"Unable to find ModelDialog for {typeof(T).Name} model");
             }
 
-            return Activator.CreateInstance(dialogType, model) as ModelDialog<T>;
+            var dialog =  Activator.CreateInstance(dialogType, model) as ModelDialog<T>;
+
+            return dialog;
         }
 
         public static BaseFilter<T> GetFilter()

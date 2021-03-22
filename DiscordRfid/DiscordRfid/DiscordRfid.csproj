@@ -123,6 +123,7 @@
     <Compile Include="Dtos\EmployeeCounters.cs" />
     <Compile Include="Filters\BaseFilter.cs" />
     <Compile Include="Filters\EmployeeFilter.cs" />
+    <Compile Include="Filters\RfidTagFilter.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\IModel.cs" />
     <Compile Include="Services\Database.cs" />
@@ -173,6 +174,9 @@
     </Compile>
     <Compile Include="Views\RfidTagForm.Designer.cs">
       <DependentUpon>RfidTagForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RfIdTagsForm.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Views\TokenForm.cs">
       <SubType>Form</SubType>
