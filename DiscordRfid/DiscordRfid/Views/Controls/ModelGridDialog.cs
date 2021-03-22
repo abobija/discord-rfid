@@ -2,20 +2,82 @@
 using DiscordRfid.Models;
 using DiscordRfid.Services;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace DiscordRfid.Views.Controls
 {
+    public class ModelGridButton : DialogButton
+    {
+        public ModelGridButton(string text) : base(text)
+        { }
+    }
+
+    public class ModelToolbox : DialogFlowPanel
+    {
+        public ModelToolbox()
+        {
+            Dock = DockStyle.Top;
+        }
+
+        public ModelToolbox(ICollection<ModelToolboxGroup> groups) : this()
+        {
+            Controls.AddRange(groups.ToArray());
+        }
+
+        public ModelToolbox(ModelToolboxGroup group) : this()
+        {
+            Add(group);
+        }
+
+        public ModelToolbox Add(ModelToolboxGroup group)
+        {
+            Controls.Add(group);
+            return this;
+        }
+
+        public ModelToolbox Add(ModelGridButton button)
+        {
+            return Add(new ModelToolboxGroup(button));
+        }
+    }
+
+    public class ModelToolboxGroup : FlowLayoutPanel
+    {
+        public ModelToolboxGroup()
+        {
+            AutoSize = true;
+            Padding = new Padding(5);
+        }
+
+        public ModelToolboxGroup(ICollection<ModelGridButton> buttons) : this()
+        {
+            Controls.AddRange(buttons.ToArray());
+        }
+
+        public ModelToolboxGroup(ModelGridButton button) : this()
+        {
+            Add(button);
+        }
+
+        public ModelToolboxGroup Add(ModelGridButton button)
+        {
+            Controls.Add(button);
+            return this;
+        }
+    }
+
     public class ModelGridDialog<T> : Dialog where T : BaseModel
     {
-        private readonly DialogFlowPanel CrudPanel;
+        protected ModelToolbox Toolbox { get; private set; }
         private readonly Panel GridPanel;
         private readonly ModelGrid<T> Grid;
 
-        private readonly DialogButton ButtonModelNew;
-        private readonly DialogButton ButtonModelEdit;
-        private readonly DialogButton ButtonModelDelete;
+        private readonly ModelGridButton ButtonModelNew;
+        private readonly ModelGridButton ButtonModelEdit;
+        private readonly ModelGridButton ButtonModelDelete;
 
         public bool ModelSelected => Grid.ModelSelected;
 
@@ -32,22 +94,17 @@ namespace DiscordRfid.Views.Controls
                 Dock = DockStyle.Fill
             };
 
-            CrudPanel = new DialogFlowPanel
-            {
-                Dock = DockStyle.Top
-            };
-
-            ButtonModelNew = new DialogButton("New");
-            ButtonModelEdit = new DialogButton("Edit");
-            ButtonModelDelete = new DialogButton("Delete");
+            ButtonModelNew = new ModelGridButton("New");
+            ButtonModelEdit = new ModelGridButton("Edit");
+            ButtonModelDelete = new ModelGridButton("Delete");
 
             ButtonModelNew.Click += OnButtonModelNewClick;
             ButtonModelEdit.Click += OnButtonModelEditClick;
             ButtonModelDelete.Click += OnButtonModelDeleteClick;
 
-            CrudPanel.Controls.Add(ButtonModelNew);
-            CrudPanel.Controls.Add(ButtonModelEdit);
-            CrudPanel.Controls.Add(ButtonModelDelete);
+            Toolbox = new ModelToolbox(new ModelToolboxGroup(new ModelGridButton[]{
+                ButtonModelNew, ButtonModelEdit, ButtonModelDelete
+            }));
 
             GridPanel = new Panel
             {
@@ -64,7 +121,7 @@ namespace DiscordRfid.Views.Controls
             GridPanel.Controls.Add(Grid);
 
             main.Controls.Add(GridPanel);
-            main.Controls.Add(CrudPanel);
+            main.Controls.Add(Toolbox);
 
             SuspendLayout();
             AddControl(main);

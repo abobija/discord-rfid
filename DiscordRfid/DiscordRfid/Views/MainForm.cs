@@ -220,7 +220,7 @@ namespace DiscordRfid.Views
 
         private void LinkLblEmployees_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            using (var frm = new ModelGridDialog<Employee>())
+            using (var frm = new EmployeeGridView())
             {
                 frm.ShowDialog();
             }
