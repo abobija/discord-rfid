@@ -62,6 +62,11 @@ namespace DiscordRfid.Controllers
                 {
                     query.AppendLine($"ORDER BY {filter.OrderBy}");
                 }
+
+                if(filter.Limit != null)
+                {
+                    query.AppendLine($"LIMIT {filter.Limit}");
+                }
             }
 
             using (var cmd = Connection.CreateCommand())

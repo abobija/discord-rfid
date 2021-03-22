@@ -1,4 +1,5 @@
-﻿using DiscordRfid.Models;
+﻿using DiscordRfid.Filters;
+using DiscordRfid.Models;
 using DiscordRfid.Services;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,9 @@ namespace DiscordRfid.Views.Controls
 
         protected override void OnSelectionChanged(EventArgs e)
         {
+            if (ParentGridDialog == null)
+                return;
+
             ParentGridDialog.Toolbox.Buttons.SetEnableStateOfAllModelNotSelected(IsModelSelected);
         }
 
@@ -63,7 +67,12 @@ namespace DiscordRfid.Views.Controls
                 using (var con = Database.Instance.CreateConnection())
                 {
                     con.Open();
-                    var models = Reflector<T>.GetController(con).Get(ParentGridDialog.ModelFilter).ToList();
+
+                    var filter = ParentGridDialog != null 
+                        ? ParentGridDialog.ModelFilter 
+                        : Reflector<T>.GetFilter();
+
+                    var models = Reflector<T>.GetController(con).Get(filter).ToList();
                     DataSource = models;
 
                     ModelsAdded?.Invoke(models);

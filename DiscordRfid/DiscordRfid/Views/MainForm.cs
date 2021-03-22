@@ -16,18 +16,16 @@ namespace DiscordRfid.Views
         protected string BotName { set => LblBotName.Text = $"Bot: {value}"; }
         protected string ServerName { set => LblServerName.Text = $"@ Server: {value}"; }
 
-        private EmployeeCounters _employeeCounters;
+        protected ModelGrid<RfidTagActivity> ActivityGrid { get; set; }
+
         private EmployeeCounters EmployeeCounters
         {
-            get => _employeeCounters;
             set
             {
-                _employeeCounters = value;
-                LblCounterEmployeesTotal.Text = _employeeCounters.Total.ToString();
-
-                PresentAbsentVisible = _employeeCounters.Total > 0;
-                LblCounterEmployeesPresent.Text = _employeeCounters.Present.ToString();
-                LblCounterEmployeesAbsent.Text = _employeeCounters.Absent.ToString();
+                LblCounterEmployeesTotal.Text = value.Total.ToString();
+                PresentAbsentVisible = value.Total > 0;
+                LblCounterEmployeesPresent.Text = value.Present.ToString();
+                LblCounterEmployeesAbsent.Text = value.Absent.ToString();
             }
         }
 
@@ -43,9 +41,30 @@ namespace DiscordRfid.Views
             ServerName = "";
             PresentAbsentVisible = false;
 
+            ActivityGrid = new ModelGrid<RfidTagActivity> { Dock = DockStyle.Fill };
+
+            bool formated = false;
+            ActivityGrid.RowsAdded += (o, e) =>
+            {
+                if (formated)
+                    return;
+
+                foreach(DataGridViewColumn col in ActivityGrid.Columns)
+                {
+                    if(col.ValueType == typeof(DateTime))
+                    {
+                        col.DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss";
+                    }
+                }
+
+                formated = true;
+            };
+
+            PanelActivity.Controls.Add(ActivityGrid);
+
             InitClock();
             InitBot();
-
+            
             Shown += async (o, e) => await OnShownAsync(o, e);
         }
 
@@ -62,6 +81,7 @@ namespace DiscordRfid.Views
 
             try
             {
+                ActivityGrid.Reload();
                 State = "Connecting...";
                 //await Bot.Instance.ConnectAsync();
             }

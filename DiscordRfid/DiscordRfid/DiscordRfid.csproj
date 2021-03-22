@@ -123,6 +123,7 @@
     <Compile Include="Dtos\EmployeeCounters.cs" />
     <Compile Include="Filters\BaseFilter.cs" />
     <Compile Include="Filters\EmployeeFilter.cs" />
+    <Compile Include="Filters\RfidTagActivityFilter.cs" />
     <Compile Include="Filters\RfidTagFilter.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\IModel.cs" />

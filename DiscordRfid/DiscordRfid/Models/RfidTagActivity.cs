@@ -4,7 +4,7 @@ namespace DiscordRfid.Models
 {
     public class RfidTagActivity : BaseModel
     {
-        public RfidTag Tag;
-        public bool Present;
+        public bool Present { get; set; }
+        public RfidTag Tag { get; set; }
     }
 }

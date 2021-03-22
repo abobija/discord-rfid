@@ -27,5 +27,10 @@ namespace DiscordRfid.Models
                 throw new ValidationException("Missing Employee");
             }
         }
+
+        public override string ToString()
+        {
+            return $"{SerialNumber} ({$"{Employee.FirstName} {Employee.LastName}".Trim()})";
+        }
     }
 }

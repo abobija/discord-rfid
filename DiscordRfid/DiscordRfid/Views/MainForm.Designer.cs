@@ -41,26 +41,28 @@
             this.ToolBtnNewEmployee = new System.Windows.Forms.ToolStripButton();
             this.PnlMain = new System.Windows.Forms.Panel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.LinkLblEmployees = new System.Windows.Forms.LinkLabel();
             this.LblCounterEmployeesTotal = new System.Windows.Forms.Label();
+            this.FlowPanelPresent = new System.Windows.Forms.FlowLayoutPanel();
             this.LblPresent = new System.Windows.Forms.Label();
             this.LblCounterEmployeesPresent = new System.Windows.Forms.Label();
+            this.FlowPanelAbsent = new System.Windows.Forms.FlowLayoutPanel();
             this.LblAbsent = new System.Windows.Forms.Label();
             this.LblCounterEmployeesAbsent = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.FlowPanelPresent = new System.Windows.Forms.FlowLayoutPanel();
-            this.FlowPanelAbsent = new System.Windows.Forms.FlowLayoutPanel();
-            this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
+            this.PanelActivity = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
             this.PackagesListView = new DiscordRfid.Views.Controls.PackagesListView();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.PnlMain.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.flowLayoutPanel4.SuspendLayout();
             this.FlowPanelPresent.SuspendLayout();
             this.FlowPanelAbsent.SuspendLayout();
-            this.flowLayoutPanel4.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -155,6 +157,8 @@
             // 
             // PnlMain
             // 
+            this.PnlMain.Controls.Add(this.label2);
+            this.PnlMain.Controls.Add(this.PanelActivity);
             this.PnlMain.Controls.Add(this.flowLayoutPanel1);
             this.PnlMain.Controls.Add(this.panel1);
             this.PnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -171,11 +175,22 @@
             this.flowLayoutPanel1.Controls.Add(this.flowLayoutPanel4);
             this.flowLayoutPanel1.Controls.Add(this.FlowPanelPresent);
             this.flowLayoutPanel1.Controls.Add(this.FlowPanelAbsent);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(19, 16);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(14, 15);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(5);
             this.flowLayoutPanel1.Size = new System.Drawing.Size(343, 42);
             this.flowLayoutPanel1.TabIndex = 11;
+            // 
+            // flowLayoutPanel4
+            // 
+            this.flowLayoutPanel4.AutoSize = true;
+            this.flowLayoutPanel4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowLayoutPanel4.Controls.Add(this.LinkLblEmployees);
+            this.flowLayoutPanel4.Controls.Add(this.LblCounterEmployeesTotal);
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(8, 8);
+            this.flowLayoutPanel4.Name = "flowLayoutPanel4";
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(111, 26);
+            this.flowLayoutPanel4.TabIndex = 14;
             // 
             // LinkLblEmployees
             // 
@@ -201,6 +216,18 @@
             this.LblCounterEmployeesTotal.TabIndex = 8;
             this.LblCounterEmployeesTotal.Text = "5";
             // 
+            // FlowPanelPresent
+            // 
+            this.FlowPanelPresent.AutoSize = true;
+            this.FlowPanelPresent.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.FlowPanelPresent.Controls.Add(this.LblPresent);
+            this.FlowPanelPresent.Controls.Add(this.LblCounterEmployeesPresent);
+            this.FlowPanelPresent.Location = new System.Drawing.Point(142, 8);
+            this.FlowPanelPresent.Margin = new System.Windows.Forms.Padding(20, 3, 3, 3);
+            this.FlowPanelPresent.Name = "FlowPanelPresent";
+            this.FlowPanelPresent.Size = new System.Drawing.Size(86, 26);
+            this.FlowPanelPresent.TabIndex = 12;
+            // 
             // LblPresent
             // 
             this.LblPresent.AutoSize = true;
@@ -221,6 +248,18 @@
             this.LblCounterEmployeesPresent.Size = new System.Drawing.Size(17, 20);
             this.LblCounterEmployeesPresent.TabIndex = 9;
             this.LblCounterEmployeesPresent.Text = "3";
+            // 
+            // FlowPanelAbsent
+            // 
+            this.FlowPanelAbsent.AutoSize = true;
+            this.FlowPanelAbsent.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.FlowPanelAbsent.Controls.Add(this.LblAbsent);
+            this.FlowPanelAbsent.Controls.Add(this.LblCounterEmployeesAbsent);
+            this.FlowPanelAbsent.Location = new System.Drawing.Point(251, 8);
+            this.FlowPanelAbsent.Margin = new System.Windows.Forms.Padding(20, 3, 3, 3);
+            this.FlowPanelAbsent.Name = "FlowPanelAbsent";
+            this.FlowPanelAbsent.Size = new System.Drawing.Size(84, 26);
+            this.FlowPanelAbsent.TabIndex = 13;
             // 
             // LblAbsent
             // 
@@ -266,40 +305,25 @@
             this.label1.Text = "Recent RFID packages";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // FlowPanelPresent
+            // PanelActivity
             // 
-            this.FlowPanelPresent.AutoSize = true;
-            this.FlowPanelPresent.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.FlowPanelPresent.Controls.Add(this.LblPresent);
-            this.FlowPanelPresent.Controls.Add(this.LblCounterEmployeesPresent);
-            this.FlowPanelPresent.Location = new System.Drawing.Point(142, 8);
-            this.FlowPanelPresent.Margin = new System.Windows.Forms.Padding(20, 3, 3, 3);
-            this.FlowPanelPresent.Name = "FlowPanelPresent";
-            this.FlowPanelPresent.Size = new System.Drawing.Size(86, 26);
-            this.FlowPanelPresent.TabIndex = 12;
+            this.PanelActivity.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PanelActivity.Location = new System.Drawing.Point(14, 93);
+            this.PanelActivity.Name = "PanelActivity";
+            this.PanelActivity.Size = new System.Drawing.Size(574, 337);
+            this.PanelActivity.TabIndex = 12;
             // 
-            // FlowPanelAbsent
+            // label2
             // 
-            this.FlowPanelAbsent.AutoSize = true;
-            this.FlowPanelAbsent.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.FlowPanelAbsent.Controls.Add(this.LblAbsent);
-            this.FlowPanelAbsent.Controls.Add(this.LblCounterEmployeesAbsent);
-            this.FlowPanelAbsent.Location = new System.Drawing.Point(251, 8);
-            this.FlowPanelAbsent.Margin = new System.Windows.Forms.Padding(20, 3, 3, 3);
-            this.FlowPanelAbsent.Name = "FlowPanelAbsent";
-            this.FlowPanelAbsent.Size = new System.Drawing.Size(84, 26);
-            this.FlowPanelAbsent.TabIndex = 13;
-            // 
-            // flowLayoutPanel4
-            // 
-            this.flowLayoutPanel4.AutoSize = true;
-            this.flowLayoutPanel4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel4.Controls.Add(this.LinkLblEmployees);
-            this.flowLayoutPanel4.Controls.Add(this.LblCounterEmployeesTotal);
-            this.flowLayoutPanel4.Location = new System.Drawing.Point(8, 8);
-            this.flowLayoutPanel4.Name = "flowLayoutPanel4";
-            this.flowLayoutPanel4.Size = new System.Drawing.Size(111, 26);
-            this.flowLayoutPanel4.TabIndex = 14;
+            this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.DimGray;
+            this.label2.Location = new System.Drawing.Point(17, 70);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(58, 20);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "Activity";
             // 
             // PackagesListView
             // 
@@ -340,13 +364,13 @@
             this.PnlMain.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
-            this.panel1.ResumeLayout(false);
+            this.flowLayoutPanel4.ResumeLayout(false);
+            this.flowLayoutPanel4.PerformLayout();
             this.FlowPanelPresent.ResumeLayout(false);
             this.FlowPanelPresent.PerformLayout();
             this.FlowPanelAbsent.ResumeLayout(false);
             this.FlowPanelAbsent.PerformLayout();
-            this.flowLayoutPanel4.ResumeLayout(false);
-            this.flowLayoutPanel4.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -377,6 +401,8 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
         private System.Windows.Forms.FlowLayoutPanel FlowPanelPresent;
         private System.Windows.Forms.FlowLayoutPanel FlowPanelAbsent;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Panel PanelActivity;
     }
 }
 

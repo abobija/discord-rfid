@@ -6,5 +6,6 @@ namespace DiscordRfid.Filters
     {
         public virtual string OrderBy { get; set; }
         public virtual string Where { get; set; }
+        public virtual int? Limit { get; set; }
     }
 }
