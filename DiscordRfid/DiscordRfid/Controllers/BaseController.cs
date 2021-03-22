@@ -1,5 +1,6 @@
 ﻿using DiscordRfid.Filters;
 using DiscordRfid.Models;
+using DiscordRfid.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -34,7 +35,7 @@ namespace DiscordRfid.Controllers
             throw new NotImplementedException($"Method GetFromDataReader not implemented for controller of model {typeof(T).Name}");
         }
 
-        protected T[] GetModels(string tableAlias, ICollection<string> sqlSelects, IFilter<T> filter = null)
+        protected T[] GetModels(string tableAlias, ICollection<string> sqlSelects, BaseFilter<T> filter = null)
         {
             var list = new List<T>();
 
@@ -46,6 +47,11 @@ namespace DiscordRfid.Controllers
 
             if(filter != null)
             {
+                if(filter.Where != null)
+                {
+                    query.AppendLine($"WHERE {filter.Where}");
+                }
+
                 if(filter.OrderBy != null)
                 {
                     query.AppendLine($"ORDER BY {filter.OrderBy}");
@@ -70,16 +76,9 @@ namespace DiscordRfid.Controllers
 
         public T GetById(int id)
         {
-            using (var cmd = Connection.CreateCommand())
-            {
-                cmd.CommandText = $"SELECT * FROM {TableName} Where Id = @Id";
-                cmd.AddParameter("@Id", id);
-
-                using (var reader = cmd.ExecuteReader())
-                {
-                    return reader.Read() ? GetFromDataReader(reader) : null;
-                }
-            }
+            var filter = Reflector<T>.GetFilter();
+            filter.Where = $"Id = {id}";
+            return Get(filter)?[0];
         }
 
         protected T Create(string sql, Action<DbCommand> addParameters)
@@ -122,7 +121,7 @@ namespace DiscordRfid.Controllers
             return null;
         }
 
-        public abstract T[] Get(IFilter<T> filter = null);
+        public abstract T[] Get(BaseFilter<T> filter = null);
 
         public abstract T Create(T model);
 

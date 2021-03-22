@@ -15,7 +15,7 @@ namespace DiscordRfid.Controllers
         public EmployeeController(DbConnection connection)
             : base(connection) { }
 
-        public override Employee[] Get(IFilter<Employee> filter = null)
+        public override Employee[] Get(BaseFilter<Employee> filter = null)
         {
             var tagCtrl = new RfidTagController(Connection);
 

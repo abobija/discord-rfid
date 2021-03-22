@@ -43,15 +43,15 @@ namespace DiscordRfid.Services
             return Activator.CreateInstance(dialogType, model) as ModelDialog<T>;
         }
 
-        public static IFilter<T> GetFilter()
+        public static BaseFilter<T> GetFilter()
         {
             var filterType = Assembly.GetExecutingAssembly()
                     .DefinedTypes
-                    .FirstOrDefault(t => t.GetInterfaces().Any(
-                            x => x.IsGenericType && x.GenericTypeArguments[0] == typeof(T)
-                        ));
+                    .FirstOrDefault(t => t.BaseType == typeof(BaseFilter<T>)
+                            && t.BaseType.GenericTypeArguments[0] == typeof(T)
+                        );
 
-            return filterType == null ? null : Activator.CreateInstance(filterType) as IFilter<T>;
+            return filterType == null ? null : Activator.CreateInstance(filterType) as BaseFilter<T>;
         }
     }
 }

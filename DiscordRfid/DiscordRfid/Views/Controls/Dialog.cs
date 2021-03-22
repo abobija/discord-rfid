@@ -8,13 +8,18 @@ namespace DiscordRfid.Views.Controls
     [ToolboxItem(false)]
     public class DialogButton : Button
     {
-        public DialogButton(string text)
+        public DialogButton(string text, Action<MouseEventArgs> click = null)
         {
             Text = text;
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
             Cursor = Cursors.Hand;
             Padding = new Padding(5, 3, 5, 3);
+
+            if(click != null)
+            {
+                MouseClick += (o, e) => click(e);
+            }
         }
     }
 
@@ -78,13 +83,9 @@ namespace DiscordRfid.Views.Controls
                 FlowDirection = FlowDirection.RightToLeft
             };
 
-            ButtonDialogSave = new DialogButton("Save");
-            ButtonDialogCancel = new DialogButton("Cancel");
-            ButtonDialogClose = new DialogButton("Close");
-
-            ButtonDialogSave.Click += OnButtonSaveClick;
-            ButtonDialogCancel.Click += OnButtonCancelClick;
-            ButtonDialogClose.Click += OnButtonCloseClick;
+            ButtonDialogSave = new DialogButton("Save", OnDialogSaveClick);
+            ButtonDialogCancel = new DialogButton("Cancel", OnDialogCancelClick);
+            ButtonDialogClose = new DialogButton("Close", OnDialogCloseClick);
 
             SuspendLayout();
             Controls.Add(ControlsPanel);
@@ -120,17 +121,17 @@ namespace DiscordRfid.Views.Controls
             ButtonsPanel.PerformLayout();
         }
 
-        protected virtual void OnButtonCloseClick(object sender, EventArgs e)
+        protected virtual void OnDialogCloseClick(MouseEventArgs e)
         {
             DialogResult = DialogResult.Cancel;
         }
 
-        protected virtual void OnButtonCancelClick(object sender, EventArgs e)
+        protected virtual void OnDialogCancelClick(MouseEventArgs e)
         {
             DialogResult = DialogResult.Cancel;
         }
 
-        protected virtual void OnButtonSaveClick(object sender, EventArgs e)
+        protected virtual void OnDialogSaveClick(MouseEventArgs e)
         {
             DialogResult = DialogResult.OK;
         }

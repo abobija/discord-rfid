@@ -13,7 +13,7 @@ namespace DiscordRfid.Controllers
         public RfidTagController(DbConnection connection)
             : base(connection) { }
 
-        public override RfidTag[] Get(IFilter<RfidTag> filter)
+        public override RfidTag[] Get(BaseFilter<RfidTag> filter)
         {
             throw new NotImplementedException();
         }

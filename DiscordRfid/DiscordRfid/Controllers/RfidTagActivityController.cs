@@ -12,7 +12,7 @@ namespace DiscordRfid.Controllers
         public RfidTagActivityController(DbConnection connection) 
             : base(connection) { }
 
-        public override RfidTagActivity[] Get(IFilter<RfidTagActivity> filter)
+        public override RfidTagActivity[] Get(BaseFilter<RfidTagActivity> filter)
         {
             throw new System.NotImplementedException();
         }

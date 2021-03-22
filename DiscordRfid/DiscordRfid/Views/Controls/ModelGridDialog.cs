@@ -1,85 +1,27 @@
 ﻿using DiscordRfid.Controllers;
+using DiscordRfid.Filters;
 using DiscordRfid.Models;
 using DiscordRfid.Services;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace DiscordRfid.Views.Controls
 {
-    public class ModelGridButton : DialogButton
+    [ToolboxItem(false)]
+    public abstract class ModelGridDialog<T> : Dialog where T : BaseModel
     {
-        public ModelGridButton(string text) : base(text)
-        { }
-    }
+        public BaseFilter<T> ModelFilter { get; private set; }
 
-    public class ModelToolbox : DialogFlowPanel
-    {
-        public ModelToolbox()
-        {
-            Dock = DockStyle.Top;
-        }
-
-        public ModelToolbox(ICollection<ModelToolboxGroup> groups) : this()
-        {
-            Controls.AddRange(groups.ToArray());
-        }
-
-        public ModelToolbox(ModelToolboxGroup group) : this()
-        {
-            Add(group);
-        }
-
-        public ModelToolbox Add(ModelToolboxGroup group)
-        {
-            Controls.Add(group);
-            return this;
-        }
-
-        public ModelToolbox Add(ModelGridButton button)
-        {
-            return Add(new ModelToolboxGroup(button));
-        }
-    }
-
-    public class ModelToolboxGroup : FlowLayoutPanel
-    {
-        public ModelToolboxGroup()
-        {
-            AutoSize = true;
-            Padding = new Padding(5);
-        }
-
-        public ModelToolboxGroup(ICollection<ModelGridButton> buttons) : this()
-        {
-            Controls.AddRange(buttons.ToArray());
-        }
-
-        public ModelToolboxGroup(ModelGridButton button) : this()
-        {
-            Add(button);
-        }
-
-        public ModelToolboxGroup Add(ModelGridButton button)
-        {
-            Controls.Add(button);
-            return this;
-        }
-    }
-
-    public class ModelGridDialog<T> : Dialog where T : BaseModel
-    {
-        protected ModelToolbox Toolbox { get; private set; }
+        public ModelToolbox Toolbox { get; private set; }
         private readonly Panel GridPanel;
         private readonly ModelGrid<T> Grid;
 
-        private readonly ModelGridButton ButtonModelNew;
-        private readonly ModelGridButton ButtonModelEdit;
-        private readonly ModelGridButton ButtonModelDelete;
-
-        public bool ModelSelected => Grid.ModelSelected;
+        public bool ModelSelected => Grid.IsModelSelected;
 
         public T SelectedModel => Grid.SelectedModel;
 
@@ -89,21 +31,17 @@ namespace DiscordRfid.Views.Controls
             Text = $"{typeof(T).Name}s";
             Size = new Size(700, 400);
 
+            ModelFilter = Reflector<T>.GetFilter();
+
             var main = new Panel
             {
                 Dock = DockStyle.Fill
             };
 
-            ButtonModelNew = new ModelGridButton("New");
-            ButtonModelEdit = new ModelGridButton("Edit");
-            ButtonModelDelete = new ModelGridButton("Delete");
-
-            ButtonModelNew.Click += OnButtonModelNewClick;
-            ButtonModelEdit.Click += OnButtonModelEditClick;
-            ButtonModelDelete.Click += OnButtonModelDeleteClick;
-
             Toolbox = new ModelToolbox(new ModelToolboxGroup(new ModelGridButton[]{
-                ButtonModelNew, ButtonModelEdit, ButtonModelDelete
+                new ModelGridButton("New", OnModelNewClick),
+                new ModelGridButton("Edit", OnModelEditClick) { DisableIfModelNotSelected = true },
+                new ModelGridButton("Delete", OnModelDeleteClick) { DisableIfModelNotSelected = true }
             }));
 
             GridPanel = new Panel
@@ -132,6 +70,7 @@ namespace DiscordRfid.Views.Controls
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
+            Toolbox.Buttons.SetEnableStateOfAllModelNotSelected(false);
             Grid.Reload();
 
             BaseController<T>.ModelCreated += OnModelCreated;
@@ -152,7 +91,7 @@ namespace DiscordRfid.Views.Controls
             BaseController<T>.ModelDeleted -= OnModelDeleted;
         }
 
-        protected virtual void OnButtonModelNewClick(object sender, EventArgs e)
+        protected virtual void OnModelNewClick(MouseEventArgs e)
         {
             try
             {
@@ -167,7 +106,7 @@ namespace DiscordRfid.Views.Controls
             }
         }
 
-        protected virtual void OnButtonModelEditClick(object sender, EventArgs e)
+        protected virtual void OnModelEditClick(MouseEventArgs e)
         {
             if (!ModelSelected)
                 return;
@@ -185,7 +124,7 @@ namespace DiscordRfid.Views.Controls
             }
         }
 
-        protected virtual void OnButtonModelDeleteClick(object sender, EventArgs e)
+        protected virtual void OnModelDeleteClick(MouseEventArgs e)
         {
             if (!ModelSelected)
                 return;
@@ -214,6 +153,132 @@ namespace DiscordRfid.Views.Controls
             {
                 this.Error(ex);
             }
+        }
+    }
+
+    [ToolboxItem(false)]
+    public class ModelGridButton : DialogButton
+    {
+        private bool _disableIfNoModelSelected;
+
+        public bool DisableIfModelNotSelected
+        {
+            get => _disableIfNoModelSelected;
+            set
+            {
+                if(value != _disableIfNoModelSelected)
+                {
+                    _disableIfNoModelSelected = true;
+                }
+            }
+        }
+
+        public ModelGridButton(string text, Action<MouseEventArgs> click = null)
+            : base(text, click)
+        { }
+    }
+
+    public class ModelToolboxButtonsCollection : IReadOnlyCollection<ModelGridButton>
+    {
+        private readonly ICollection<ModelGridButton> Buttons;
+
+        public int Count => Buttons.Count;
+
+        public ModelToolboxButtonsCollection(ICollection<ModelGridButton> buttons)
+            => Buttons = buttons;
+
+        public void SetEnableStateOfAllModelNotSelected(bool enabledState)
+        {
+            foreach (var button in Buttons)
+            {
+                if (button.DisableIfModelNotSelected)
+                {
+                    button.Enabled = enabledState;
+                }
+            }
+        }
+
+        public IEnumerator<ModelGridButton> GetEnumerator()
+            => Buttons.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator()
+            => Buttons.GetEnumerator();
+    }
+
+    [ToolboxItem(false)]
+    public class ModelToolbox : DialogFlowPanel
+    {
+        /// <summary>
+        /// All buttons from all groups
+        /// </summary>
+        public ModelToolboxButtonsCollection Buttons
+        {
+            get
+            {
+                var list = new List<ModelGridButton>();
+
+                foreach(ModelToolboxGroup group in Controls)
+                {
+                    foreach(ModelGridButton button in group.Controls)
+                    {
+                        list.Add(button);
+                    }
+                }
+
+                return new ModelToolboxButtonsCollection(list);
+            }
+        }
+
+        public ModelToolbox()
+        {
+            Dock = DockStyle.Top;
+        }
+
+        public ModelToolbox(ICollection<ModelToolboxGroup> groups) : this()
+        {
+            Controls.AddRange(groups.ToArray());
+        }
+
+        public ModelToolbox(ModelToolboxGroup group) : this()
+        {
+            Add(group);
+        }
+
+        public ModelToolbox Add(ModelToolboxGroup group)
+        {
+            Controls.Add(group);
+            return this;
+        }
+
+        public ModelToolbox Add(ModelGridButton button)
+        {
+            return Add(new ModelToolboxGroup(button));
+        }
+    }
+
+    [ToolboxItem(false)]
+    public class ModelToolboxGroup : FlowLayoutPanel
+    {
+        public ModelToolboxGroup()
+        {
+            AutoSize = true;
+            Padding = new Padding(5);
+        }
+
+        public ModelToolboxGroup(ICollection<ModelGridButton> buttons) : this()
+        {
+            Controls.AddRange(buttons.ToArray());
+        }
+
+        public ModelToolboxGroup(ModelGridButton button) : this()
+        {
+            Add(button);
+        }
+
+        public ModelToolboxGroup Add(ModelGridButton button)
+        {
+            Controls.Add(button);
+            return this;
         }
     }
 }

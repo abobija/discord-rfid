@@ -121,8 +121,8 @@
     <Compile Include="Controllers\RfidTagActivityController.cs" />
     <Compile Include="Controllers\RfidTagController.cs" />
     <Compile Include="Dtos\EmployeeCounters.cs" />
+    <Compile Include="Filters\BaseFilter.cs" />
     <Compile Include="Filters\EmployeeFilter.cs" />
-    <Compile Include="Filters\IFilter.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\IModel.cs" />
     <Compile Include="Services\Database.cs" />
@@ -157,7 +157,7 @@
     <Compile Include="Views\EmployeeForm.Designer.cs">
       <DependentUpon>EmployeeForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\EmployeeGridView.cs">
+    <Compile Include="Views\EmployeesForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Views\MainForm.cs">

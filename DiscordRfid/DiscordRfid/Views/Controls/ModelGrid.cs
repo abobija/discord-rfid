@@ -12,7 +12,7 @@ namespace DiscordRfid.Views.Controls
     [ToolboxItem(false)]
     public class ModelGrid<T> : DataGridView where T : BaseModel
     {
-        public bool ModelSelected => SelectedRows.Count > 0;
+        public bool IsModelSelected => SelectedRows.Count > 0;
 
         public T SelectedModel
         {
@@ -41,6 +41,11 @@ namespace DiscordRfid.Views.Controls
             BackgroundColor = Color.White;
         }
 
+        protected override void OnSelectionChanged(EventArgs e)
+        {
+            ParentGridDialog.Toolbox.Buttons.SetEnableStateOfAllModelNotSelected(IsModelSelected);
+        }
+
         protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
         {
             if(Columns[e.ColumnIndex].ValueType == typeof(DateTime) && e.Value != null)
@@ -56,8 +61,7 @@ namespace DiscordRfid.Views.Controls
                 using (var con = Database.Instance.CreateConnection())
                 {
                     con.Open();
-                    DataSource = Reflector<T>.GetController(con)
-                        .Get(Reflector<T>.GetFilter()).ToList();
+                    DataSource = Reflector<T>.GetController(con).Get(ParentGridDialog.ModelFilter).ToList();
                     
                     var lastColumn = Columns[ColumnCount - 1];
                     lastColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
@@ -66,22 +70,28 @@ namespace DiscordRfid.Views.Controls
             }
             catch(Exception ex)
             {
-                ParentForm.Error(ex);
+                ParentGridDialog.Error(ex);
             }
         }
 
-        protected Form ParentForm
+        private ModelGridDialog<T> _parentGridDialog;
+        protected ModelGridDialog<T> ParentGridDialog
         {
             get
             {
-                var ptr = this as Control;
-
-                while (ptr != null && !(ptr is Form))
+                if(_parentGridDialog == null)
                 {
-                    ptr = ptr.Parent;
+                    var ptr = this as Control;
+
+                    while (ptr != null && !(ptr is ModelGridDialog<T>))
+                    {
+                        ptr = ptr.Parent;
+                    }
+
+                    _parentGridDialog = ptr as ModelGridDialog<T>;
                 }
 
-                return ptr as Form;
+                return _parentGridDialog;
             }
         }
     }

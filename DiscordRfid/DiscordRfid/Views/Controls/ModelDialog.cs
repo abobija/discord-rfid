@@ -1,7 +1,7 @@
-﻿using DiscordRfid.Controllers;
-using DiscordRfid.Models;
+﻿using DiscordRfid.Models;
 using DiscordRfid.Services;
 using System;
+using System.Windows.Forms;
 
 namespace DiscordRfid.Views.Controls
 {
@@ -24,7 +24,7 @@ namespace DiscordRfid.Views.Controls
 
         public T NewModel { get; private set; }
 
-        protected override void OnButtonSaveClick(object sender, EventArgs e)
+        protected override void OnDialogSaveClick(MouseEventArgs e)
         {
             try
             {
@@ -35,7 +35,7 @@ namespace DiscordRfid.Views.Controls
                 }
                 model.Validate();
                 SaveModel(model);
-                base.OnButtonSaveClick(sender, e);
+                base.OnDialogSaveClick(e);
             }
             catch (Exception ex)
             {
