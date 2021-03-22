@@ -1,5 +1,4 @@
-﻿using System;
-using System.Activities;
+﻿using System.Activities;
 
 namespace DiscordRfid.Models
 {
@@ -8,7 +7,7 @@ namespace DiscordRfid.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public bool Present { get; set; }
-        public RfidTag[] RfidTags { get; set; }
+        public int TagsCount { get; set; }
 
         public override void Validate()
         {

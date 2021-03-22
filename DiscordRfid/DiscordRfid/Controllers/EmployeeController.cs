@@ -1,7 +1,9 @@
 ﻿using DiscordRfid.Dtos;
+using DiscordRfid.Filters;
 using DiscordRfid.Models;
 using Serilog;
 using System;
+using System.Collections.Generic;
 using System.Data.Common;
 
 namespace DiscordRfid.Controllers
@@ -12,6 +14,37 @@ namespace DiscordRfid.Controllers
 
         public EmployeeController(DbConnection connection)
             : base(connection) { }
+
+        public override Employee[] Get(IFilter<Employee> filter = null)
+        {
+            var tagCtrl = new RfidTagController(Connection);
+
+            return GetModels(
+                "emp",
+                new List<string>{
+                    "emp.Id AS emp_Id",
+                    "emp.CreatedAt AS emp_CreatedAt",
+                    "emp.FirstName AS emp_FirstName",
+                    "emp.LastName AS emp_LastName",
+                    "emp.Present AS emp_Present",
+                    $"(SELECT COUNT(*) FROM {tagCtrl.TableName} tag WHERE tag.EmployeeId = emp.Id) AS emp_TagsCount"
+                },
+                filter
+            );
+        }
+
+        public override Employee GetFromDataReader(DbDataReader reader)
+        {
+            return new Employee
+            {
+                Id = (int)reader.GetInt32ByName("emp_Id"),
+                CreatedAt = (DateTime)reader.GetDateTimeByName("emp_CreatedAt"),
+                FirstName = reader.GetStringByName("emp_FirstName"),
+                LastName = reader.GetStringByName("emp_LastName"),
+                Present = reader.GetBooleanByName("emp_Present"),
+                TagsCount = (int) reader.GetInt32ByName("emp_TagsCount")
+            };
+        }
 
         public EmployeeCounters GetCounters()
         {
@@ -55,18 +88,6 @@ namespace DiscordRfid.Controllers
                 .AddParameter("@LastName", model.LastName)
                 .AddParameter("@Present", model.Present)
             );
-        }
-
-        public override Employee GetFromDataReader(DbDataReader reader)
-        {
-            return new Employee
-            {
-                Id = (int) reader.GetInt32ByName("Id"),
-                FirstName = reader.GetStringByName("FirstName"),
-                LastName = reader.GetStringByName("LastName"),
-                CreatedAt = (DateTime) reader.GetDateTimeByName("CreatedAt"),
-                Present = reader.GetBooleanByName("Present")
-            };
         }
 
         public override void CreateSchema()

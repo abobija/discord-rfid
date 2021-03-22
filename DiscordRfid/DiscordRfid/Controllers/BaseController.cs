@@ -1,9 +1,8 @@
-﻿using DiscordRfid.Models;
+﻿using DiscordRfid.Filters;
+using DiscordRfid.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
-using System.Linq;
-using System.Reflection;
 using System.Text;
 
 namespace DiscordRfid.Controllers
@@ -35,20 +34,27 @@ namespace DiscordRfid.Controllers
             throw new NotImplementedException($"Method GetFromDataReader not implemented for controller of model {typeof(T).Name}");
         }
 
-        public T[] Get(string orderBy = null)
+        protected T[] GetModels(string tableAlias, ICollection<string> sqlSelects, IFilter<T> filter = null)
         {
             var list = new List<T>();
 
-            var queryBuilder = new StringBuilder().AppendLine($"SELECT * FROM {TableName}");
+            var query = new StringBuilder()
+                .AppendLine($"SELECT");
 
-            if(orderBy != null)
+            query.AppendLine(string.Join(",", sqlSelects));
+            query.AppendLine($"FROM {TableName} {tableAlias}");
+
+            if(filter != null)
             {
-                queryBuilder.AppendLine($"ORDER BY {orderBy}");
+                if(filter.OrderBy != null)
+                {
+                    query.AppendLine($"ORDER BY {filter.OrderBy}");
+                }
             }
 
             using (var cmd = Connection.CreateCommand())
             {
-                cmd.CommandText = queryBuilder.ToString();
+                cmd.CommandText = query.ToString();
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -116,6 +122,8 @@ namespace DiscordRfid.Controllers
             return null;
         }
 
+        public abstract T[] Get(IFilter<T> filter = null);
+
         public abstract T Create(T model);
 
         public abstract T Update(T model);
@@ -160,22 +168,6 @@ namespace DiscordRfid.Controllers
             {
                 CreateSchema();
             }
-        }
-
-        public static BaseController<T> FromModelType(DbConnection connection)
-        {
-            var ctrlType = Assembly.GetExecutingAssembly()
-                    .DefinedTypes
-                    .FirstOrDefault(t => t.BaseType == typeof(BaseController<T>)
-                            && t.BaseType.GenericTypeArguments[0] == typeof(T)
-                        );
-
-            if (ctrlType == null)
-            {
-                throw new TypeLoadException($"Unable to find controller for {typeof(T).Name} model");
-            }
-
-            return Activator.CreateInstance(ctrlType, connection) as BaseController<T>;
         }
     }
 }

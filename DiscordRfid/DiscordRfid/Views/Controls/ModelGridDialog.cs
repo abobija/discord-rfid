@@ -3,7 +3,6 @@ using DiscordRfid.Models;
 using DiscordRfid.Services;
 using System;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace DiscordRfid.Views.Controls
@@ -100,7 +99,7 @@ namespace DiscordRfid.Views.Controls
         {
             try
             {
-                using (var dlg = ModelDialog<T>.FromModelType())
+                using (var dlg = Reflector<T>.GetView())
                 {
                     dlg.ShowDialog();
                 }
@@ -118,7 +117,7 @@ namespace DiscordRfid.Views.Controls
 
             try
             {
-                using (var dlg = ModelDialog<T>.FromModelType(SelectedModel))
+                using (var dlg = Reflector<T>.GetView(SelectedModel))
                 {
                     dlg.ShowDialog();
                 }
@@ -151,7 +150,7 @@ namespace DiscordRfid.Views.Controls
                 using (var con = Database.Instance.CreateConnection())
                 {
                     con.Open();
-                    BaseController<T>.FromModelType(con).Delete(model);
+                    Reflector<T>.GetController(con).Delete(model);
                 }
             }
             catch(Exception ex)

@@ -121,12 +121,15 @@
     <Compile Include="Controllers\RfidTagActivityController.cs" />
     <Compile Include="Controllers\RfidTagController.cs" />
     <Compile Include="Dtos\EmployeeCounters.cs" />
+    <Compile Include="Filters\EmployeeFilter.cs" />
+    <Compile Include="Filters\IFilter.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\IModel.cs" />
     <Compile Include="Services\Database.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\RfidTag.cs" />
     <Compile Include="Models\RfidTagActivity.cs" />
+    <Compile Include="Services\Reflector.cs" />
     <Compile Include="Views\Controls\ModelDialog.cs">
       <SubType>Form</SubType>
     </Compile>

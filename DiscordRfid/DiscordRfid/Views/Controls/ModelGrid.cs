@@ -56,8 +56,9 @@ namespace DiscordRfid.Views.Controls
                 using (var con = Database.Instance.CreateConnection())
                 {
                     con.Open();
-                    DataSource = BaseController<T>.FromModelType(con).Get(orderBy: "Id DESC").ToList();
-
+                    DataSource = Reflector<T>.GetController(con)
+                        .Get(Reflector<T>.GetFilter()).ToList();
+                    
                     var lastColumn = Columns[ColumnCount - 1];
                     lastColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                     lastColumn.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;

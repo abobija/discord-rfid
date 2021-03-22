@@ -2,8 +2,6 @@
 using DiscordRfid.Models;
 using DiscordRfid.Services;
 using System;
-using System.Linq;
-using System.Reflection;
 
 namespace DiscordRfid.Views.Controls
 {
@@ -54,7 +52,7 @@ namespace DiscordRfid.Views.Controls
                 using (var con = Database.Instance.CreateConnection())
                 {
                     con.Open();
-                    var ctrl = BaseController<T>.FromModelType(con).SetState(Model);
+                    var ctrl = Reflector<T>.GetController(con).SetState(Model);
                     NewModel = Model == null ? ctrl.Create(validatedModel) : ctrl.Update(validatedModel);
                 }
             }
@@ -67,22 +65,6 @@ namespace DiscordRfid.Views.Controls
         protected virtual T ConstructModel()
         {
             throw new NotImplementedException();
-        }
-
-        public static ModelDialog<T> FromModelType(T model = null)
-        {
-            var dialogType = Assembly.GetExecutingAssembly()
-                    .DefinedTypes
-                    .FirstOrDefault(t => t.BaseType == typeof(ModelDialog<T>)
-                            && t.BaseType.GenericTypeArguments[0] == typeof(T)
-                        );
-
-            if (dialogType == null)
-            {
-                throw new TypeLoadException($"Unable to find ModelDialog for {typeof(T).Name} model");
-            }
-
-            return Activator.CreateInstance(dialogType, model) as ModelDialog<T>;
         }
     }
 }

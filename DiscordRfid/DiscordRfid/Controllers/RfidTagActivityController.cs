@@ -1,4 +1,5 @@
-﻿using DiscordRfid.Models;
+﻿using DiscordRfid.Filters;
+using DiscordRfid.Models;
 using Serilog;
 using System.Data.Common;
 
@@ -10,6 +11,11 @@ namespace DiscordRfid.Controllers
 
         public RfidTagActivityController(DbConnection connection) 
             : base(connection) { }
+
+        public override RfidTagActivity[] Get(IFilter<RfidTagActivity> filter)
+        {
+            throw new System.NotImplementedException();
+        }
 
         public override void CreateSchema()
         {
