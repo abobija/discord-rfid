@@ -40,6 +40,8 @@
             this.ToolLblClock = new System.Windows.Forms.ToolStripLabel();
             this.ToolBtnNewEmployee = new System.Windows.Forms.ToolStripButton();
             this.PnlMain = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.PanelActivity = new System.Windows.Forms.Panel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.LinkLblEmployees = new System.Windows.Forms.LinkLabel();
@@ -51,10 +53,8 @@
             this.LblAbsent = new System.Windows.Forms.Label();
             this.LblCounterEmployeesAbsent = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.PanelActivity = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
             this.PackagesListView = new DiscordRfid.Views.Controls.PackagesListView();
+            this.label1 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.PnlMain.SuspendLayout();
@@ -167,6 +167,26 @@
             this.PnlMain.Name = "PnlMain";
             this.PnlMain.Size = new System.Drawing.Size(904, 441);
             this.PnlMain.TabIndex = 3;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.DimGray;
+            this.label2.Location = new System.Drawing.Point(17, 70);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(58, 20);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "Activity";
+            // 
+            // PanelActivity
+            // 
+            this.PanelActivity.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PanelActivity.Location = new System.Drawing.Point(14, 93);
+            this.PanelActivity.Name = "PanelActivity";
+            this.PanelActivity.Size = new System.Drawing.Size(574, 337);
+            this.PanelActivity.TabIndex = 12;
             // 
             // flowLayoutPanel1
             // 
@@ -294,37 +314,6 @@
             this.panel1.Size = new System.Drawing.Size(306, 441);
             this.panel1.TabIndex = 1;
             // 
-            // label1
-            // 
-            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label1.ForeColor = System.Drawing.Color.DimGray;
-            this.label1.Location = new System.Drawing.Point(3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(303, 32);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Recent RFID packages";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // PanelActivity
-            // 
-            this.PanelActivity.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.PanelActivity.Location = new System.Drawing.Point(14, 93);
-            this.PanelActivity.Name = "PanelActivity";
-            this.PanelActivity.Size = new System.Drawing.Size(574, 337);
-            this.PanelActivity.TabIndex = 12;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.Color.DimGray;
-            this.label2.Location = new System.Drawing.Point(17, 70);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(58, 20);
-            this.label2.TabIndex = 13;
-            this.label2.Text = "Activity";
-            // 
             // PackagesListView
             // 
             this.PackagesListView.BackColor = System.Drawing.Color.Gainsboro;
@@ -341,6 +330,17 @@
             this.PackagesListView.TabIndex = 1;
             this.PackagesListView.UseCompatibleStateImageBehavior = false;
             this.PackagesListView.View = System.Windows.Forms.View.Details;
+            // 
+            // label1
+            // 
+            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label1.ForeColor = System.Drawing.Color.DimGray;
+            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(303, 32);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Recent RFID packages";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // MainForm
             // 

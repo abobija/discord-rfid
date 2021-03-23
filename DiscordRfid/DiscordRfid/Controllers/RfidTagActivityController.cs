@@ -23,6 +23,7 @@ namespace DiscordRfid.Controllers
                     $"{TableAlias}.Id AS act_Id",
                     $"{TableAlias}.CreatedAt AS act_CreatedAt",
                     $"{TableAlias}.Present AS act_Present",
+                    $"{TableAlias}.CameAt AS act_CameAt",
                     $"{TableAlias}.LeftAt AS act_LeftAt",
                     $"{tagCtr.TableAlias}.Id AS tag_Id",
                     $"{tagCtr.TableAlias}.CreatedAt AS tag_CreatedAt",
@@ -50,6 +51,7 @@ namespace DiscordRfid.Controllers
                 Id = (int)reader.GetInt32ByName("act_Id"),
                 CreatedAt = (DateTime)reader.GetDateTimeByName("act_CreatedAt"),
                 Present = reader.GetBooleanByName("act_Present"),
+                CameAt = (DateTime)reader.GetDateTimeByName("act_CameAt"),
                 LeftAt = reader.GetDateTimeByName("act_LeftAt"),
                 Tag = new RfidTagController(Connection).GetFromDataReader(reader)
             };
@@ -65,10 +67,11 @@ namespace DiscordRfid.Controllers
             {
                 cmd.CommandText = $"CREATE TABLE {TableName} (" +
                     "   Id         INTEGER  PRIMARY KEY AUTOINCREMENT" +
-                    @", CreatedAt  DATETIME NOT NULL DEFAULT (DateTime('now'))" +
+                    ",  CreatedAt  DATETIME NOT NULL DEFAULT (DateTime('now'))" +
                     $", TagId      INTEGER  NOT NULL REFERENCES {tagCtrl.TableName}(Id) ON UPDATE CASCADE ON DELETE CASCADE" +
                     ",  Present    BOOLEAN  NOT NULL DEFAULT 0" +
-                    @", LeftAt     DATETIME NULL" +
+                    ",  CameAt     DATETIME NOT NULL DEFAULT (DateTime('now'))" +
+                    ",  LeftAt     DATETIME NULL" +
                 ");";
 
                 cmd.ExecuteNonQuery();
@@ -107,8 +110,11 @@ namespace DiscordRfid.Controllers
                         " WHERE Id = NEW.Id; " +
                         
                         $" UPDATE {TableName}" +
-                        " SET LeftAt = (" +
-                            $" CASE(SELECT Present FROM {TableName} WHERE Id = NEW.Id) WHEN 0 THEN DateTime('now') ELSE NULL END" +
+                        " SET(CameAt, LeftAt) = (" +
+                            $" (CASE(SELECT Present FROM {TableName} WHERE Id = NEW.Id) WHEN 0 THEN " +
+                                $" (SELECT CameAt FROM {TableName} WHERE TagId = NEW.TagId AND Id != NEW.Id ORDER BY Id DESC LIMIT 1)" +
+                            " ELSE DateTime('now') END), " +
+                            $" (CASE(SELECT Present FROM {TableName} WHERE Id = NEW.Id) WHEN 0 THEN DateTime('now') ELSE NULL END)" +
                         " )" +
                         " WHERE Id = NEW.Id; " +
                         

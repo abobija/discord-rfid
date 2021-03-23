@@ -4,8 +4,8 @@ namespace DiscordRfid.Models
 {
     public abstract class BaseModel : IModel
     {
-        public int Id { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public virtual int Id { get; set; }
+        public virtual DateTime CreatedAt { get; set; }
 
         public virtual void Validate()
         {

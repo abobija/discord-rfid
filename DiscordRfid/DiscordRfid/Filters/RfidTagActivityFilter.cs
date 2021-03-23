@@ -9,7 +9,7 @@ namespace DiscordRfid.Filters
         {
             var ctrl = new RfidTagActivityController(null);
             OrderBy = $"{ctrl.TableAlias}.Id DESC";
-            Limit = 100;
+            Limit = 20;
         }
     }
 }

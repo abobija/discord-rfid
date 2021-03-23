@@ -14,7 +14,7 @@ namespace DiscordRfid.Views.Controls
         /// <summary>
         /// When the threshold is exceeded, each new package will push (delete) the oldest package from the list
         /// </summary>
-        public int Threshold = 100;
+        public int Threshold = 30;
 
         public PackagesListView() : base()
         {

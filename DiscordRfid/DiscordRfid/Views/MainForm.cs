@@ -5,6 +5,7 @@ using DiscordRfid.Models;
 using DiscordRfid.Services;
 using DiscordRfid.Views.Controls;
 using System;
+using System.Drawing;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -44,23 +45,31 @@ namespace DiscordRfid.Views
 
             CheckForIllegalCrossThreadCalls = false;
 
-            ActivityGrid = new ModelGrid<RfidTagActivity> { Dock = DockStyle.Fill };
+            ActivityGrid = new ModelGrid<RfidTagActivity>
+            { 
+                Dock = DockStyle.Fill
+            };
 
             bool formated = false;
             ActivityGrid.RowsAdded += (o, e) =>
             {
-                if (formated)
-                    return;
-
-                foreach(DataGridViewColumn col in ActivityGrid.Columns)
+                if (! formated)
                 {
-                    if(col.ValueType == typeof(DateTime) || col.ValueType == typeof(DateTime?))
+                    foreach (DataGridViewColumn col in ActivityGrid.Columns)
                     {
-                        col.DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss";
-                    }
-                }
+                        if (col.ValueType == typeof(DateTime) || col.ValueType == typeof(DateTime?))
+                        {
+                            col.DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss";
+                        }
 
-                formated = true;
+                        if (col.Name == "Id" || col.Name == "CreatedAt")
+                        {
+                            col.Visible = false;
+                        }
+                    }
+
+                    formated = true;
+                }
             };
 
             PanelActivity.Controls.Add(ActivityGrid);

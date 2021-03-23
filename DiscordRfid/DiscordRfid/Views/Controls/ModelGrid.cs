@@ -54,7 +54,8 @@ namespace DiscordRfid.Views.Controls
 
         protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
         {
-            if(Columns[e.ColumnIndex].ValueType == typeof(DateTime) && e.Value != null)
+            var type = Columns[e.ColumnIndex].ValueType;
+            if (e.Value != null && (type == typeof(DateTime) || type == typeof(DateTime?)))
             {
                 e.Value = ((DateTime) e.Value).ToLocalTime();
             }
