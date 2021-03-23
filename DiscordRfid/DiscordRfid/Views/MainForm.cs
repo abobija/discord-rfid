@@ -54,7 +54,7 @@ namespace DiscordRfid.Views
 
                 foreach(DataGridViewColumn col in ActivityGrid.Columns)
                 {
-                    if(col.ValueType == typeof(DateTime))
+                    if(col.ValueType == typeof(DateTime) || col.ValueType == typeof(DateTime?))
                     {
                         col.DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss";
                     }
@@ -85,13 +85,17 @@ namespace DiscordRfid.Views
             BaseController<Employee>.ModelDeleted += emp => LoadAndUpdateEmployeeCounters();
 
             // On new activity update grid
-            BaseController<RfidTagActivity>.ModelCreated += a => ActivityGrid.Reload();
+            BaseController<RfidTagActivity>.ModelCreated += a =>
+            {
+                ActivityGrid.Reload();
+                LoadAndUpdateEmployeeCounters();
+            };
 
             try
             {
                 ActivityGrid.Reload();
                 State = "Connecting...";
-                //await Bot.Instance.ConnectAsync();
+                await Bot.Instance.ConnectAsync();
             }
             catch (Exception ex)
             {

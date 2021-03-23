@@ -23,6 +23,7 @@ namespace DiscordRfid.Controllers
                     $"{TableAlias}.Id AS act_Id",
                     $"{TableAlias}.CreatedAt AS act_CreatedAt",
                     $"{TableAlias}.Present AS act_Present",
+                    $"{TableAlias}.LeftAt AS act_LeftAt",
                     $"{tagCtr.TableAlias}.Id AS tag_Id",
                     $"{tagCtr.TableAlias}.CreatedAt AS tag_CreatedAt",
                     $"{tagCtr.TableAlias}.SerialNumber AS tag_SerialNumber",
@@ -49,6 +50,7 @@ namespace DiscordRfid.Controllers
                 Id = (int)reader.GetInt32ByName("act_Id"),
                 CreatedAt = (DateTime)reader.GetDateTimeByName("act_CreatedAt"),
                 Present = reader.GetBooleanByName("act_Present"),
+                LeftAt = reader.GetDateTimeByName("act_LeftAt"),
                 Tag = new RfidTagController(Connection).GetFromDataReader(reader)
             };
         }
@@ -66,6 +68,7 @@ namespace DiscordRfid.Controllers
                     @", CreatedAt  DATETIME NOT NULL DEFAULT (DateTime('now'))" +
                     $", TagId      INTEGER  NOT NULL REFERENCES {tagCtrl.TableName}(Id) ON UPDATE CASCADE ON DELETE CASCADE" +
                     ",  Present    BOOLEAN  NOT NULL DEFAULT 0" +
+                    @", LeftAt     DATETIME NULL" +
                 ");";
 
                 cmd.ExecuteNonQuery();
@@ -88,6 +91,38 @@ namespace DiscordRfid.Controllers
                         " ) WHERE Id = NEW.Id" +
                     " ; END";
 
+                cmd.CommandText = "CREATE TRIGGER ModifyPresentStateTrigger" +
+                    " AFTER INSERT" +
+                    $" ON {TableName}" +
+                    " BEGIN" +
+                        $" UPDATE {TableName}" +
+                        " SET Present = NOT(SELECT IFNULL((" +
+                            " SELECT Present" +
+                            $" FROM {TableName}" +
+                            " WHERE TagId = NEW.TagId AND" +
+                            " Id != NEW.Id" +
+                            " ORDER BY Id DESC" +
+                            " LIMIT 1" +
+                        " ), 0))" +
+                        " WHERE Id = NEW.Id; " +
+                        
+                        $" UPDATE {TableName}" +
+                        " SET LeftAt = (" +
+                            $" CASE(SELECT Present FROM {TableName} WHERE Id = NEW.Id) WHEN 0 THEN DateTime('now') ELSE NULL END" +
+                        " )" +
+                        " WHERE Id = NEW.Id; " +
+                        
+                        " UPDATE Employee" +
+                        $" SET Present = (SELECT Present FROM {TableName} WHERE Id = NEW.Id)" +
+                        " WHERE Id = (" +
+                            " SELECT e.Id" +
+                            $" FROM {TableName} a" +
+                            " LEFT JOIN RfidTag t ON t.Id = a.TagId" +
+                            " LEFT JOIN Employee e ON e.Id = t.EmployeeId" +
+                            " WHERE a.Id = NEW.Id" +
+                        " ); " +
+                    " END";
+
                 cmd.ExecuteNonQuery();
             }
         }
@@ -100,12 +135,9 @@ namespace DiscordRfid.Controllers
                 );
         }
 
-        public override RfidTagActivity Update(RfidTagActivity activity)
+        public override RfidTagActivity Update(RfidTagActivity model)
         {
-            return Update(activity, "Present = @Present",
-                cmd => cmd
-                .AddParameter("@Present", activity.Present)
-            );
+            throw new NotImplementedException();
         }
     }
 }
