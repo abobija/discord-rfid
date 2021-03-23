@@ -54,7 +54,7 @@ namespace DiscordRfid.Controllers
             {
                 Id = (int)reader.GetInt32ByName("tag_Id"),
                 CreatedAt = (DateTime)reader.GetDateTimeByName("tag_CreatedAt"),
-                SerialNumber = (ulong)reader.GetInt64ByName("tag_SerialNumber"),
+                SerialNumber = Convert.ToUInt64(reader.GetValue(reader.GetOrdinal("tag_SerialNumber"))),
                 Employee = new EmployeeController(Connection).GetFromDataReader(reader)
             };
         }

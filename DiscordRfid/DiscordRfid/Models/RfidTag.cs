@@ -30,7 +30,14 @@ namespace DiscordRfid.Models
 
         public override string ToString()
         {
-            return $"{$"{Employee.FirstName} {Employee.LastName}".Trim()} ({SerialNumber})";
+            var sn = SerialNumber.ToString();
+
+            if(sn.Length > 5)
+            {
+                sn = sn.Substring(0, 3) + "..." + sn.Substring(sn.Length - 2);
+            }
+
+            return $"{$"{Employee.FirstName} {Employee.LastName}".Trim()} ({sn})";
         }
     }
 }

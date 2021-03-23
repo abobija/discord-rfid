@@ -43,8 +43,6 @@ namespace DiscordRfid.Views
             ServerName = "";
             PresentAbsentVisible = false;
 
-            CheckForIllegalCrossThreadCalls = false;
-
             ActivityGrid = new ModelGrid<RfidTagActivity>
             { 
                 Dock = DockStyle.Fill
@@ -92,18 +90,18 @@ namespace DiscordRfid.Views
                     LoadAndUpdateEmployeeCounters();
             };
             BaseController<Employee>.ModelDeleted += emp => LoadAndUpdateEmployeeCounters();
-            BaseController<RfidTag>.ModelUpdated += (o, n) => ActivityGrid.Reload();
+            BaseController<RfidTag>.ModelUpdated += (o, n) => ReloadGridSafe();
 
             // On new activity update grid
             BaseController<RfidTagActivity>.ModelCreated += a =>
             {
-                ActivityGrid.Reload();
+                ReloadGridSafe();
                 LoadAndUpdateEmployeeCounters();
             };
 
             try
             {
-                ActivityGrid.Reload();
+                ReloadGridSafe();
                 State = "Connecting...";
                 await Bot.Instance.ConnectAsync();
             }
@@ -111,6 +109,25 @@ namespace DiscordRfid.Views
             {
                 this.Error(ex);
                 Close();
+            }
+        }
+
+        private void ReloadGridSafe()
+        {
+            try
+            {
+                if (InvokeRequired)
+                {
+                    Invoke(new MethodInvoker(ActivityGrid.Reload));
+                }
+                else
+                {
+                    ActivityGrid.Reload();
+                }
+            }
+            catch(Exception ex)
+            {
+                this.Error(ex);
             }
         }
 
@@ -196,7 +213,16 @@ namespace DiscordRfid.Views
                 using (var con = Database.Instance.CreateConnection())
                 {
                     con.Open();
-                    EmployeeCounters = new EmployeeController(con).GetCounters();
+                    var counters = new EmployeeController(con).GetCounters();
+
+                    if(InvokeRequired)
+                    {
+                        Invoke(new MethodInvoker(() => EmployeeCounters = counters));
+                    }
+                    else
+                    {
+                        EmployeeCounters = counters;
+                    }
                 }
             }
             catch(Exception ex)

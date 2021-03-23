@@ -73,7 +73,7 @@
             this.LblState});
             this.statusStrip1.Location = new System.Drawing.Point(0, 466);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1007, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1069, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -107,7 +107,7 @@
             this.ToolBtnNewEmployee});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1007, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1069, 25);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -165,7 +165,7 @@
             this.PnlMain.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.PnlMain.Location = new System.Drawing.Point(0, 25);
             this.PnlMain.Name = "PnlMain";
-            this.PnlMain.Size = new System.Drawing.Size(1007, 441);
+            this.PnlMain.Size = new System.Drawing.Size(1069, 441);
             this.PnlMain.TabIndex = 3;
             // 
             // label2
@@ -185,7 +185,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PanelActivity.Location = new System.Drawing.Point(14, 93);
             this.PanelActivity.Name = "PanelActivity";
-            this.PanelActivity.Size = new System.Drawing.Size(677, 337);
+            this.PanelActivity.Size = new System.Drawing.Size(697, 337);
             this.PanelActivity.TabIndex = 12;
             // 
             // flowLayoutPanel1
@@ -308,10 +308,10 @@
             this.panel1.Controls.Add(this.PackagesListView);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(701, 0);
+            this.panel1.Location = new System.Drawing.Point(724, 0);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.panel1.Size = new System.Drawing.Size(306, 441);
+            this.panel1.Size = new System.Drawing.Size(345, 441);
             this.panel1.TabIndex = 1;
             // 
             // PackagesListView
@@ -326,7 +326,7 @@
             this.PackagesListView.Location = new System.Drawing.Point(3, 32);
             this.PackagesListView.MultiSelect = false;
             this.PackagesListView.Name = "PackagesListView";
-            this.PackagesListView.Size = new System.Drawing.Size(303, 409);
+            this.PackagesListView.Size = new System.Drawing.Size(342, 409);
             this.PackagesListView.TabIndex = 1;
             this.PackagesListView.UseCompatibleStateImageBehavior = false;
             this.PackagesListView.View = System.Windows.Forms.View.Details;
@@ -337,7 +337,7 @@
             this.label1.ForeColor = System.Drawing.Color.DimGray;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(303, 32);
+            this.label1.Size = new System.Drawing.Size(342, 32);
             this.label1.TabIndex = 0;
             this.label1.Text = "Recent RFID packages";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -347,7 +347,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1007, 488);
+            this.ClientSize = new System.Drawing.Size(1069, 488);
             this.Controls.Add(this.PnlMain);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.statusStrip1);

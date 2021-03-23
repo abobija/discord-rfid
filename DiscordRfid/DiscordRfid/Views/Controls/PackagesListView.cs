@@ -29,7 +29,7 @@ namespace DiscordRfid.Views.Controls
             {
                 new ColumnHeader { Text = "Time", Width = 110 },
                 new ColumnHeader { Text = "Type", Width = 60 },
-                new ColumnHeader { Text = "Content", Width = 100 }
+                new ColumnHeader { Text = "Content", Width = 150 }
             });
 
             Packages = new ObservableCollection<Package>();
