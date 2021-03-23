@@ -92,6 +92,7 @@ namespace DiscordRfid.Views
                     LoadAndUpdateEmployeeCounters();
             };
             BaseController<Employee>.ModelDeleted += emp => LoadAndUpdateEmployeeCounters();
+            BaseController<RfidTag>.ModelUpdated += (o, n) => ActivityGrid.Reload();
 
             // On new activity update grid
             BaseController<RfidTagActivity>.ModelCreated += a =>
