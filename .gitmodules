@@ -4,3 +4,6 @@
 [submodule "esp/components/esp-discord"]
 	path = esp/components/esp-discord
 	url = https://github.com/abobija/esp-discord
+[submodule "esp/main/cb64"]
+	path = esp/main/cb64
+	url = https://github.com/abobija/cb64.git

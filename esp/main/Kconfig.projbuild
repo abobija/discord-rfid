@@ -24,6 +24,18 @@ menu "Discord RFID"
         help
             ESP32 gpio on which SDA pin of MFRC522 module is connected.
 
+    config DISCORD_CHANNEL_NAME
+        string "Channel name"
+        default "rfidx"
+        help
+            Name of Discord guild channel where all communications happens
+    
+    config DISCORD_RFID_MASTER_ROLE_NAME
+        string "Master role name"
+        default "RFIDM"
+        help
+            Name of Discord guild role which represent RFID master bot
+
     config DISCORD_RFID_DEVELOPMENT
         bool "Development mode"
         help
