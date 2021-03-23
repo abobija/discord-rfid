@@ -6,6 +6,7 @@
 #include "b64.h"
 #include "cutils.h"
 #include "estr.h"
+#include "cJSON.h"
 #include "discord.h"
 #include "discord/session.h"
 #include "discord/message.h"
@@ -34,6 +35,7 @@ typedef struct {
 
 static device_t* device_create();
 static package_t* package_create_tag(uint64_t serial_number);
+static char* package_to_string(package_t* package);
 static void device_free(device_t* device);
 static void package_free(package_t* package);
 
@@ -84,9 +86,12 @@ void rfid_handler(uint8_t* sn) {
 	);
 
     package_t* package = package_create_tag(tag64);
-
+    char* pstr = package_to_string(package);
+    
+    ESP_LOGI(TAG, "%s", pstr);
     // send package...
 
+    free(pstr);
     package_free(package);
 }
 
@@ -147,6 +152,36 @@ static package_t* package_create_tag(uint64_t serial_number) {
     *(pckg->serial_number) = serial_number;
     
     return pckg;
+}
+
+static char* package_to_string(package_t* package) {
+    if(!package) {
+        return NULL;
+    }
+
+    cJSON* pjson = cJSON_CreateObject();
+    cJSON_AddItemToObject(pjson, "Type", cJSON_CreateNumber(package->type));
+
+    if(package->serial_number) {
+        cJSON_AddItemToObject(pjson, "SerialNumber", cJSON_CreateNumber(*(package->serial_number)));
+    }
+
+    if(package->device) {
+        cJSON* djson = cJSON_CreateObject();
+        cJSON_AddItemToObject(djson, "Name", cJSON_CreateString(package->device->name));
+        cJSON_AddItemToObject(djson, "Version", cJSON_CreateString(package->device->version));
+        cJSON_AddItemToObject(djson, "Uptime", cJSON_CreateNumber(package->device->uptime));
+        cJSON_AddItemToObject(djson, "Heap", cJSON_CreateNumber(package->device->heap));
+        cJSON_AddItemToObject(pjson, "Device", djson);
+    }
+    
+    char* json = cJSON_PrintUnformatted(pjson);
+    cJSON_Delete(pjson);
+
+    char* result = (char*) b64_encode((unsigned char*) json, strlen(json), NULL);
+    free(json);
+
+    return result;
 }
 
 static void device_free(device_t* device) {
