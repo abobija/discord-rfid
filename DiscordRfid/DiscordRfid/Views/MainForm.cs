@@ -1,4 +1,5 @@
-﻿using DiscordRfid.Controllers;
+﻿using DiscordRfid.Communication;
+using DiscordRfid.Controllers;
 using DiscordRfid.Dtos;
 using DiscordRfid.Models;
 using DiscordRfid.Services;
@@ -41,6 +42,8 @@ namespace DiscordRfid.Views
             ServerName = "";
             PresentAbsentVisible = false;
 
+            CheckForIllegalCrossThreadCalls = false;
+
             ActivityGrid = new ModelGrid<RfidTagActivity> { Dock = DockStyle.Fill };
 
             bool formated = false;
@@ -71,6 +74,8 @@ namespace DiscordRfid.Views
         private async Task OnShownAsync(object sender, EventArgs e)
         {
             LoadAndUpdateEmployeeCounters();
+
+            // On new model update counters
             BaseController<Employee>.ModelCreated += emp => LoadAndUpdateEmployeeCounters();
             BaseController<Employee>.ModelUpdated += (oldEmp, newEmp) =>
             {
@@ -78,6 +83,9 @@ namespace DiscordRfid.Views
                     LoadAndUpdateEmployeeCounters();
             };
             BaseController<Employee>.ModelDeleted += emp => LoadAndUpdateEmployeeCounters();
+
+            // On new activity update grid
+            BaseController<RfidTagActivity>.ModelCreated += a => ActivityGrid.Reload();
 
             try
             {
@@ -126,7 +134,7 @@ namespace DiscordRfid.Views
                 BotName = Bot.Instance.Name;
             };
 
-            bot.NewPackage += PackagesListView.AddPackageSafe;
+            bot.NewPackage += Bot_NewPackage;
 
             bot.Ready += async () =>
             {
@@ -139,6 +147,32 @@ namespace DiscordRfid.Views
 
                 State = "Ready";
             };
+        }
+
+        private void Bot_NewPackage(Package p)
+        {
+            PackagesListView.AddPackageSafe(p);
+
+            if (p.Type != PackageType.Tag)
+                return;
+
+            try
+            {
+                using(var con = Database.Instance.CreateConnection())
+                {
+                    con.Open();
+                    var tag = new RfidTagController(con).GetBySerialNumber((ulong) p.SerialNumber);
+
+                    if(tag != null)
+                    {
+                        new RfidTagActivityController(con).Create(new RfidTagActivity { Tag = tag });
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                this.Error(ex);
+            }
         }
 
         private void LoadAndUpdateEmployeeCounters()

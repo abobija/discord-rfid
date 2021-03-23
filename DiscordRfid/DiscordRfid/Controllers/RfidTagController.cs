@@ -38,6 +38,16 @@ namespace DiscordRfid.Controllers
             );
         }
 
+        public RfidTag GetBySerialNumber(ulong serialNumber)
+        {
+            var results = Get(new RfidTagFilter
+            {
+                Where = $"{TableAlias}.SerialNumber = {serialNumber}"
+            });
+
+            return results.Length > 0 ? results[0] : null;
+        }
+
         public override RfidTag GetFromDataReader(DbDataReader reader)
         {
             return new RfidTag
