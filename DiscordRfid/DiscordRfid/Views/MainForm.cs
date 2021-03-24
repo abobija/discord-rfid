@@ -69,7 +69,7 @@ namespace DiscordRfid.Views
             // On new activity update grid
             BaseController<RfidTagActivity>.ModelCreated += a =>
             {
-                ReloadActivitiesSafe();
+                AddActivitySafe(a);
                 LoadAndUpdateEmployeeCounters();
             };
 
@@ -83,6 +83,18 @@ namespace DiscordRfid.Views
             {
                 this.Error(ex);
                 Close();
+            }
+        }
+
+        private void AddActivitySafe(RfidTagActivity activity)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(() => ActivityList.Add(activity, toTop: true)));
+            }
+            else
+            {
+                ActivityList.Add(activity, toTop: true);
             }
         }
 

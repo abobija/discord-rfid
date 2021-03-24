@@ -29,14 +29,23 @@ namespace DiscordRfid.Views.Controls
             Items.Clear();
         }
 
-        public void Add(RfidTagActivity activity)
+        public void Add(RfidTagActivity activity, bool toTop = false)
         {
             if((Items.Count + 1) > Threshold)
             {
                 Items.RemoveAt(Items.Count - 1); // Remove from the back
             }
 
-            Items.Add(new ActivityListViewItem(activity));
+            var item = new ActivityListViewItem(activity);
+
+            if(toTop)
+            {
+                Items.Insert(0, item);
+            }
+            else
+            {
+                Items.Add(item);
+            }
         }
 
         public void AddRange(RfidTagActivity[] activities)
