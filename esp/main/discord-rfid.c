@@ -161,19 +161,18 @@ static void bot_event_handler(void* handler_arg, esp_event_base_t base, int32_t 
 }
 
 void rfid_handler(uint8_t* sn) {
+    rc522_pause(); // pause till package is sent
+
     discord_gateway_state_t state;
     discord_get_state(bot, &state);
 
     if(state != DISCORD_STATE_CONNECTED) {
         ESP_LOGW(TAG, "Discard RFID Tag. Not connected with Discord");
-        return;
+        goto _return;
     }
 
     uint64_t tag64 = rc522_sn_to_u64(sn);
-
-	ESP_LOGI(TAG, "Tag: %" PRIu64 " (%#x %#x %#x %#x %#x)",
-		tag64, sn[0], sn[1], sn[2], sn[3], sn[4]
-	);
+	ESP_LOGI(TAG, "Tag: %" PRIu64, tag64);
 
     package_t* package = package_create_tag(tag64);
     char* pstr = package_to_string(package);
@@ -192,6 +191,10 @@ void rfid_handler(uint8_t* sn) {
 
     free(pstr);
     package_free(package);
+
+_return:
+    vTaskDelay(2000 / portTICK_PERIOD_MS); // prevent package bursting
+    rc522_resume();
 }
 
 void app_main(void) {
@@ -212,13 +215,15 @@ void app_main(void) {
     ESP_ERROR_CHECK(discord_register_events(bot, DISCORD_EVENT_ANY, bot_event_handler, NULL));
 
     ESP_ERROR_CHECK(rc522_init(&(rc522_config_t){
-        .miso_io  = CONFIG_DISCORD_RFID_MISO,
-        .mosi_io  = CONFIG_DISCORD_RFID_MOSI,
-        .sck_io   = CONFIG_DISCORD_RFID_SCK,
-        .sda_io   = CONFIG_DISCORD_RFID_SDA,
-        .callback = &rfid_handler
+        .miso_io          = CONFIG_DISCORD_RFID_MISO,
+        .mosi_io          = CONFIG_DISCORD_RFID_MOSI,
+        .sck_io           = CONFIG_DISCORD_RFID_SCK,
+        .sda_io           = CONFIG_DISCORD_RFID_SDA,
+        .callback         = &rfid_handler,
+        .task_stack_size  = 6 * 1024
     }));
 
+    ESP_LOGI(TAG, "Loging into Discord...");
     ESP_ERROR_CHECK(discord_login(bot));
 
 #ifdef CONFIG_DISCORD_RFID_DEVELOPMENT
