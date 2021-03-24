@@ -1,4 +1,6 @@
-﻿namespace DiscordRfid.Views
+﻿using DiscordRfid.Views.Controls;
+
+namespace DiscordRfid.Views
 {
     partial class MainForm
     {
@@ -41,7 +43,6 @@
             this.ToolBtnNewEmployee = new System.Windows.Forms.ToolStripButton();
             this.PnlMain = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
-            this.PanelActivity = new System.Windows.Forms.Panel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.LinkLblEmployees = new System.Windows.Forms.LinkLabel();
@@ -55,6 +56,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.PackagesListView = new DiscordRfid.Views.Controls.PackagesListView();
             this.label1 = new System.Windows.Forms.Label();
+            this.PanelActivity = new System.Windows.Forms.Panel();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.PnlMain.SuspendLayout();
@@ -157,8 +159,8 @@
             // 
             // PnlMain
             // 
-            this.PnlMain.Controls.Add(this.label2);
             this.PnlMain.Controls.Add(this.PanelActivity);
+            this.PnlMain.Controls.Add(this.label2);
             this.PnlMain.Controls.Add(this.flowLayoutPanel1);
             this.PnlMain.Controls.Add(this.panel1);
             this.PnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -177,16 +179,6 @@
             this.label2.Size = new System.Drawing.Size(58, 20);
             this.label2.TabIndex = 13;
             this.label2.Text = "Activity";
-            // 
-            // PanelActivity
-            // 
-            this.PanelActivity.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.PanelActivity.Location = new System.Drawing.Point(14, 93);
-            this.PanelActivity.Name = "PanelActivity";
-            this.PanelActivity.Size = new System.Drawing.Size(697, 337);
-            this.PanelActivity.TabIndex = 12;
             // 
             // flowLayoutPanel1
             // 
@@ -341,6 +333,16 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Recent RFID packages";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // PanelActivity
+            // 
+            this.PanelActivity.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PanelActivity.Location = new System.Drawing.Point(14, 104);
+            this.PanelActivity.Name = "PanelActivity";
+            this.PanelActivity.Size = new System.Drawing.Size(693, 321);
+            this.PanelActivity.TabIndex = 14;
             // 
             // MainForm
             // 

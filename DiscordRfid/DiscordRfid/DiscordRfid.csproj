@@ -132,6 +132,12 @@
     <Compile Include="Models\RfidTag.cs" />
     <Compile Include="Models\RfidTagActivity.cs" />
     <Compile Include="Services\Reflector.cs" />
+    <Compile Include="Views\Controls\ActivityListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Views\Controls\BaseListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Views\Controls\ModelDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -141,7 +147,6 @@
     <Compile Include="Views\Controls\ModelGrid.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Views\Controls\PackageListViewItem.cs" />
     <Compile Include="Views\Controls\PackagesListView.cs">
       <SubType>Component</SubType>
     </Compile>

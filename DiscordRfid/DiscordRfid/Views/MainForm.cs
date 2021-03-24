@@ -1,11 +1,11 @@
 ﻿using DiscordRfid.Communication;
 using DiscordRfid.Controllers;
 using DiscordRfid.Dtos;
+using DiscordRfid.Filters;
 using DiscordRfid.Models;
 using DiscordRfid.Services;
 using DiscordRfid.Views.Controls;
 using System;
-using System.Drawing;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,7 +18,7 @@ namespace DiscordRfid.Views
         protected string BotName { set => LblBotName.Text = $"Bot: {value}"; }
         protected string ServerName { set => LblServerName.Text = $"@ Server: {value}"; }
 
-        protected ModelGrid<RfidTagActivity> ActivityGrid { get; set; }
+        protected ActivityListView ActivityList { get; set; }
 
         private EmployeeCounters EmployeeCounters
         {
@@ -43,34 +43,8 @@ namespace DiscordRfid.Views
             ServerName = "";
             PresentAbsentVisible = false;
 
-            ActivityGrid = new ModelGrid<RfidTagActivity>
-            { 
-                Dock = DockStyle.Fill
-            };
-
-            bool formated = false;
-            ActivityGrid.RowsAdded += (o, e) =>
-            {
-                if (! formated)
-                {
-                    foreach (DataGridViewColumn col in ActivityGrid.Columns)
-                    {
-                        if (col.ValueType == typeof(DateTime) || col.ValueType == typeof(DateTime?))
-                        {
-                            col.DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss";
-                        }
-
-                        if (col.Name == "Id" || col.Name == "CreatedAt")
-                        {
-                            col.Visible = false;
-                        }
-                    }
-
-                    formated = true;
-                }
-            };
-
-            PanelActivity.Controls.Add(ActivityGrid);
+            ActivityList = new ActivityListView { Dock = DockStyle.Fill };
+            PanelActivity.Controls.Add(ActivityList);
 
             InitClock();
             InitBot();
@@ -90,18 +64,18 @@ namespace DiscordRfid.Views
                     LoadAndUpdateEmployeeCounters();
             };
             BaseController<Employee>.ModelDeleted += emp => LoadAndUpdateEmployeeCounters();
-            BaseController<RfidTag>.ModelUpdated += (o, n) => ReloadGridSafe();
+            BaseController<RfidTag>.ModelUpdated += (o, n) => ReloadActivitiesSafe();
 
             // On new activity update grid
             BaseController<RfidTagActivity>.ModelCreated += a =>
             {
-                ReloadGridSafe();
+                ReloadActivitiesSafe();
                 LoadAndUpdateEmployeeCounters();
             };
 
             try
             {
-                ReloadGridSafe();
+                ReloadActivitiesSafe();
                 State = "Connecting...";
                 await Bot.Instance.ConnectAsync();
             }
@@ -112,17 +86,31 @@ namespace DiscordRfid.Views
             }
         }
 
-        private void ReloadGridSafe()
+        private void ReloadActivitiesSafe()
         {
             try
             {
+                RfidTagActivity[] activities = null;
+
+                using (var con = Database.Instance.CreateConnection())
+                {
+                    con.Open();
+                    activities = new RfidTagActivityController(con).Get(new RfidTagActivityFilter());
+                }
+
+                void reload()
+                {
+                    ActivityList.Clear();
+                    ActivityList.AddRange(activities);
+                }
+
                 if (InvokeRequired)
                 {
-                    Invoke(new MethodInvoker(ActivityGrid.Reload));
+                    Invoke(new MethodInvoker(reload));
                 }
                 else
                 {
-                    ActivityGrid.Reload();
+                    reload();
                 }
             }
             catch(Exception ex)
