@@ -71,27 +71,6 @@ namespace DiscordRfid.Views.Controls
                 add();
             }
         }
-
-        private void RemovePackage(Package package)
-        {
-            PackageListViewItem item = null;
-
-            foreach (var li in Items)
-            {
-                var pi = li as PackageListViewItem;
-
-                if(pi.Package == package)
-                {
-                    item = pi;
-                    break;
-                }
-            }
-
-            if (item != null)
-            {
-                Items.Remove(item);
-            }
-        }
     }
 
     public class PackageListViewItem : ListViewItem
