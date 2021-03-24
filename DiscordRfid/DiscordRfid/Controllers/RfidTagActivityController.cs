@@ -79,40 +79,27 @@ namespace DiscordRfid.Controllers
 
             using (var cmd = Connection.CreateCommand())
             {
-                cmd.CommandText = "CREATE TRIGGER ModifyActivityPresentStateTrigger" +
-                    " AFTER INSERT" +
-                    $" ON {TableName}" +
-                    " BEGIN" +
-                        $" UPDATE {TableName} SET Present = (" +
-                            " SELECT NOT IFNULL((SELECT Present" +
-                                    $" FROM {TableName}" +
-                                " WHERE TagId = NEW.TagId AND" +
-                                    " Id != NEW.Id" +
-                                " ORDER BY Id DESC" +
-                                " LIMIT 1" +
-                            " ), 0)" +
-                        " ) WHERE Id = NEW.Id" +
-                    " ; END";
-
                 cmd.CommandText = "CREATE TRIGGER ModifyPresentStateTrigger" +
                     " AFTER INSERT" +
                     $" ON {TableName}" +
                     " BEGIN" +
                         $" UPDATE {TableName}" +
-                        " SET Present = NOT(SELECT IFNULL((" +
-                            " SELECT Present" +
-                            $" FROM {TableName}" +
-                            " WHERE TagId = NEW.TagId AND" +
-                            " Id != NEW.Id" +
-                            " ORDER BY Id DESC" +
-                            " LIMIT 1" +
-                        " ), 0))" +
+                        " SET Present = NOT (" +
+                            " SELECT e.Present" +
+                            " FROM Employee e" +
+                            " LEFT JOIN RfidTag t ON t.EmployeeId = e.Id AND t.Id = NEW.TagId" +
+                            " WHERE t.Id IS NOT NULL" +
+                        " )" +
                         " WHERE Id = NEW.Id; " +
                         
                         $" UPDATE {TableName}" +
                         " SET(CameAt, LeftAt) = (" +
                             $" (CASE(SELECT Present FROM {TableName} WHERE Id = NEW.Id) WHEN 0 THEN " +
-                                $" (SELECT CameAt FROM {TableName} WHERE TagId = NEW.TagId AND Id != NEW.Id ORDER BY Id DESC LIMIT 1)" +
+                                $" (SELECT CameAt FROM {TableName} WHERE TagId IN(" +
+                                    " SELECT t.Id FROM RfidTag t" +
+                                    " LEFT JOIN Employee e ON e.Id = t.EmployeeId" +
+                                    " WHERE e.Id = (SELECT _t.EmployeeId FROM RfidTag _t WHERE _t.Id = NEW.TagId)" +
+                                $") AND Id != NEW.Id ORDER BY Id DESC LIMIT 1)" +
                             " ELSE DateTime('now') END), " +
                             $" (CASE(SELECT Present FROM {TableName} WHERE Id = NEW.Id) WHEN 0 THEN DateTime('now') ELSE NULL END)" +
                         " )" +
