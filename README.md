@@ -29,7 +29,7 @@ Creation of required Discord channel, as well as roles for differentiate between
     - [DiscordNET](https://github.com/discord-net/Discord.Net) discord bot
     - [SQLite](https://docs.microsoft.com/en-us/dotnet/standard/data/sqlite) database
     - [Serilog](https://serilog.net/) logging
-    - [NewtonJSON](https://www.newtonsoft.com/json) serializer
+    - [Json.NET](https://www.newtonsoft.com/json) serializer
 
 ## Author
 
