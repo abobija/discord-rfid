@@ -17,9 +17,9 @@ namespace DiscordRfid.Views.Controls
             Columns.AddRange(new ColumnHeader[]
             {
                 new ColumnHeader { Text = "", Width = 30 },
-                new ColumnHeader { Text = "Tag", Width = 200 },
-                new ColumnHeader { Text = "CameAt", Width = 160 },
-                new ColumnHeader { Text = "LeftAt", Width = 160 },
+                new ColumnHeader { Text = "Employee (Tag)", Width = 200 },
+                new ColumnHeader { Text = "Came at", Width = 160 },
+                new ColumnHeader { Text = "Left at", Width = 160 },
                 new ColumnHeader { Text = "Duration", Width = 150 }
             });
         }
@@ -98,9 +98,12 @@ namespace DiscordRfid.Views.Controls
             if(Activity.LeftAt != null)
             {
                 SubItems[3].Text = ((DateTime) Activity.LeftAt).ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss");
+                SubItems[4].Text = Activity.Duration;
             }
-
-            SubItems[4].Text = Activity.Duration;
+            else
+            {
+                SubItems[3].Text = SubItems[4].Text = "-";
+            }
 
             for(var i = 1; i < SubItems.Count; i++)
             {
