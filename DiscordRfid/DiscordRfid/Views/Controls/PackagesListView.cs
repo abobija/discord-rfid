@@ -1,16 +1,11 @@
 ﻿using DiscordRfid.Communication;
-using Serilog;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Linq;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace DiscordRfid.Views.Controls
 {
     public class PackagesListView : BaseListView
     {
-        public ObservableCollection<Package> Packages;
-
         /// <summary>
         /// When the threshold is exceeded, each new package will push (delete) the oldest package from the list
         /// </summary>
@@ -21,31 +16,53 @@ namespace DiscordRfid.Views.Controls
             Columns.AddRange(new ColumnHeader[]
             {
                 new ColumnHeader { Text = "", Width = 20 },
-                new ColumnHeader { Text = "Type", Width = 60 },
-                new ColumnHeader { Text = "Content", Width = 150 },
+                new ColumnHeader { Text = "Type", Width = 45 },
+                new ColumnHeader { Text = "Content", Width = 110 },
                 new ColumnHeader { Text = "Time", Width = 110 }
             });
-
-            Packages = new ObservableCollection<Package>();
-            Packages.CollectionChanged += Packages_Changed;
         }
 
-        public void AddPackageSafe(Package package)
+        public PackageListViewItem AddPackage(Package package)
         {
-            AddPackageRangeSafe(new Package[] { package });
+            if ((Items.Count + 1) > Threshold)
+            {
+                Items.RemoveAt(Items.Count - 1); // Remove from the back
+            }
+
+            PackageListViewItem item = new PackageListViewItem(package);
+            Items.Insert(0, item);
+            return item;
+        }
+
+        public PackageListViewItem AddPackageSafe(Package package)
+        {
+            PackageListViewItem item = null;
+
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(() => item = AddPackage(package)));
+            }
+            else
+            {
+                AddPackage(package);
+            }
+
+            return item;
         }
 
         public void AddPackageRangeSafe(Package[] packages)
         {
             void add()
             {
+                SuspendLayout();
                 foreach (var p in packages)
                 {
-                    Packages.Add(p);
+                    AddPackage(p);
                 }
+                ResumeLayout();
             }
 
-            if (InvokeRequired)
+            if(InvokeRequired)
             {
                 Invoke(new MethodInvoker(add));
             }
@@ -75,61 +92,48 @@ namespace DiscordRfid.Views.Controls
                 Items.Remove(item);
             }
         }
-
-        private void Packages_Changed(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    var thresholdExceed = Items.Count + e.NewItems.Count - Threshold;
-
-                    while (thresholdExceed > 0)
-                    {
-                        Items.RemoveAt(Items.Count - 1); // Remove from the back
-                        thresholdExceed--;
-                    }
-
-                    SuspendLayout();
-                    foreach (var pckg in e.NewItems.Cast<Package>())
-                    {
-                        Items.Insert(0, new PackageListViewItem(pckg));
-                    }
-                    ResumeLayout();
-
-                    break;
-
-                case NotifyCollectionChangedAction.Remove:
-                    SuspendLayout();
-                    foreach (var pckg in e.OldItems.Cast<Package>())
-                    {
-                        RemovePackage(pckg);
-                    }
-                    ResumeLayout();
-                    break;
-                default:
-                    Log.Debug($"{GetType().Name} Unhandled changed action");
-                    break;
-            }
-        }
     }
 
     public class PackageListViewItem : ListViewItem
     {
+        private bool? _tagFound;
+        public bool? TagFound
+        {
+            get => _tagFound;
+            set
+            {
+                if(value != _tagFound)
+                {
+                    _tagFound = value;
+                    UpdateState();
+                }
+            }
+        }
         public Package Package { get; private set; }
 
         public PackageListViewItem(Package package) : base(new string[4])
         {
             Package = package;
+            UpdateState();
+        }
 
+        protected void UpdateState()
+        {
+            UseItemStyleForSubItems = false;
             SubItems[0].Text = "⬝";
-            SubItems[1].Text = package.Type.ToString();
+            SubItems[1].Text = Package.Type.ToString();
 
-            if (package.Type == PackageType.Tag)
+            if (Package.Type == PackageType.Tag)
             {
-                SubItems[2].Text = package.SerialNumber.ToString();
+                SubItems[2].Text = Package.SerialNumber.ToString();
+
+                if(TagFound != null)
+                {
+                    SubItems[2].ForeColor = (bool) TagFound ? Color.Green : Color.OrangeRed;
+                }
             }
 
-            SubItems[3].Text = package.Time?.ToString("dd.MM.yy HH:mm");
+            SubItems[3].Text = Package.Time?.ToLocalTime().ToString("dd.MM.yy HH:mm");
         }
     }
 }

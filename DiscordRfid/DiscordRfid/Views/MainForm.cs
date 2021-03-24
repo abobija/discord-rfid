@@ -65,6 +65,7 @@ namespace DiscordRfid.Views
             };
             BaseController<Employee>.ModelDeleted += emp => LoadAndUpdateEmployeeCounters();
             BaseController<RfidTag>.ModelUpdated += (o, n) => ReloadActivitiesSafe();
+            BaseController<RfidTag>.ModelDeleted += t => ReloadActivitiesSafe();
 
             // On new activity update grid
             BaseController<RfidTagActivity>.ModelCreated += a =>
@@ -182,18 +183,21 @@ namespace DiscordRfid.Views
 
         private void Bot_NewPackage(Package p)
         {
-            PackagesListView.AddPackageSafe(p);
-
-            if (p.Type != PackageType.Tag)
-                return;
-
             try
             {
-                using(var con = Database.Instance.CreateConnection())
+                var item = PackagesListView.AddPackageSafe(p);
+
+                if (p.Type != PackageType.Tag)
+                    return;
+
+                using (var con = Database.Instance.CreateConnection())
                 {
                     con.Open();
                     var tag = new RfidTagController(con).GetBySerialNumber((ulong) p.SerialNumber);
 
+                    if(InvokeRequired) { Invoke(new MethodInvoker(() => item.TagFound = tag != null)); }
+                    else { item.TagFound = tag != null; }
+                    
                     if(tag != null)
                     {
                         new RfidTagActivityController(con).Create(new RfidTagActivity { Tag = tag });
