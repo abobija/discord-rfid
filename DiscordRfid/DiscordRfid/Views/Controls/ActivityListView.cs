@@ -1,6 +1,5 @@
 ﻿using DiscordRfid.Models;
 using System;
-using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -17,6 +16,7 @@ namespace DiscordRfid.Views.Controls
         {
             Columns.AddRange(new ColumnHeader[]
             {
+                new ColumnHeader { Text = "", Width = 30 },
                 new ColumnHeader { Text = "Tag", Width = 200 },
                 new ColumnHeader { Text = "CameAt", Width = 160 },
                 new ColumnHeader { Text = "LeftAt", Width = 160 },
@@ -75,21 +75,28 @@ namespace DiscordRfid.Views.Controls
     {
         public RfidTagActivity Activity { get; private set; }
 
-        public ActivityListViewItem(RfidTagActivity activity) : base(new string[4])
+        public ActivityListViewItem(RfidTagActivity activity) : base(new string[5])
         {
             Activity = activity;
+            UseItemStyleForSubItems = false;
 
-            SubItems[0].Text = Activity.Tag.ToString();
-            SubItems[1].Text = Activity.CameAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss");
+            SubItems[0].Text = activity.Present ? "🡪" : "🡨";
+            SubItems[0].BackColor = Color.Transparent;
+
+            SubItems[1].Text = Activity.Tag.ToString();
+            SubItems[2].Text = Activity.CameAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss");
 
             if(Activity.LeftAt != null)
             {
-                SubItems[2].Text = ((DateTime) Activity.LeftAt).ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss");
+                SubItems[3].Text = ((DateTime) Activity.LeftAt).ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss");
             }
 
-            SubItems[3].Text = Activity.Duration;
+            SubItems[4].Text = Activity.Duration;
 
-            BackColor = activity.Present ? Color.LightGreen : Color.LemonChiffon;
+            for(var i = 1; i < SubItems.Count; i++)
+            {
+                SubItems[i].BackColor = activity.Present ? Color.LightGreen : Color.LemonChiffon;
+            }
         }
     }
 }

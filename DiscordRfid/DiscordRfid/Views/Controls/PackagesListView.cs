@@ -20,9 +20,10 @@ namespace DiscordRfid.Views.Controls
         {
             Columns.AddRange(new ColumnHeader[]
             {
-                new ColumnHeader { Text = "Time", Width = 110 },
+                new ColumnHeader { Text = "", Width = 20 },
                 new ColumnHeader { Text = "Type", Width = 60 },
-                new ColumnHeader { Text = "Content", Width = 150 }
+                new ColumnHeader { Text = "Content", Width = 150 },
+                new ColumnHeader { Text = "Time", Width = 110 }
             });
 
             Packages = new ObservableCollection<Package>();
@@ -116,17 +117,19 @@ namespace DiscordRfid.Views.Controls
     {
         public Package Package { get; private set; }
 
-        public PackageListViewItem(Package package) : base(new string[3])
+        public PackageListViewItem(Package package) : base(new string[4])
         {
             Package = package;
 
-            SubItems[0].Text = package.Time?.ToString("dd.MM.yy HH:mm");
+            SubItems[0].Text = "⬝";
             SubItems[1].Text = package.Type.ToString();
 
             if (package.Type == PackageType.Tag)
             {
                 SubItems[2].Text = package.SerialNumber.ToString();
             }
+
+            SubItems[3].Text = package.Time?.ToString("dd.MM.yy HH:mm");
         }
     }
 }

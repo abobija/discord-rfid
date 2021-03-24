@@ -42,6 +42,7 @@ namespace DiscordRfid.Views
             this.ToolLblClock = new System.Windows.Forms.ToolStripLabel();
             this.ToolBtnNewEmployee = new System.Windows.Forms.ToolStripButton();
             this.PnlMain = new System.Windows.Forms.Panel();
+            this.PanelActivity = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
@@ -56,7 +57,6 @@ namespace DiscordRfid.Views
             this.panel1 = new System.Windows.Forms.Panel();
             this.PackagesListView = new DiscordRfid.Views.Controls.PackagesListView();
             this.label1 = new System.Windows.Forms.Label();
-            this.PanelActivity = new System.Windows.Forms.Panel();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.PnlMain.SuspendLayout();
@@ -75,7 +75,7 @@ namespace DiscordRfid.Views
             this.LblState});
             this.statusStrip1.Location = new System.Drawing.Point(0, 466);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1069, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1154, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -109,7 +109,7 @@ namespace DiscordRfid.Views
             this.ToolBtnNewEmployee});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1069, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1154, 25);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -167,8 +167,18 @@ namespace DiscordRfid.Views
             this.PnlMain.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.PnlMain.Location = new System.Drawing.Point(0, 25);
             this.PnlMain.Name = "PnlMain";
-            this.PnlMain.Size = new System.Drawing.Size(1069, 441);
+            this.PnlMain.Size = new System.Drawing.Size(1154, 441);
             this.PnlMain.TabIndex = 3;
+            // 
+            // PanelActivity
+            // 
+            this.PanelActivity.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PanelActivity.Location = new System.Drawing.Point(14, 104);
+            this.PanelActivity.Name = "PanelActivity";
+            this.PanelActivity.Size = new System.Drawing.Size(740, 321);
+            this.PanelActivity.TabIndex = 14;
             // 
             // label2
             // 
@@ -300,10 +310,10 @@ namespace DiscordRfid.Views
             this.panel1.Controls.Add(this.PackagesListView);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(724, 0);
+            this.panel1.Location = new System.Drawing.Point(773, 0);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.panel1.Size = new System.Drawing.Size(345, 441);
+            this.panel1.Size = new System.Drawing.Size(381, 441);
             this.panel1.TabIndex = 1;
             // 
             // PackagesListView
@@ -318,7 +328,7 @@ namespace DiscordRfid.Views
             this.PackagesListView.Location = new System.Drawing.Point(3, 32);
             this.PackagesListView.MultiSelect = false;
             this.PackagesListView.Name = "PackagesListView";
-            this.PackagesListView.Size = new System.Drawing.Size(342, 409);
+            this.PackagesListView.Size = new System.Drawing.Size(378, 409);
             this.PackagesListView.TabIndex = 1;
             this.PackagesListView.UseCompatibleStateImageBehavior = false;
             this.PackagesListView.View = System.Windows.Forms.View.Details;
@@ -329,27 +339,17 @@ namespace DiscordRfid.Views
             this.label1.ForeColor = System.Drawing.Color.DimGray;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(342, 32);
+            this.label1.Size = new System.Drawing.Size(378, 32);
             this.label1.TabIndex = 0;
             this.label1.Text = "Recent RFID packages";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // PanelActivity
-            // 
-            this.PanelActivity.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.PanelActivity.Location = new System.Drawing.Point(14, 104);
-            this.PanelActivity.Name = "PanelActivity";
-            this.PanelActivity.Size = new System.Drawing.Size(693, 321);
-            this.PanelActivity.TabIndex = 14;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1069, 488);
+            this.ClientSize = new System.Drawing.Size(1154, 488);
             this.Controls.Add(this.PnlMain);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.statusStrip1);
