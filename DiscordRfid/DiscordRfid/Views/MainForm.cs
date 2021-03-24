@@ -141,7 +141,7 @@ namespace DiscordRfid.Views
 
         private void UpdateClock()
         {
-            ToolLblClock.Text = DateTime.Now.ToString("HH:mm:ss, dd.MM.yyyy");
+            LabelClock.Text = DateTime.Now.ToString("dd.MM.yyyy, HH:mm:ss");
         }
 
         private void InitBot()

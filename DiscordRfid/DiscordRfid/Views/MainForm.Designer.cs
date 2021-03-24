@@ -39,7 +39,6 @@ namespace DiscordRfid.Views
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.ToolBtnAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolBtnExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolLblClock = new System.Windows.Forms.ToolStripLabel();
             this.ToolBtnNewEmployee = new System.Windows.Forms.ToolStripButton();
             this.PnlMain = new System.Windows.Forms.Panel();
             this.PanelActivity = new System.Windows.Forms.Panel();
@@ -57,6 +56,9 @@ namespace DiscordRfid.Views
             this.panel1 = new System.Windows.Forms.Panel();
             this.PackagesListView = new DiscordRfid.Views.Controls.PackagesListView();
             this.label1 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.LabelClock = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.PnlMain.SuspendLayout();
@@ -65,6 +67,7 @@ namespace DiscordRfid.Views
             this.FlowPanelPresent.SuspendLayout();
             this.FlowPanelAbsent.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -105,7 +108,6 @@ namespace DiscordRfid.Views
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripDropDownButton1,
-            this.ToolLblClock,
             this.ToolBtnNewEmployee});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
@@ -139,14 +141,6 @@ namespace DiscordRfid.Views
             this.ToolBtnExit.Text = "Exit";
             this.ToolBtnExit.Click += new System.EventHandler(this.ToolBtnExit_Click);
             // 
-            // ToolLblClock
-            // 
-            this.ToolLblClock.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.ToolLblClock.Font = new System.Drawing.Font("Segoe UI Semibold", 9F);
-            this.ToolLblClock.Name = "ToolLblClock";
-            this.ToolLblClock.Size = new System.Drawing.Size(36, 22);
-            this.ToolLblClock.Text = "Clock";
-            // 
             // ToolBtnNewEmployee
             // 
             this.ToolBtnNewEmployee.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -159,9 +153,10 @@ namespace DiscordRfid.Views
             // 
             // PnlMain
             // 
+            this.PnlMain.Controls.Add(this.LabelClock);
+            this.PnlMain.Controls.Add(this.panel2);
             this.PnlMain.Controls.Add(this.PanelActivity);
             this.PnlMain.Controls.Add(this.label2);
-            this.PnlMain.Controls.Add(this.flowLayoutPanel1);
             this.PnlMain.Controls.Add(this.panel1);
             this.PnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PnlMain.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
@@ -192,12 +187,13 @@ namespace DiscordRfid.Views
             // 
             // flowLayoutPanel1
             // 
+            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanel1.AutoSize = true;
             this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel1.Controls.Add(this.flowLayoutPanel4);
             this.flowLayoutPanel1.Controls.Add(this.FlowPanelPresent);
             this.flowLayoutPanel1.Controls.Add(this.FlowPanelAbsent);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(14, 15);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(411, 9);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(5);
             this.flowLayoutPanel1.Size = new System.Drawing.Size(343, 42);
@@ -344,6 +340,39 @@ namespace DiscordRfid.Views
             this.label1.Text = "Recent RFID packages";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.Gainsboro;
+            this.panel2.Controls.Add(this.label3);
+            this.panel2.Controls.Add(this.flowLayoutPanel1);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(773, 61);
+            this.panel2.TabIndex = 15;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F);
+            this.label3.Location = new System.Drawing.Point(10, 11);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(139, 40);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "Discord RFID\r\nAttendance System";
+            // 
+            // LabelClock
+            // 
+            this.LabelClock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.LabelClock.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F);
+            this.LabelClock.ForeColor = System.Drawing.Color.DimGray;
+            this.LabelClock.Location = new System.Drawing.Point(538, 70);
+            this.LabelClock.Name = "LabelClock";
+            this.LabelClock.Size = new System.Drawing.Size(216, 20);
+            this.LabelClock.TabIndex = 16;
+            this.LabelClock.Text = "Clock";
+            this.LabelClock.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -373,6 +402,8 @@ namespace DiscordRfid.Views
             this.FlowPanelAbsent.ResumeLayout(false);
             this.FlowPanelAbsent.PerformLayout();
             this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -387,7 +418,6 @@ namespace DiscordRfid.Views
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
         private System.Windows.Forms.ToolStripMenuItem ToolBtnExit;
         private System.Windows.Forms.Panel PnlMain;
-        private System.Windows.Forms.ToolStripLabel ToolLblClock;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
         private DiscordRfid.Views.Controls.PackagesListView PackagesListView;
@@ -405,6 +435,9 @@ namespace DiscordRfid.Views
         private System.Windows.Forms.FlowLayoutPanel FlowPanelAbsent;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel PanelActivity;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label LabelClock;
     }
 }
 
