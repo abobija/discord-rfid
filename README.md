@@ -7,7 +7,7 @@ Discord RFID Attendance System realized with ESP32 (esp-idf) and C# (WinForms)
 
 ## What is this?
 
-This repository represent RFID Attendance System realized with using Discord as communication layer between [ESP32 (+MFRC522)](esp) as IoT device on one side, and [WinForms desktop application](DiscordRfId) as a server on the other side.
+This repository represent RFID Attendance System realized with using Discord as communication layer between [ESP32 (+MFRC522)](esp) as IoT device on one side, and [WinForms desktop application](DiscordRfid) as a server on the other side.
 
 System is design in a way that there can be multiple devices, for example if company that uses this app is in need to install RFID devices on more than one entrance.
 
