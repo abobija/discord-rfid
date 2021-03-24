@@ -3,7 +3,6 @@ using DiscordRfid.Filters;
 using DiscordRfid.Models;
 using Serilog;
 using System;
-using System.Collections.Generic;
 using System.Data.Common;
 
 namespace DiscordRfid.Controllers

@@ -1,4 +1,8 @@
 ﻿using DiscordRfid.Communication;
+using DiscordRfid.Controllers;
+using DiscordRfid.Models;
+using DiscordRfid.Services;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -11,6 +15,20 @@ namespace DiscordRfid.Views.Controls
         /// </summary>
         public int Threshold = 30;
 
+        public PackageListViewItem SelectedPackageItem
+        {
+            get
+            {
+                if (SelectedItems.Count > 0)
+                    return SelectedItems[0] as PackageListViewItem;
+
+                return null;
+            }
+        }
+
+        private ContextMenu PackageContextMenu { get; set; }
+        private MenuItem AttachTagMenuItem { get; set; }
+
         public PackagesListView()
         {
             Columns.AddRange(new ColumnHeader[]
@@ -20,6 +38,71 @@ namespace DiscordRfid.Views.Controls
                 new ColumnHeader { Text = "Content", Width = 110 },
                 new ColumnHeader { Text = "Time", Width = 110 }
             });
+
+            AttachTagMenuItem = new MenuItem("Attach Tag to employee...");
+            AttachTagMenuItem.Click += AttachTagClick;
+
+            PackageContextMenu = new ContextMenu(new MenuItem[] { AttachTagMenuItem });
+        }
+
+        private void AttachTagClick(object sender, System.EventArgs e)
+        {
+            var packageItem = SelectedPackageItem;
+
+            if (packageItem == null)
+                return;
+
+            Employee employee = null;
+
+            using (var dlg = new EmployeeQuickChoose())
+            {
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    employee = dlg.Employee;
+                }
+            }
+
+            if(employee == null)
+                return;
+
+            try
+            {
+                RfidTag tag = null;
+
+                using (var con = Database.Instance.CreateConnection())
+                {
+                    con.Open();
+                    tag = new RfidTag
+                    {
+                        SerialNumber = (ulong)packageItem.Package.SerialNumber,
+                        Employee = new Employee
+                        {
+                            Id = employee.Id
+                        }
+                    };
+                    tag = new RfidTagController(con).Create(tag);
+                }
+
+                FindForm().Information($"Tag with serial number {tag.SerialNumber} has been successfully attached to employee {tag.Employee}");
+            }
+            catch(Exception ex)
+            {
+                FindForm().Error(ex);
+            }
+        }
+
+        protected override void OnMouseClick(MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Right)
+            {
+                var packageItem = SelectedPackageItem;
+
+                if(packageItem != null && packageItem.Package.Type == PackageType.Tag)
+                {
+                    AttachTagMenuItem.Enabled = packageItem.TagFound != null && ! (bool) packageItem.TagFound;
+                    PackageContextMenu.Show(this, PointToClient(Cursor.Position));
+                }
+            }
         }
 
         public PackageListViewItem AddPackage(Package package)

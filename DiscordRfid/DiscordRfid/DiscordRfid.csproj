@@ -164,6 +164,9 @@
     <Compile Include="Views\EmployeeForm.Designer.cs">
       <DependentUpon>EmployeeForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EmployeeQuickChoose.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Views\EmployeesForm.cs">
       <SubType>Form</SubType>
     </Compile>

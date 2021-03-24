@@ -4,7 +4,7 @@ using System.Windows.Forms;
 namespace DiscordRfid.Views.Controls
 {
     [ToolboxItem(false)]
-    public abstract class BaseListView : ListView
+    public class BaseListView : ListView
     {
         public BaseListView()
         {
