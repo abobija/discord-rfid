@@ -57,8 +57,8 @@ namespace DiscordRfid.Views
             this.PanelActivity = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
             this.PackagesListView = new DiscordRfid.Views.Controls.PackagesListView();
+            this.label1 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.PnlMain.SuspendLayout();
@@ -78,7 +78,7 @@ namespace DiscordRfid.Views
             this.LblState});
             this.statusStrip1.Location = new System.Drawing.Point(0, 466);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1044, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1095, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -111,7 +111,7 @@ namespace DiscordRfid.Views
             this.ToolBtnNewEmployee});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1044, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1095, 25);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -162,7 +162,7 @@ namespace DiscordRfid.Views
             this.PnlMain.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.PnlMain.Location = new System.Drawing.Point(0, 25);
             this.PnlMain.Name = "PnlMain";
-            this.PnlMain.Size = new System.Drawing.Size(1044, 441);
+            this.PnlMain.Size = new System.Drawing.Size(1095, 441);
             this.PnlMain.TabIndex = 3;
             // 
             // LabelClock
@@ -170,7 +170,7 @@ namespace DiscordRfid.Views
             this.LabelClock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelClock.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F);
             this.LabelClock.ForeColor = System.Drawing.Color.DimGray;
-            this.LabelClock.Location = new System.Drawing.Point(500, 70);
+            this.LabelClock.Location = new System.Drawing.Point(551, 70);
             this.LabelClock.Name = "LabelClock";
             this.LabelClock.Size = new System.Drawing.Size(216, 20);
             this.LabelClock.TabIndex = 16;
@@ -185,7 +185,7 @@ namespace DiscordRfid.Views
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(735, 61);
+            this.panel2.Size = new System.Drawing.Size(786, 61);
             this.panel2.TabIndex = 15;
             // 
             // label3
@@ -206,7 +206,7 @@ namespace DiscordRfid.Views
             this.flowLayoutPanel1.Controls.Add(this.flowLayoutPanel4);
             this.flowLayoutPanel1.Controls.Add(this.FlowPanelPresent);
             this.flowLayoutPanel1.Controls.Add(this.FlowPanelAbsent);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(373, 9);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(424, 9);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(5);
             this.flowLayoutPanel1.Size = new System.Drawing.Size(343, 42);
@@ -320,7 +320,7 @@ namespace DiscordRfid.Views
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PanelActivity.Location = new System.Drawing.Point(14, 104);
             this.PanelActivity.Name = "PanelActivity";
-            this.PanelActivity.Size = new System.Drawing.Size(702, 321);
+            this.PanelActivity.Size = new System.Drawing.Size(753, 321);
             this.PanelActivity.TabIndex = 14;
             // 
             // label2
@@ -340,22 +340,11 @@ namespace DiscordRfid.Views
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.panel1.Location = new System.Drawing.Point(735, 0);
+            this.panel1.Location = new System.Drawing.Point(786, 0);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.panel1.Size = new System.Drawing.Size(309, 441);
             this.panel1.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label1.ForeColor = System.Drawing.Color.DimGray;
-            this.label1.Location = new System.Drawing.Point(3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(306, 32);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Recent RFID packages";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // PackagesListView
             // 
@@ -374,12 +363,23 @@ namespace DiscordRfid.Views
             this.PackagesListView.UseCompatibleStateImageBehavior = false;
             this.PackagesListView.View = System.Windows.Forms.View.Details;
             // 
+            // label1
+            // 
+            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label1.ForeColor = System.Drawing.Color.DimGray;
+            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(306, 32);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Recent RFID packages";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1044, 488);
+            this.ClientSize = new System.Drawing.Size(1095, 488);
             this.Controls.Add(this.PnlMain);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.statusStrip1);
