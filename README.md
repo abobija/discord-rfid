@@ -1,6 +1,12 @@
 # discord-rfid
 Discord RFID Attendance System realized with ESP32 (esp-idf) and C# (WinForms)
 
+## Cloning
+
+```
+git clone --recursive https://github.com/abobija/discord-rfid.git
+```
+
 ## Abstraction
 
 ![Abstraction](docs/abstraction.png)
